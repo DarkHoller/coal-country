@@ -124,8 +124,8 @@ const ETHNICITIES = [
     note:"Native-born Appalachian workers were often the most experienced miners but faced pressure as companies recruited cheaper immigrant labor.",
     bonus:"health", bonusLabel:"+8 starting health" },
   { id:"african",     label:"African American",  origin:"Migrated from the Deep South.",
-    note:"Coal companies recruited Black workers from the South, sometimes as strikebreakers. The New River Gorge mines were notably integrated — underground, at least.",
-    bonus:"scrip",  bonusLabel:"+$4 starting scrip" },
+    note:"Coal companies recruited Black workers from the South, sometimes as strikebreakers. The New River Gorge mines were notably integrated — underground, at least. Black miners were typically paid less per ton than white miners for the same work, and were often assigned the worst sections of the mine.",
+    bonus:"community",  bonusLabel:"+10 starting food (mutual aid network)" },
   { id:"italian",     label:"Italian Immigrant", origin:"Arrived from southern Italy.",
     note:"Italians were among the largest immigrant groups in WV coal fields. Many came through labor agents called 'padroni' and faced hostility from established workers.",
     bonus:"food",   bonusLabel:"+12 starting food" },
@@ -793,7 +793,8 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   // ── Handlers ──────────────────────────────────────────────────────────────────
   const handleWork = useCallback((opt) => {
     const p = {...player};
-    p.scrip  = clamp(p.scrip  + opt.scrip, 0, 999);
+    const earnedScrip = (p.wagePenalty && opt.scrip > 0) ? Math.floor(opt.scrip * 0.8) : opt.scrip;
+    p.scrip  = clamp(p.scrip  + earnedScrip, 0, 999);
     p.health = clamp(p.health + opt.health);
     p.food   = clamp(p.food   + opt.food);
     if (p.character === "miner") p.blackLung = clamp(p.blackLung + opt.lung);
@@ -853,11 +854,12 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
       year:START_YEAR, seasonIdx:0, turns:0,
       usedMilestones:[],
     };
-    if (ethObj?.bonus === "health") p.health = clamp(p.health + 8);
-    if (ethObj?.bonus === "scrip")  p.scrip  += 4;
-    if (ethObj?.bonus === "food")   p.food   = clamp(p.food + 12);
-    if (ethObj?.bonus === "debt")   p.debt   = Math.max(0, p.debt - 8);
-    if (ethObj?.bonus === "lung")   p.lungResist = true;
+    if (ethObj?.bonus === "health")    p.health = clamp(p.health + 8);
+    if (ethObj?.bonus === "food")      p.food   = clamp(p.food + 12);
+    if (ethObj?.bonus === "debt")      p.debt   = Math.max(0, p.debt - 8);
+    if (ethObj?.bonus === "lung")      p.lungResist = true;
+    if (ethObj?.bonus === "community") p.food   = clamp(p.food + 10);
+    if (p.ethnicity === "african")     p.wagePenalty = true;
     setPlayer(p);
     setLog([`${name} arrives at ${campObj?.label}, ${START_YEAR}. The ${campObj?.company} man advances $40 scrip against your first wages — enough to start, not enough to leave.`]);
     setScreen("playing");
@@ -1138,41 +1140,41 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   // ── PLAYING ───────────────────────────────────────────────────────────────────
   if (screen === "playing") return (
     <div style={S.page}>
-      {/* Seasonal scene image */}
-      {SEASON_IMAGES[season] && (
-        <img
-          src={SEASON_IMAGES[season]}
-          alt={season + " in the coal camp"}
-          style={{ width:"100%", display:"block", imageRendering:"pixelated", marginBottom:"10px", borderBottom:`2px solid ${C.dgray}` }}
-        />
-      )}
-      {/* Header */}
-      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", fontSize:"8px", color:C.gray, marginBottom:"6px" }}>
-        <span>COAL COUNTRY</span>
-        <span>{season.toUpperCase()} {player.year}</span>
-        <button style={{ ...S.btnSm, fontSize:"7px", padding:"4px 8px", marginBottom:0 }} onClick={reset}>
-          RESTART
-        </button>
-      </div>
-      <div style={{ fontSize:"8px", color:C.dgray, marginBottom:"10px" }}>
-        {campName.toUpperCase()}  /  {player.name.toUpperCase()}
-      </div>
-
-      {/* Timeline */}
-      <Timeline year={player.year} seasonIdx={player.seasonIdx} />
-
-      <HR/>
-
-      {/* Stats */}
-      <StatBar label="HEALTH"     value={player.health}    warn />
-      <StatBar label="FOOD"       value={player.food}      warn />
-      {player.character === "miner" &&
-        <StatBar label="BLACK LUNG" value={player.blackLung} />}
-
-      <div style={{ display:"flex", gap:"18px", marginTop:"10px", fontSize:"8px", color:C.gray }}>
-        <span>SCRIP: <span style={{ color:C.white }}>${player.scrip}</span></span>
-        <span>DEBT: <span style={{ color:player.debt>100?C.red:player.debt>70?C.yellow:C.white }}>${player.debt}</span></span>
-        <span>FAMILY: <span style={{ color:C.white }}>{player.family}/4</span></span>
+      {/* Scene image with HUD overlay */}
+      <div style={{ position:"relative", marginBottom:"12px" }}>
+        {SEASON_IMAGES[season] && (
+          <img
+            src={SEASON_IMAGES[season]}
+            alt={season + " in the coal camp"}
+            style={{ width:"100%", display:"block", imageRendering:"pixelated" }}
+          />
+        )}
+        <div style={{ position:"absolute", top:0, left:0, right:0, background:"rgba(0,0,0,0.78)", padding:"10px 12px 12px" }}>
+          {/* Header */}
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", fontSize:"8px", color:C.gray, marginBottom:"4px" }}>
+            <span>COAL COUNTRY</span>
+            <span>{season.toUpperCase()} {player.year}</span>
+            <button style={{ ...S.btnSm, fontSize:"7px", padding:"4px 8px", marginBottom:0 }} onClick={reset}>
+              RESTART
+            </button>
+          </div>
+          <div style={{ fontSize:"8px", color:C.dgray, marginBottom:"8px" }}>
+            {campName.toUpperCase()}  /  {player.name.toUpperCase()}
+          </div>
+          {/* Timeline */}
+          <Timeline year={player.year} seasonIdx={player.seasonIdx} />
+          <HR/>
+          {/* Stats */}
+          <StatBar label="HEALTH"     value={player.health}    warn />
+          <StatBar label="FOOD"       value={player.food}      warn />
+          {player.character === "miner" &&
+            <StatBar label="BLACK LUNG" value={player.blackLung} />}
+          <div style={{ display:"flex", gap:"18px", marginTop:"10px", fontSize:"8px", color:C.gray }}>
+            <span>SCRIP: <span style={{ color:C.white }}>${player.scrip}</span></span>
+            <span>DEBT: <span style={{ color:player.debt>100?C.red:player.debt>70?C.yellow:C.white }}>${player.debt}</span></span>
+            <span>FAMILY: <span style={{ color:C.white }}>{player.family}/4</span></span>
+          </div>
+        </div>
       </div>
 
       <HR/>
