@@ -17,7 +17,7 @@
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel" data-presets="react">
-const { useState, useEffect, useRef, useCallback } = React;
+const { useState, useEffect, useCallback } = React;
 
 // ─── GITLAB IMAGE HOST ────────────────────────────────────────────────────────
 // Upload all images to your GitLab repo under an /images/ folder.
@@ -59,7 +59,6 @@ const imgEating = BASE_URL + "eating.jpg";
 
 const imgTitleScene = BASE_URL + "title-scene.jpg";
 
-const THEME_SONG = "";
 
 
 
@@ -872,44 +871,9 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   const SectionLabel = ({ children }) => <span style={S.sectionLabel}>{children}</span>;
 
   // ── MENU ──────────────────────────────────────────────────────────────────────
-  // Audio element (always mounted)
-  const audioControls = (
-    <div style={{
-      position:"fixed", bottom:"10px", right:"12px", zIndex:999,
-      display:"flex", alignItems:"center", gap:"8px",
-      background:"rgba(0,0,0,0.75)", padding:"6px 10px",
-      border:`1px solid ${C.dgray}`, borderRadius:"4px",
-    }}>
-      <audio
-        ref={audioRef}
-        src={THEME_SONG}
-        loop
-        autoPlay
-        volume={muted ? 0 : volume}
-        onCanPlay={(e) => { e.target.volume = muted ? 0 : volume; }}
-      />
-      <span style={{ fontSize:"8px", color:C.gray, letterSpacing:"1px" }}>♪</span>
-      <input
-        type="range" min="0" max="1" step="0.05"
-        value={muted ? 0 : volume}
-        onChange={(e) => { setVolume(parseFloat(e.target.value)); setMuted(false); }}
-        style={{ width:"60px", cursor:"pointer", accentColor:C.yellow }}
-      />
-      <button
-        onClick={() => setMuted(m => !m)}
-        style={{
-          background:"none", border:`1px solid ${C.dgray}`,
-          color: muted ? C.red : C.gray,
-          fontFamily:FONT, fontSize:"7px", cursor:"pointer",
-          padding:"2px 5px", letterSpacing:"1px",
-        }}
-      >{muted ? "UNMUTE" : "MUTE"}</button>
-    </div>
-  );
 
   if (screen === "menu") return (
     <div style={S.page}>
-      {audioControls}
       {/* Hero image with title overlaid */}
       <div style={{ position:"relative", marginBottom:"18px" }}>
         <img
@@ -1118,7 +1082,6 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   // ── END ───────────────────────────────────────────────────────────────────────
   if (screen === "end") return (
     <div style={S.page}>
-      {audioControls}
       <img
         src={endMsg.includes("evict") || endMsg.includes("debt") ? imgEvicted : imgGraveyard}
         alt="End"
@@ -1144,7 +1107,6 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   // ── WON ───────────────────────────────────────────────────────────────────────
   if (screen === "won") return (
     <div style={S.page}>
-      {audioControls}
       <img src={imgVictory} alt="Victory" style={{ width:"100%", display:"block", imageRendering:"pixelated", marginBottom:"10px", borderBottom:`2px solid ${C.dgray}` }} />
       <HR/>
       <div style={{ textAlign:"center", color:C.green, fontSize:"12px", margin:"20px 0", lineHeight:1.8 }}>
@@ -1176,7 +1138,6 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   // ── PLAYING ───────────────────────────────────────────────────────────────────
   if (screen === "playing") return (
     <div style={S.page}>
-      {audioControls}
       {/* Seasonal scene image */}
       {SEASON_IMAGES[season] && (
         <img
@@ -1329,7 +1290,6 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   // ── EVENT ─────────────────────────────────────────────────────────────────────
   if (screen === "event") return (
     <div style={S.page}>
-      {audioControls}
       {SEASON_IMAGES[season] && (
         <img
           src={SEASON_IMAGES[season]}
@@ -1414,7 +1374,6 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   // ── STORE ─────────────────────────────────────────────────────────────────────
   if (screen === "store") return (
     <div style={S.page}>
-      {audioControls}
       <img src={imgStoreInterior} alt="Company Store" style={{ width:"100%", display:"block", imageRendering:"pixelated", marginBottom:"12px", borderBottom:`2px solid ${C.dgray}` }} />
       <div style={{ color:C.white, fontSize:"10px", letterSpacing:"2px", marginBottom:"4px" }}>
         {companyName.toUpperCase()}
