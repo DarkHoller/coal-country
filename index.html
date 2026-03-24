@@ -427,7 +427,7 @@ const S = {
     color: C.white,
     fontFamily: FONT,
     minHeight: "100vh",
-    padding: "20px 32px 32px",
+    padding: "20px 52px 32px",
     maxWidth: "100%",
     margin: "0 auto",
     lineHeight: 1.8,
@@ -883,7 +883,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   if (screen === "menu") return (
     <div style={S.page}>
       {/* Hero image with title overlaid */}
-      <div style={{ position:"relative", marginBottom:"18px" }}>
+      <div style={{ position:"relative", marginBottom:"18px", maxWidth:"600px", margin:"0 auto 18px" }}>
         <img
           src={imgTitleScene}
           alt="New River Gorge"
@@ -1146,10 +1146,21 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   // ── PLAYING ───────────────────────────────────────────────────────────────────
   if (screen === "playing") return (
     <div style={S.page}>
-      {/* ── WIDE: side-by-side | NARROW: stacked ── */}
-      <div style={{ display:"flex", flexDirection: wide ? "row" : "column", gap: wide ? "16px" : "0", alignItems:"flex-start", marginBottom:"12px" }}>
+      {/* ── TOP BAR: title + season + restart ── */}
+      <div style={{ display:"flex", justifyContent:"center", alignItems:"center", gap:"24px", marginBottom:"14px", flexWrap:"wrap" }}>
+        <span style={{ fontSize:"13px", color:C.white, fontWeight:"bold", letterSpacing:"0.08em" }}>COAL COUNTRY</span>
+        <span style={{ fontSize:"11px", color:C.gray }}>
+          {campName.toUpperCase()}  /  {player.name.toUpperCase()}  ·  {season.toUpperCase()} {player.year}
+        </span>
+        <button style={{ ...S.btnSm, fontSize:"9px", padding:"4px 10px", marginBottom:0 }} onClick={reset}>
+          RESTART
+        </button>
+      </div>
 
-        {/* LEFT: image with top overlay only */}
+      {/* ── WIDE: side-by-side | NARROW: stacked ── */}
+      <div style={{ display:"flex", flexDirection: wide ? "row" : "column", gap: wide ? "16px" : "0", alignItems:"flex-start", marginBottom:"0" }}>
+
+        {/* LEFT: image — no overlays on desktop */}
         <div style={{ position:"relative", flexShrink:0, width: wide ? "45%" : "100%" }}>
           {SEASON_IMAGES[season] && (
             <img
@@ -1158,20 +1169,6 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
               style={{ width:"100%", display:"block", imageRendering:"pixelated" }}
             />
           )}
-          {/* Top HUD overlay */}
-          <div style={{ position:"absolute", top:0, left:0, right:0, background:"rgba(0,0,0,0.55)", padding:"8px 12px 10px" }}>
-            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"4px" }}>
-              <span style={{ fontSize:"11px", color:C.white, fontWeight:"bold", letterSpacing:"0.05em" }}>COAL COUNTRY</span>
-              <span style={{ fontSize:"11px", color:C.white, fontWeight:"bold", letterSpacing:"0.05em" }}>{season.toUpperCase()} {player.year}</span>
-              <button style={{ ...S.btnSm, fontSize:"9px", padding:"4px 10px", marginBottom:0, color:C.white, borderColor:C.white }} onClick={reset}>
-                RESTART
-              </button>
-            </div>
-            <div style={{ fontSize:"9px", color:C.white, marginBottom:"8px", letterSpacing:"0.04em" }}>
-              {campName.toUpperCase()}  /  {player.name.toUpperCase()}
-            </div>
-            <Timeline year={player.year} seasonIdx={player.seasonIdx} />
-          </div>
           {/* Mobile only: stats overlay at bottom of image */}
           {!wide && (
             <div style={{ position:"absolute", bottom:0, left:0, right:0, background:"rgba(0,0,0,0.55)", padding:"8px 12px 10px" }}>
@@ -1184,6 +1181,12 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
                 <span>DEBT: <span style={{ color:player.debt>100?C.red:player.debt>70?C.yellow:C.white }}>${player.debt}</span></span>
                 <span>FAMILY: <span style={{ color:C.white }}>{player.family} adults · {(player.children||[]).length} children</span></span>
               </div>
+            </div>
+          )}
+          {/* Timeline below image on desktop */}
+          {wide && (
+            <div style={{ marginTop:"10px" }}>
+              <Timeline year={player.year} seasonIdx={player.seasonIdx} />
             </div>
           )}
         </div>
