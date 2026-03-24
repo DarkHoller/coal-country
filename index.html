@@ -841,7 +841,7 @@ const MILESTONE_EVENTS = {
       choices:[
         { text:"Inspect your own section carefully", health:3, scrip:-2, debt:0, food:0, lung:-1, family:0, outcome:"You find a cracked timber and three bad roof bolts. You report them. The foreman is irritated." },
         { text:"Say nothing — stay off their list", health:-5, scrip:0, debt:0, food:0, lung:2, family:0, outcome:"You say nothing. The work continues. The news from Whipple sits in your chest." },
-        { text:"Talk to your crew about safety", health:2, scrip:0, debt:0, food:0, lung:0, family:1, outcome:"The men listen. Nothing official changes. But everyone is watching the roof more carefully." },
+        { text:"Talk to your crew about safety", health:2, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The men listen. Nothing official changes. But everyone is watching the roof more carefully." },
       ]
     },
     wife_atcamp: {
@@ -1976,17 +1976,9 @@ function CoalCountry() {
   // ── EVENT ─────────────────────────────────────────────────────────────────────
   if (screen === "event") return (
     <div style={{ ...S.page, padding: wide ? "20px 120px 32px" : "20px 18px 32px" }}>
-      {SEASON_IMAGES[season] && (
-        <img
-          src={SEASON_IMAGES[season]}
-          alt={season + " in the coal camp"}
-          style={{ width:"100%", display:"block", imageRendering:"pixelated", marginBottom:"10px", borderBottom:`2px solid ${C.dgray}` }}
-        />
-      )}
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", fontSize:"11px", color:C.gray, marginBottom:"6px" }}>
-        <span>COAL COUNTRY</span>
-        <span>{season.toUpperCase()} {player.year}</span>
-        <button style={{ ...S.btnSm, fontSize:"13px", padding:"4px 8px", marginBottom:0 }} onClick={reset}>
+        <span>COAL COUNTRY  ·  {season.toUpperCase()} {player.year}</span>
+        <button style={{ ...S.btnSm, fontSize:"11px", padding:"4px 8px", marginBottom:0 }} onClick={reset}>
           RESTART
         </button>
       </div>
@@ -2034,7 +2026,7 @@ function CoalCountry() {
                   {i+1}. {c.text}
                 </span>
                 <span style={{ fontSize:"13px", textAlign:"right" }}>
-                  {c.health !== 0 && <DeltaBadge val={c.health} unit="hp" invert />}
+                  {c.health !== 0 && <DeltaBadge val={c.health} unit="hp" />}
                   {c.scrip  !== 0 && <DeltaBadge val={c.scrip}  unit="$"  />}
                   {c.debt   !== 0 && <DeltaBadge val={-c.debt}  unit="$ debt" />}
                   {c.food   !== 0 && <DeltaBadge val={c.food}   unit=" food" />}
