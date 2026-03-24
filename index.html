@@ -92,6 +92,7 @@ const imgUnionOrganizer = BASE_URL + "union-organizer.jpg";
 const imgNewBaby        = BASE_URL + "new-baby.jpg";
 const imgSoundOn        = BASE_URL + "sound-on.jpg";
 const imgFamilyEvicted  = BASE_URL + "family-evicted.jpg";
+const imgSickBaby       = BASE_URL + "sick-baby.jpg";
 const imgSoundOff       = BASE_URL + "sound-off.jpg";
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
@@ -316,6 +317,7 @@ const EVENT_IMAGE_RULES = [
   { keywords: ["evict","eviction","vacate","leave the house","company house","belongings","widow next door","family being evicted"], img: () => imgFamilyEvicted },
   { keywords: ["union organizer","organizer","united mine workers","umw","baldwin-felts","felts","strike vote","leaflet"], img: () => imgUnionOrganizer },
   { keywords: ["new baby","baby arrives","child born","delivered","new child","birth","newborn","expecting","labor"], img: () => imgNewBaby },
+  { keywords: ["sick-baby","sick baby","fever","baby won't eat","youngest","cough through the night","children cough"], img: () => imgSickBaby },
   { keywords: ["pay envelope","payday","short","wages","docking","scrip office","empty envelope","pay cut"], img: () => imgPayEnvelope },
   { keywords: ["baking day","communal bak","mutual aid","sharing seeds","sharing food","community meal","women across"], img: () => imgBakingDay },
   { keywords: ["influenza","flu","spanish","sick in bed","sick","fever","mask","pneumoconiosis","cough"], img: () => imgSickBed },
@@ -664,10 +666,10 @@ const WIFE_EVENTS = [
   {
     id:"children_coughing",
     requiresChildren: true,
+    image:"sick-baby",
     headline:"Children cough through the night.",
     narrative:"Coal dust coats every surface in this house — the windowsills, the bedding, the children's hair. They've been coughing since October. Same as last October. The company doctor says it's winter air.",
     fact:"Children in coal camps had dramatically higher rates of respiratory illness than comparable populations. Coal dust entered homes through gaps in walls and floors of company-built housing.",
-    image:"sick-bed",
     choices:[
       { text:"Buy medicine from the company store", health:5, scrip:-6, debt:0, food:0, lung:0, family:0, outcome:"The patent medicine helps a little. The coughing eases by February. It will come back." },
       { text:"Seal the walls with rags and paper", health:4, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"The dust is reduced. The children sleep better. You use your sewing scraps to do it." },
@@ -677,10 +679,10 @@ const WIFE_EVENTS = [
   {
     id:"child_fever",
     requiresChildren: true,
+    image:"sick-baby",
     headline:"Your youngest has a fever that won't break.",
     narrative:"Three days now. The baby won't eat. The company doctor charges a dollar for a house call — that's half a day's wages. There's a woman up the hollow who knows herbs, but your husband says to trust the doctor.",
     fact:"Infant mortality in WV coal camps ran twice the national average. Company doctors prioritized keeping miners fit for work, not treating families.",
-    image:"sick-bed",
     choices:[
       { text:"Pay for the company doctor", health:8, scrip:-6, debt:0, food:0, lung:0, family:0, outcome:"The doctor comes. He gives the baby a tonic. The fever breaks on the fourth day." },
       { text:"Go to the herb woman up the hollow", health:6, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"The old woman's tea brings the fever down by nightfall. She charges you almost nothing." },
