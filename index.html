@@ -627,7 +627,19 @@ function Timeline({ year, seasonIdx }) {
 
 // ─── MAIN ─────────────────────────────────────────────────────────────────────
 
+function useWindowWidth() {
+  const [w, setW] = useState(typeof window !== "undefined" ? window.innerWidth : 600);
+  useEffect(() => {
+    const h = () => setW(window.innerWidth);
+    window.addEventListener("resize", h);
+    return () => window.removeEventListener("resize", h);
+  }, []);
+  return w;
+}
+
 function CoalCountry() {
+  const windowWidth = useWindowWidth();
+  const wide = windowWidth >= 650;
   const [screen,    setScreen]    = useState("menu");
   const [player,    setPlayer]    = useState(null);
   const [name,      setName]      = useState("");
@@ -1134,44 +1146,64 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   // ── PLAYING ───────────────────────────────────────────────────────────────────
   if (screen === "playing") return (
     <div style={S.page}>
-      {/* Scene image with header overlay at top and stats overlay at bottom */}
-      <div style={{ position:"relative", marginBottom:"12px" }}>
-        {SEASON_IMAGES[season] && (
-          <img
-            src={SEASON_IMAGES[season]}
-            alt={season + " in the coal camp"}
-            style={{ width:"100%", display:"block", imageRendering:"pixelated" }}
-          />
-        )}
-        {/* Top HUD overlay */}
-        <div style={{ position:"absolute", top:0, left:0, right:0, background:"rgba(0,0,0,0.55)", padding:"8px 12px 10px" }}>
-          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"4px" }}>
-            <span style={{ fontSize:"11px", color:C.white, fontWeight:"bold", letterSpacing:"0.05em" }}>COAL COUNTRY</span>
-            <span style={{ fontSize:"11px", color:C.white, fontWeight:"bold", letterSpacing:"0.05em" }}>{season.toUpperCase()} {player.year}</span>
-            <button style={{ ...S.btnSm, fontSize:"9px", padding:"4px 10px", marginBottom:0, color:C.white, borderColor:C.white }} onClick={reset}>
-              RESTART
-            </button>
-          </div>
-          <div style={{ fontSize:"9px", color:C.white, marginBottom:"8px", letterSpacing:"0.04em" }}>
-            {campName.toUpperCase()}  /  {player.name.toUpperCase()}
-          </div>
-          <Timeline year={player.year} seasonIdx={player.seasonIdx} />
-        </div>
-        {/* Bottom stats overlay */}
-        <div style={{ position:"absolute", bottom:0, left:0, right:0, background:"rgba(0,0,0,0.55)", padding:"8px 12px 10px" }}>
-          <StatBar label="HEALTH"     value={player.health}    warn white />
-          <StatBar label="FOOD"       value={player.food}      warn white />
-          {player.character === "miner" &&
-            <StatBar label="BLACK LUNG" value={player.blackLung} white />}
-          <div style={{ display:"flex", gap:"18px", marginTop:"8px", fontSize:"11px", color:C.white }}>
-            <span>SCRIP: <span style={{ color:C.white, fontWeight:"bold" }}>${player.scrip}</span></span>
-            <span>DEBT: <span style={{ color:player.debt>100?C.red:player.debt>70?C.yellow:C.white }}>${player.debt}</span></span>
-            <span>FAMILY: <span style={{ color:C.white }}>{player.family} adults · {(player.children||[]).length} children</span></span>
-          </div>
-        </div>
-      </div>
+      {/* ── WIDE: side-by-side | NARROW: stacked ── */}
+      <div style={{ display:"flex", flexDirection: wide ? "row" : "column", gap: wide ? "16px" : "0", alignItems:"flex-start", marginBottom:"12px" }}>
 
-      <HR/>
+        {/* LEFT: image with top overlay only */}
+        <div style={{ position:"relative", flexShrink:0, width: wide ? "45%" : "100%" }}>
+          {SEASON_IMAGES[season] && (
+            <img
+              src={SEASON_IMAGES[season]}
+              alt={season + " in the coal camp"}
+              style={{ width:"100%", display:"block", imageRendering:"pixelated" }}
+            />
+          )}
+          {/* Top HUD overlay */}
+          <div style={{ position:"absolute", top:0, left:0, right:0, background:"rgba(0,0,0,0.55)", padding:"8px 12px 10px" }}>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"4px" }}>
+              <span style={{ fontSize:"11px", color:C.white, fontWeight:"bold", letterSpacing:"0.05em" }}>COAL COUNTRY</span>
+              <span style={{ fontSize:"11px", color:C.white, fontWeight:"bold", letterSpacing:"0.05em" }}>{season.toUpperCase()} {player.year}</span>
+              <button style={{ ...S.btnSm, fontSize:"9px", padding:"4px 10px", marginBottom:0, color:C.white, borderColor:C.white }} onClick={reset}>
+                RESTART
+              </button>
+            </div>
+            <div style={{ fontSize:"9px", color:C.white, marginBottom:"8px", letterSpacing:"0.04em" }}>
+              {campName.toUpperCase()}  /  {player.name.toUpperCase()}
+            </div>
+            <Timeline year={player.year} seasonIdx={player.seasonIdx} />
+          </div>
+          {/* Mobile only: stats overlay at bottom of image */}
+          {!wide && (
+            <div style={{ position:"absolute", bottom:0, left:0, right:0, background:"rgba(0,0,0,0.55)", padding:"8px 12px 10px" }}>
+              <StatBar label="HEALTH"     value={player.health}    warn white />
+              <StatBar label="FOOD"       value={player.food}      warn white />
+              {player.character === "miner" &&
+                <StatBar label="BLACK LUNG" value={player.blackLung} white />}
+              <div style={{ display:"flex", gap:"18px", marginTop:"8px", fontSize:"11px", color:C.white }}>
+                <span>SCRIP: <span style={{ color:C.white, fontWeight:"bold" }}>${player.scrip}</span></span>
+                <span>DEBT: <span style={{ color:player.debt>100?C.red:player.debt>70?C.yellow:C.white }}>${player.debt}</span></span>
+                <span>FAMILY: <span style={{ color:C.white }}>{player.family} adults · {(player.children||[]).length} children</span></span>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* RIGHT (desktop) / BELOW (mobile): stats + actions */}
+        <div style={{ flex:1, width: wide ? undefined : "100%" }}>
+          {/* Desktop stats panel */}
+          {wide && (
+            <div style={{ background:"#111", border:`1px solid ${C.dgray}`, padding:"12px", marginBottom:"12px" }}>
+              <StatBar label="HEALTH"     value={player.health}    warn />
+              <StatBar label="FOOD"       value={player.food}      warn />
+              {player.character === "miner" &&
+                <StatBar label="BLACK LUNG" value={player.blackLung} />}
+              <div style={{ display:"flex", gap:"18px", marginTop:"8px", fontSize:"11px", color:C.gray }}>
+                <span>SCRIP: <span style={{ color:C.white, fontWeight:"bold" }}>${player.scrip}</span></span>
+                <span>DEBT: <span style={{ color:player.debt>100?C.red:player.debt>70?C.yellow:C.white }}>${player.debt}</span></span>
+                <span>FAMILY: <span style={{ color:C.white }}>{player.family} adults · {(player.children||[]).length} children</span></span>
+              </div>
+            </div>
+          )}
 
       {/* Season prompt */}
       <div style={{ fontSize:"15px", color:C.offwhite, marginBottom:"14px", lineHeight:2 }}>
@@ -1280,6 +1312,8 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
           ))}
         </div>
       )}
+        </div>{/* end right column */}
+      </div>{/* end flex row */}
     </div>
   );
 
