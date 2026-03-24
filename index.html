@@ -90,6 +90,8 @@ const imgWhistle = BASE_URL + "whistle.jpg";
 const imgTents = BASE_URL + "tents.jpg";
 const imgUnionOrganizer = BASE_URL + "union-organizer.jpg";
 const imgNewBaby        = BASE_URL + "new-baby.jpg";
+const imgSoundOn        = BASE_URL + "sound-on.jpg";
+const imgSoundOff       = BASE_URL + "sound-off.jpg";
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 
@@ -613,8 +615,8 @@ function Timeline({ year, seasonIdx }) {
           return (
             <span key={my} style={{
               position:"absolute",
-              left:`${tickPct}%`,
-              transform:"translateX(-50%)",
+              left:`${Math.min(tickPct, 94)}%`,
+              transform: tickPct >= 94 ? "translateX(-90%)" : "translateX(-50%)",
               fontSize:"13px",
               color: year >= my ? C.white : C.dgray,
             }}>{my}</span>
@@ -1191,11 +1193,15 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         </span>
         <div style={{ display:"flex", alignItems:"center", gap:"8px" }}>
           <button
-            style={{ ...S.btnSm, fontSize:"9px", padding:"4px 8px", marginBottom:0, minWidth:"36px" }}
+            style={{ background:"none", border:"none", padding:0, cursor:"pointer", lineHeight:0 }}
             onClick={() => setMuted(m => !m)}
             title={muted ? "Unmute" : "Mute"}
           >
-            {muted ? "🔇" : "🔊"}
+            <img
+              src={muted ? imgSoundOff : imgSoundOn}
+              alt={muted ? "Unmute" : "Mute"}
+              style={{ width:"28px", height:"28px", imageRendering:"pixelated", display:"block" }}
+            />
           </button>
           <input
             type="range" min="0" max="1" step="0.05"
