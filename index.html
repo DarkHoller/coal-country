@@ -409,6 +409,656 @@ const MILESTONES = [
   },
 ];
 
+
+// ─── PRE-SCRIPTED EVENTS ──────────────────────────────────────────────────────
+// Full events: headline, narrative, fact, choices with mechanical effects.
+// Miner and wife versions cover the same historical periods from different angles.
+
+const MINER_EVENTS = [
+  {
+    id:"roof_warning",
+    headline:"Roof timber splits underground.",
+    narrative:"A sharp crack echoes through your section. A main roof timber has split — the classic sign before a cave-in. The foreman is down the shaft and hasn't seen it. The men around you are watching you decide.",
+    fact:"Roof falls were the leading cause of death in WV coal mines from 1910–1935, accounting for more fatalities than explosions.",
+    image:"collapse",
+    choices:[
+      { text:"Stop work, report it immediately", health:0, scrip:-3, debt:0, food:0, lung:0, family:0, outcome:"The foreman docks you half a day's pay for 'unnecessary delays.' The timber is braced. You are alive." },
+      { text:"Shore it up yourself and keep working", health:-6, scrip:0, debt:0, food:0, lung:2, family:0, outcome:"You brace the timber with scrap wood. It holds — this time. Your back takes the strain." },
+      { text:"Say nothing, keep loading coal", health:-10, scrip:4, debt:0, food:0, lung:3, family:0, outcome:"You finish the shift. The section stays up. You don't sleep well that night." },
+    ]
+  },
+  {
+    id:"gas_pocket",
+    headline:"Gas detected in the lower level.",
+    narrative:"Your lamp flickers in a way that means gas. Someone else notices it too. The foreman has been told, but he wants the tonnage. The company is paying a bonus for high output this month.",
+    fact:"Methane gas explosions killed over 3,000 WV miners between 1900 and 1940. Miners were legally required to report gas but had no power to stop work.",
+    image:"drilling",
+    choices:[
+      { text:"Refuse to work — report it formally", health:5, scrip:-5, debt:0, food:0, lung:-1, family:0, outcome:"You are put on the 'trouble list.' You keep your lungs for another season." },
+      { text:"Work cautiously, keep lamp trimmed", health:-4, scrip:3, debt:0, food:0, lung:4, family:0, outcome:"The gas clears by afternoon. You earn your tonnage. The risk was real." },
+      { text:"Work as normal — gas scares are common", health:-12, scrip:5, debt:0, food:0, lung:6, family:0, outcome:"You make good money. Another man in the lower section is badly burned by a flash fire." },
+    ]
+  },
+  {
+    id:"pay_docking",
+    headline:"Payday envelope comes up short.",
+    narrative:"Your pay envelope is two dollars short. The company calls it a 'docking' — impure coal mixed with slate in your car. You measured it yourself. The checkweighman works for the company.",
+    fact:"The truck system allowed companies to dock miners' pay for 'impure' coal. Miners had no independent checkweighman until WV law changed in 1917.",
+    image:"pay-envelope",
+    choices:[
+      { text:"Argue the docking at the office", health:0, scrip:0, debt:3, food:0, lung:0, family:0, outcome:"The clerk adds a 'dispute fee' to your account. You leave with nothing and a note in your file." },
+      { text:"Accept it. Start the union petition.", health:0, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"You sign the organizer's sheet quietly. Two other men sign after you." },
+      { text:"Accept it and say nothing", health:-3, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"The short pay stings. You don't have recourse. You go back to work." },
+    ]
+  },
+  {
+    id:"pay_cut",
+    headline:"Company announces ten-cent pay cut.",
+    narrative:"A notice goes up at the mine entrance: effective Monday, the rate drops ten cents per ton. No reason given. The foreman says it's the market. You've heard that before.",
+    fact:"WV coal operators cut wages repeatedly in the 1920s as coal prices fell. Miners had no legal protection against wage cuts until the New Deal.",
+    image:"store-interior",
+    choices:[
+      { text:"Organize a meeting with the men", health:0, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"Seven men show up. Two are company informants. The foreman knows by morning." },
+      { text:"Accept it — you can't afford to strike", health:-4, scrip:-3, debt:0, food:0, lung:0, family:0, outcome:"You work the cut. The debt at the store grows a little faster now." },
+      { text:"Work harder to make up the difference", health:-8, scrip:2, debt:0, food:0, lung:5, family:0, outcome:"You load more tons. Your body pays the difference your wages don't." },
+    ]
+  },
+  {
+    id:"scrip_only",
+    headline:"Scrip office: cash only next month.",
+    narrative:"The scrip office posts a notice: this month's wages will be paid in store credit only — not redeemable for cash. You owe rent. You owe the doctor. Cash doesn't come until the company decides it does.",
+    fact:"Scrip systems were ruled illegal by WV statute in 1887, but companies found legal workarounds. Enforcement was rare until federal oversight arrived in the 1930s.",
+    image:"pay-envelope",
+    choices:[
+      { text:"Borrow cash from a coworker", health:0, scrip:3, debt:5, food:0, lung:0, family:0, outcome:"A neighbor lends you what he can spare. You both know this will happen again next month." },
+      { text:"Use the store credit on staples", health:0, scrip:0, debt:4, food:15, lung:0, family:0, outcome:"You stock up on flour and salt pork. The debt column grows longer." },
+      { text:"Write a letter of complaint to the state", health:3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"It takes three weeks. The state replies that the practice is being 'reviewed.' Nothing changes." },
+    ]
+  },
+  {
+    id:"mine_inspector",
+    headline:"State mine inspector arrives.",
+    narrative:"The state mine inspector is here. The foreman has spent two days cleaning the section, covering the worst timbers, and briefing every man: speak well of the company, or find another job.",
+    fact:"WV mine inspectors were often underfunded and politically connected to the coal operators they were meant to oversee. Independent inspection became effective only after the 1930s.",
+    image:"union-organizer",
+    choices:[
+      { text:"Tell the inspector about the gas section", health:5, scrip:-4, debt:0, food:0, lung:-2, family:0, outcome:"The section is marked hazardous. You are reassigned to the worst room in the mine within the week." },
+      { text:"Say nothing — you need this job", health:-3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The inspector leaves a favorable report. The timbers stay unbraced. You keep your job." },
+      { text:"Answer his questions honestly but carefully", health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The inspector writes a modest complaint. Something small is fixed. The larger dangers remain." },
+    ]
+  },
+  {
+    id:"union_organizer",
+    headline:"UMW organizer spotted at mine entrance.",
+    narrative:"A man in a good coat is handing out leaflets near the tipple. He's from the United Mine Workers. The foreman is watching from the window. A Baldwin-Felts detective is leaning against the fence.",
+    fact:"UMW organizing in southern WV was met with Baldwin-Felts agents, company evictions, and blacklisting. The union did not gain a foothold in Fayette County until after the New Deal.",
+    image:"union-organizer",
+    choices:[
+      { text:"Take a leaflet and read it tonight", health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The leaflet describes rights you don't currently have. You keep it hidden under the floorboard." },
+      { text:"Talk to the organizer openly", health:0, scrip:-3, debt:0, food:0, lung:0, family:0, outcome:"You are photographed by the detective. The foreman calls you in the next morning." },
+      { text:"Walk past — you can't risk it", health:-4, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You keep your job. The organizer is arrested the next day on trespassing charges." },
+    ]
+  },
+  {
+    id:"strike_talk",
+    headline:"Men are talking about walking out.",
+    narrative:"After another docking, a dozen men are meeting behind the boarding house tonight. A strike would mean losing the company house within 48 hours — but the dockings can't go on.",
+    fact:"Company-owned housing gave operators tremendous leverage against strikes. Evictions within 48 hours of work stoppage were standard practice in WV coal fields.",
+    image:"tents",
+    choices:[
+      { text:"Attend the meeting tonight", health:0, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"You go. Nine men are there. Four are too afraid to stay past ten minutes." },
+      { text:"Stay home — the risk is too high", health:-5, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The meeting happens without you. Nothing changes. The guilt sits quietly." },
+      { text:"Go but say you won't join the strike", health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"Your caution frustrates the organizers. The company man still notes your name." },
+    ]
+  },
+  {
+    id:"coworker_fired",
+    headline:"Coworker dismissed for union talk.",
+    narrative:"Jake Briggs is gone. He came to work Monday and his lamp tag was missing. The foreman said there was 'no work available' in his section. Everyone knows he attended the union meeting last week.",
+    fact:"Blacklisting was routine in WV coal camps. Companies shared lists of 'agitators,' making it nearly impossible for fired union men to find work in the region.",
+    image:"mine-closed",
+    choices:[
+      { text:"Organize a walkout in protest", health:0, scrip:-5, debt:5, food:0, lung:0, family:0, outcome:"Eight men walk out with you. The company docks all of you and has the house list ready." },
+      { text:"Help Jake's family quietly", health:4, scrip:-4, debt:0, food:0, lung:0, family:0, outcome:"You bring food to the Briggs house. No one is watching. It matters." },
+      { text:"Keep your head down", health:-6, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"Jake finds no work in Fayette County. His family leaves by spring." },
+    ]
+  },
+  {
+    id:"black_damp",
+    headline:"Coworker collapses from bad air.",
+    narrative:"You're loading your second car when Thomas Koval drops face-first into the coal. Black damp — carbon dioxide pooling in the low spots. The ventilation hasn't been working properly for weeks.",
+    fact:"Black damp (CO2 accumulation) and white damp (CO) were constant dangers in poorly ventilated mines. Canaries were used as early warning systems; many mines skipped them.",
+    image:"canary",
+    choices:[
+      { text:"Carry him out, shut down the section", health:-5, scrip:-3, debt:0, food:0, lung:0, family:0, outcome:"Koval survives. The section is ventilated. You lose half a shift. The foreman is furious." },
+      { text:"Drag him to fresh air, return to work", health:-3, scrip:2, debt:0, food:0, lung:4, family:0, outcome:"He recovers. You finish the day in bad air. Your head pounds for three days after." },
+      { text:"Signal for help without leaving your work", health:0, scrip:3, debt:0, food:0, lung:3, family:0, outcome:"Help comes eventually. Koval recovers. You make tonnage. The ventilation stays broken." },
+    ]
+  },
+  {
+    id:"wet_cough",
+    headline:"Your cough has changed this season.",
+    narrative:"The cough you've had all year has changed. It's wetter now, deeper. Your wife noticed. You've been in the dust for years — everyone coughs, but not like this. The company doctor will certify you fit. That's what he's paid to do.",
+    fact:"Black lung disease (pneumoconiosis) was not officially recognized as a compensable occupational disease in WV until 1969. Before that, companies called it 'miners' asthma.'",
+    image:"sick-bed",
+    choices:[
+      { text:"Rest a season — take lighter work", health:12, scrip:-6, debt:0, food:0, lung:-3, family:0, outcome:"You work the surface for a month. Your lungs get a rare break. The pay is worse." },
+      { text:"Keep working — you can't afford to stop", health:-5, scrip:4, debt:0, food:0, lung:8, family:0, outcome:"You finish the season. The cough gets worse. You don't tell your wife." },
+      { text:"See a doctor outside the company", health:5, scrip:-8, debt:0, food:0, lung:-1, family:0, outcome:"The outside doctor gives it a name. He can't stop it. Knowing costs you eight dollars." },
+    ]
+  },
+  {
+    id:"funeral_month",
+    headline:"Three funerals in one month.",
+    narrative:"Ren Massey, Pete Horvath, and old Caldwell. Roof fall, gas, and his heart finally giving out from forty years of loading. Three Sundays, three holes in the camp churchyard. Everyone is counting their own odds.",
+    fact:"Between 1900 and 1940, over 20,000 WV coal miners died in occupational accidents. Many more died of disease and injury not counted in official records.",
+    image:"graveyard",
+    choices:[
+      { text:"Start a safety committee among the men", health:3, scrip:-2, debt:0, food:0, lung:0, family:2, outcome:"Six men join. The foreman watches. The committee meets quietly. It matters to the families." },
+      { text:"Put more away for your family", health:0, scrip:-5, debt:0, food:0, lung:0, family:0, outcome:"A few extra dollars in the tin under the bed. It doesn't feel like enough." },
+      { text:"Work harder while you still can", health:-7, scrip:5, debt:0, food:0, lung:5, family:0, outcome:"You push through the grief with labor. It is what you know." },
+    ]
+  },
+  {
+    id:"company_church",
+    headline:"Preacher says the union is sinful.",
+    narrative:"The company-owned church is full this Sunday. The preacher — who lives in a company house and draws a company salary — delivers a sermon on obedience. He names the union twice. The collection plate goes to the mine office.",
+    fact:"Coal companies often built and staffed camp churches, using them to discourage union organizing and reinforce loyalty to the company.",
+    image:"church",
+    choices:[
+      { text:"Stop attending the company church", health:3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You start walking to the free church two miles up the creek. It costs you in the foreman's esteem." },
+      { text:"Attend but don't contribute", health:0, scrip:2, debt:0, food:0, lung:0, family:0, outcome:"You sit in the back. The company man takes note of who puts nothing in the plate." },
+      { text:"Attend and give — it's safer", health:-3, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"You tithe a week's wages. The company preacher shakes your hand. It costs more than money." },
+    ]
+  },
+  {
+    id:"haulage_accident",
+    headline:"Haulage rope snaps on the man-trip.",
+    narrative:"The rope on the man-trip cart snaps coming up the slope. Two men are thrown against the ribs and badly hurt. You barely jump clear in time. The rope has been fraying for months. The company knew.",
+    fact:"Transportation accidents — runaway cars, snapped haulage ropes, and shaft failures — were the second leading cause of death in WV mines after roof falls.",
+    image:"injury",
+    choices:[
+      { text:"File a formal injury report", health:3, scrip:-3, debt:0, food:0, lung:0, family:0, outcome:"The report is filed and then misfiled. The rope is replaced. The foreman gives you the worst room next week." },
+      { text:"Help the injured men, say nothing official", health:0, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"You get the men to the surface. Their families will have nothing from the company." },
+      { text:"Get back to work — accidents happen", health:-5, scrip:3, debt:0, food:0, lung:0, family:0, outcome:"You finish your tonnage. The injured men are off work for weeks with no pay." },
+    ]
+  },
+  {
+    id:"new_miner",
+    headline:"Green miner handles his lamp badly.",
+    narrative:"The new man — fresh off the train from somewhere in Pennsylvania — is working next to your section. He doesn't know how to trim a safety lamp. You can see it from thirty feet away. Gas has been running this week.",
+    fact:"Inexperienced miners were a constant danger in rapidly expanding mines. Training was informal and miners were expected to learn on the job — often from near misses.",
+    image:"canary",
+    choices:[
+      { text:"Stop everything and teach him properly", health:0, scrip:-3, debt:0, food:0, lung:-1, family:0, outcome:"You lose an hour's tonnage. The new man's lamp doesn't flicker again that season." },
+      { text:"Give him a quick warning and keep working", health:-3, scrip:2, debt:0, food:0, lung:2, family:0, outcome:"He nods and adjusts the wick. You're not sure it's enough." },
+      { text:"Tell the foreman, let him handle it", health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The foreman curses at the new man. The lamp gets fixed. No one is grateful." },
+    ]
+  },
+  {
+    id:"water_seeping",
+    headline:"Water seeping through the floor.",
+    narrative:"The floor of your working section is wet today. Not just damp — water is seeping in steadily. The lower shaft has been pumping hard all week. If the pump fails, that section fills. Men are working down there now.",
+    fact:"Mine flooding was a serious danger in WV's coal fields. Flash floods in the New River watershed could inundate lower mine shafts within hours.",
+    image:"flooding",
+    choices:[
+      { text:"Warn the men in the lower section", health:3, scrip:-4, debt:0, food:0, lung:0, family:0, outcome:"You lose your shift. The men in the lower section clear out an hour before the pump fails." },
+      { text:"Report it to the foreman only", health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The foreman checks it. The pump is reinforced. The lower section men are not told why." },
+      { text:"Finish your section — pump probably holds", health:-8, scrip:5, debt:0, food:0, lung:0, family:0, outcome:"You make tonnage. The pump holds this time. The water is still rising." },
+    ]
+  },
+  {
+    id:"welsh_songs",
+    headline:"An old miner sings from the Rhondda.",
+    narrative:"Owen Davies, the oldest Welshman in camp, is teaching the young men the songs his father sang in the Rhondda Valley. In Welsh. Underground. The sound carries strange through coal and rock.",
+    fact:"Welsh miners brought a strong tradition of choral singing and labor organizing from the South Wales coalfields. Many became early UMW organizers in Appalachian mines.",
+    image:"drilling",
+    choices:[
+      { text:"Stay and learn the songs", health:7, scrip:0, debt:0, food:0, lung:0, family:2, outcome:"Owen teaches you a mining song about the valley and the dark. You carry it home." },
+      { text:"Listen from a distance, then work", health:3, scrip:2, debt:0, food:0, lung:1, family:0, outcome:"You catch a verse or two before getting back to loading. The song stays with you." },
+      { text:"Keep working — can't afford the time", health:-3, scrip:4, debt:0, food:0, lung:2, family:0, outcome:"You make good tonnage. The singing fades down the shaft." },
+    ]
+  },
+  {
+    id:"widow_collection",
+    headline:"Hat passed for a miner's widow.",
+    narrative:"Charlie Benson's widow has four children and a two-week notice from the company to vacate. The men are passing a hat. It will amount to a few dollars. The company gave her nothing.",
+    fact:"Before WV workmen's compensation laws strengthened in the 1920s, a miner's family received nothing from the company after a death — only continued debt at the company store.",
+    image:"graveyard",
+    choices:[
+      { text:"Give generously — a week's scrip", health:0, scrip:-5, debt:0, food:0, lung:0, family:3, outcome:"The widow gets enough to move to her sister's house in Ohio. Your family eats a little less this month." },
+      { text:"Give what you can spare", health:0, scrip:-2, debt:0, food:0, lung:0, family:1, outcome:"Every bit helps. She remembers who gave and who didn't." },
+      { text:"Pass the hat without contributing", health:0, scrip:0, debt:0, food:0, lung:0, family:-1, outcome:"No one says anything. Everyone notices." },
+    ]
+  },
+];
+
+const WIFE_EVENTS = [
+  {
+    id:"wages_short",
+    headline:"Wages barely cover what is owed.",
+    narrative:"Your husband brings home the pay envelope. After the house rent, the lamp oil, and what's owed at the store from last month, there is almost nothing left for food. The company store is where you must shop. The prices went up again.",
+    fact:"The company store system trapped families in debt. Prices at company stores ran 10–40% higher than independent stores, which families were often discouraged or prevented from using.",
+    image:"store-interior",
+    choices:[
+      { text:"Stretch the food — cook everything thin", health:-5, scrip:2, debt:0, food:-10, lung:0, family:0, outcome:"You feed everyone. Barely. No one complains to you about it." },
+      { text:"Buy on credit at the company store", health:0, scrip:0, debt:6, food:15, lung:0, family:0, outcome:"The family eats. The debt grows. This is how the trap works." },
+      { text:"Ask neighbors to share and share back", health:3, scrip:0, debt:0, food:8, lung:0, family:1, outcome:"Three families on the row trade what they have. It keeps everyone above zero." },
+    ]
+  },
+  {
+    id:"company_inspection",
+    headline:"Company man comes to inspect the house.",
+    narrative:"The company agent is walking the row, checking every house for 'sanitary violations.' A dirty house can be cause for eviction. You have twelve hours' notice. The coal dust comes in through the walls. It always does.",
+    fact:"Coal company housing came with strict behavioral codes. Inspections for cleanliness and 'moral character' were used to threaten families who showed union sympathies.",
+    image:"evicted",
+    choices:[
+      { text:"Clean everything — don't give him cause", health:-5, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"The house passes. You are exhausted. The coal dust will be back tomorrow." },
+      { text:"Challenge the inspection politely", health:3, scrip:0, debt:3, food:0, lung:0, family:0, outcome:"He notes your 'attitude' in his book. The house passes. You have made a small enemy." },
+      { text:"Clean and smile — survival first", health:-3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You play the role. The house passes. Your children watch you do it." },
+    ]
+  },
+  {
+    id:"children_coughing",
+    headline:"Children cough through the night.",
+    narrative:"Coal dust coats every surface in this house — the windowsills, the bedding, the children's hair. They've been coughing since October. Same as last October. The company doctor says it's winter air.",
+    fact:"Children in coal camps had dramatically higher rates of respiratory illness than comparable populations. Coal dust entered homes through gaps in walls and floors of company-built housing.",
+    image:"sick-bed",
+    choices:[
+      { text:"Buy medicine from the company store", health:5, scrip:-6, debt:0, food:0, lung:0, family:0, outcome:"The patent medicine helps a little. The coughing eases by February. It will come back." },
+      { text:"Seal the walls with rags and paper", health:4, scrip:-2, debt:0, food:0, lung:0, family:1, outcome:"The dust is reduced. The children sleep better. You use your sewing scraps to do it." },
+      { text:"There's nothing to be done", health:-6, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The coughing continues all winter. The youngest starts to wheeze." },
+    ]
+  },
+  {
+    id:"child_fever",
+    headline:"Your youngest has a fever that won't break.",
+    narrative:"Three days now. The baby won't eat. The company doctor charges a dollar for a house call — that's half a day's wages. There's a woman up the hollow who knows herbs, but your husband says to trust the doctor.",
+    fact:"Infant mortality in WV coal camps ran twice the national average. Company doctors prioritized keeping miners fit for work, not treating families.",
+    image:"sick-bed",
+    choices:[
+      { text:"Pay for the company doctor", health:8, scrip:-6, debt:0, food:0, lung:0, family:0, outcome:"The doctor comes. He gives the baby a tonic. The fever breaks on the fourth day." },
+      { text:"Go to the herb woman up the hollow", health:6, scrip:-2, debt:0, food:0, lung:0, family:1, outcome:"The old woman's tea brings the fever down by nightfall. She charges you almost nothing." },
+      { text:"Wait and keep the child cool", health:-8, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You use wet cloths and hope. The fever finally breaks on day five. It was very close." },
+    ]
+  },
+  {
+    id:"february_food",
+    headline:"Food runs low in deep February.",
+    narrative:"The garden is long gone. The last of the preserved beans ran out Tuesday. The store credit is nearly exhausted and payday isn't until Friday. There are four people in this house who need to eat today.",
+    fact:"Winter food insecurity was common in coal camps. Company stores extended credit strategically, keeping families just solvent enough to stay but never free of debt.",
+    image:"store-interior",
+    choices:[
+      { text:"Go further into debt at the store", health:3, scrip:0, debt:8, food:20, lung:0, family:0, outcome:"The family eats. The debt passes another milestone. You stop counting what you owe." },
+      { text:"Ask neighbors on the row for help", health:4, scrip:0, debt:0, food:12, lung:0, family:2, outcome:"Two families bring what they can spare. You will do the same for them someday. You already know it." },
+      { text:"Skip your own meals to feed the children", health:-12, scrip:0, debt:0, food:8, lung:0, family:0, outcome:"The children eat. You don't, for three days. You feel it in your body for weeks." },
+    ]
+  },
+  {
+    id:"store_price_rise",
+    headline:"Store raises prices with no warning.",
+    narrative:"Flour up three cents a pound. Salt pork up two. No notice posted, no reason given. The company store manager just shrugs. There is no other place to shop in this camp. Your husband's wages did not go up.",
+    fact:"Company store prices were entirely at the operator's discretion. The captive market — families who could only shop at one store — gave companies total pricing power.",
+    image:"store-interior",
+    choices:[
+      { text:"Walk to town to buy at an outside store", health:-3, scrip:2, debt:0, food:10, lung:0, family:0, outcome:"Four miles each way. You save money but the foreman notes you aren't buying at his store." },
+      { text:"Start growing what you can this spring", health:3, scrip:-2, debt:0, food:8, lung:0, family:1, outcome:"You put in a kitchen garden. It won't be enough, but it's something you control." },
+      { text:"Buy less and stretch what you have", health:-6, scrip:2, debt:0, food:-5, lung:0, family:0, outcome:"You cut portions. Everyone notices. You tell them it's fine." },
+    ]
+  },
+  {
+    id:"pepperoni_rolls",
+    headline:"A chance to sell baked goods.",
+    narrative:"The boarding house on the next creek wants two dozen pepperoni rolls each Friday. That's real cash money — not scrip. It means early mornings and the price of flour and pepperoni up front, but it's income the company doesn't control.",
+    fact:"Miners' wives in WV coal camps supplemented family income through baking, taking in laundry, and raising boarders. The pepperoni roll — WV's most iconic food — was born in the coal camps.",
+    image:"baking-day",
+    choices:[
+      { text:"Take the order — start this week", health:-4, scrip:8, debt:0, food:-5, lung:0, family:1, outcome:"You rise at four every Friday. The money is yours. The company can't dock it." },
+      { text:"Try it for one month, see how it goes", health:-2, scrip:4, debt:0, food:-3, lung:0, family:1, outcome:"The boarding house keeps ordering. You keep baking. It becomes a real income." },
+      { text:"Too much work on top of everything else", health:4, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You rest that morning instead. The extra money isn't there, but neither is the exhaustion." },
+    ]
+  },
+  {
+    id:"boarder_opportunity",
+    headline:"A boarder could help with rent.",
+    narrative:"A young miner new to camp is looking for a room. He'd sleep in the kitchen corner and pay three dollars a month. It means less space for your family and more cooking, but three dollars doesn't come from the company.",
+    fact:"Taking in boarders was extremely common in coal camps — over 30% of miners' households in WV censuses from 1910–1920 had non-family members living with them.",
+    image:"evicted",
+    choices:[
+      { text:"Take him in — the money matters", health:-3, scrip:0, debt:-8, food:-5, lung:0, family:0, outcome:"The house is cramped. The debt eases. He's quiet and works hard." },
+      { text:"Try it for one season", health:-2, scrip:0, debt:-4, food:-3, lung:0, family:0, outcome:"He stays three months before finding his own lodging. The money was real." },
+      { text:"The house is too full already", health:3, scrip:0, debt:0, food:0, lung:0, family:1, outcome:"You keep the space for your family. The debt doesn't ease, but the children have room." },
+    ]
+  },
+  {
+    id:"mutual_aid_fund",
+    headline:"Union wives organizing a mutual aid fund.",
+    narrative:"Emma Kowalski is going door to door on the row. She wants every family to contribute fifty cents a week to a fund that pays out ten dollars when a man is killed. The company church preacher has already said it's 'socialism.'",
+    fact:"Miners' wives organized formal and informal mutual aid networks across WV coal camps. These were precursors to union benefit funds and later New Deal social insurance.",
+    image:"baking-day",
+    choices:[
+      { text:"Join and contribute every week", health:3, scrip:-2, debt:0, food:0, lung:0, family:3, outcome:"Twelve families join. When Hal Mays is killed two months later, his widow gets ninety dollars." },
+      { text:"Contribute once but not regularly", health:0, scrip:-2, debt:0, food:0, lung:0, family:1, outcome:"You give what you can. The fund grows slowly. You feel part of something." },
+      { text:"Too risky — the company is watching", health:-3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You stay home. Emma understands. You both know the risk is real." },
+    ]
+  },
+  {
+    id:"widow_eviction",
+    headline:"Widow next door gets eviction notice.",
+    narrative:"Margaret Tully's husband was killed four days ago. This morning, the company's agent slid an eviction notice under her door — she has one week to vacate. She has three children and nowhere to go.",
+    fact:"Coal companies routinely evicted miners' widows within days of a miner's death. The house was company property, and death did not suspend the obligation to vacate.",
+    image:"evicted",
+    choices:[
+      { text:"Let her family stay with you", health:-3, scrip:0, debt:0, food:-8, lung:0, family:2, outcome:"Three extra people in your house for two weeks. Margaret finds her sister. Your family pulled together." },
+      { text:"Help her appeal the eviction", health:0, scrip:-2, debt:0, food:0, lung:0, family:1, outcome:"The company grants one additional week. She finds lodging with her brother in Ohio." },
+      { text:"Give what food you can spare", health:0, scrip:0, debt:0, food:-6, lung:0, family:1, outcome:"You bring what you have. It doesn't solve her housing. It's still something." },
+    ]
+  },
+  {
+    id:"seeds_sharing",
+    headline:"Women sharing seeds from kitchen gardens.",
+    narrative:"Up and down the row, women are trading seeds from last year's gardens — tomatoes, beans, squash. It costs nothing. The company store doesn't control seeds. It's a small act of independence that the company agent probably doesn't even notice.",
+    fact:"Kitchen gardens were a vital food source for coal camp families. WV extension records show over 60% of mining families maintained gardens in the 1910s and 1920s.",
+    image:"garden",
+    choices:[
+      { text:"Share all you have and plant heavy this spring", health:5, scrip:-3, debt:0, food:15, lung:0, family:2, outcome:"Your garden produces well. You are off the store's flour for two months in summer." },
+      { text:"Trade a few seeds, keep your best", health:3, scrip:0, debt:0, food:8, lung:0, family:1, outcome:"A modest garden. Enough to matter. You keep the best seeds for next year." },
+      { text:"Too tired to garden on top of everything", health:2, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You rest. The seeds stay in the envelope." },
+    ]
+  },
+  {
+    id:"communal_baking",
+    headline:"Communal baking day in the camp.",
+    narrative:"Someone has an outdoor oven. Ten women are spending Saturday making bread, rolls, and pies together. The work is easier shared. The singing helps. The company man walks past twice but doesn't stop.",
+    fact:"Communal baking was a real practice in WV coal camps. The pepperoni roll was developed and refined through exactly this kind of shared knowledge between Italian, Polish, and Appalachian women.",
+    image:"baking-day",
+    choices:[
+      { text:"Go and bring the children", health:8, scrip:0, debt:0, food:12, lung:0, family:3, outcome:"Your children play while you bake. You come home with bread and a recipe you didn't have before." },
+      { text:"Contribute ingredients, take your share", health:3, scrip:-2, debt:0, food:8, lung:0, family:1, outcome:"You bake your portion and leave early. The food is better than what you make alone." },
+      { text:"Stay home — too much to do", health:-3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You miss a morning of connection. The chores are still there when you finish." },
+    ]
+  },
+  {
+    id:"tent_families",
+    headline:"Strike families camped up the road.",
+    narrative:"Paint Creek strike families are living in tents two miles away after being evicted. The company has told workers not to bring them food. The union asks you to help. The risk of being seen is real.",
+    fact:"During the 1912–1913 Paint Creek–Cabin Creek strike, over 1,200 families were evicted from company housing. The UMW set up tent colonies; companies had guards watching nearby roads.",
+    image:"tents",
+    choices:[
+      { text:"Bring food after dark — risk it", health:0, scrip:-4, debt:0, food:-8, lung:0, family:2, outcome:"You walk the two miles after the children are asleep. A woman thanks you. No one sees you." },
+      { text:"Donate what you can through the church", health:3, scrip:-2, debt:0, food:-4, lung:0, family:1, outcome:"The free church organizes a collection. Some of it reaches the tent families." },
+      { text:"Stay away — you can't afford trouble", health:-4, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You watch from the window. The tent families go hungry. You pray it doesn't reach you." },
+    ]
+  },
+  {
+    id:"letter_home",
+    headline:"A letter from your family back home.",
+    narrative:"Your mother's handwriting. She asks when you are coming back. She says your father is not well. She says things are hard here too, but she misses you. You don't have an answer to give her.",
+    fact:"Migration to WV coal camps separated families across generations. Many Appalachian workers and immigrant families maintained ties to home regions for decades.",
+    image:"evicted",
+    choices:[
+      { text:"Write back honestly — you don't know when", health:5, scrip:-1, debt:0, food:0, lung:0, family:1, outcome:"You write three pages. It takes you two evenings. It helps more than you expected." },
+      { text:"Send a little money with the reply", health:0, scrip:-4, debt:0, food:0, lung:0, family:2, outcome:"You send what you can spare. Your mother's next letter is warmer." },
+      { text:"You can't bear to write back yet", health:-5, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The letter sits on the shelf for weeks. The not-writing is its own weight." },
+    ]
+  },
+  {
+    id:"sunday_service",
+    headline:"Sunday is the one hour nothing is theirs.",
+    narrative:"The free Methodist service is held in a yard two rows over. No company preacher, no collection plate connected to the mine office, no sermon about the virtue of obedience. Just people singing in someone's yard.",
+    fact:"Independent religious services were a form of cultural resistance in coal camps. Companies monitored attendance at non-company churches, viewing it as a sign of 'independent spirit.'",
+    image:"church",
+    choices:[
+      { text:"Go and bring the whole family", health:8, scrip:0, debt:0, food:0, lung:0, family:3, outcome:"You spend the morning together. The children know the hymns by heart. The company man writes nothing in his book." },
+      { text:"Go alone while the family rests", health:5, scrip:0, debt:0, food:0, lung:0, family:1, outcome:"An hour to yourself. The singing is plain and real." },
+      { text:"Stay home — the company is watching", health:-4, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You watch the neighbors file past from the window. You keep your safety. It costs something." },
+    ]
+  },
+];
+
+
+// ─── MILESTONE EVENTS ─────────────────────────────────────────────────────────
+// Keyed by milestone id. Each has miner and wife variants with full event data.
+
+const MILESTONE_EVENTS = {
+  "whipple_1910": {
+    miner_atcamp: {
+      headline:"REAL EVENT: Explosion at YOUR mine.",
+      narrative:"May 2, 1910. An explosion tore through the Whipple mine — this mine. The blast caught mostly Hungarian workers in the lower section. Three coroner juries were convened; all 15 jurors were coal company officials selected personally by Sam Dixon. All three found no fault.",
+      fact:"The 1910 Whipple explosion killed dozens of miners. Sam Dixon, president of New River Company, controlled the county coroner process. No company was ever found liable.",
+      image:"collapse",
+      choices:[
+        { text:"Refuse to go back down the shaft", health:5, scrip:-6, debt:0, food:0, lung:-3, family:0, outcome:"The foreman says you're off the roster. You buy time with your health — and lose your income." },
+        { text:"Go back — you can't afford to refuse", health:-8, scrip:3, debt:0, food:0, lung:5, family:0, outcome:"You descend again. The smell of the blast is still in the shaft. You don't let yourself think about it." },
+        { text:"Organize the men — demand an inquiry", health:0, scrip:-4, debt:5, food:0, lung:0, family:0, outcome:"Six men sign the petition. The company's inquiry clears the company. Two of the six are reassigned." },
+      ]
+    },
+    miner: {
+      headline:"REAL EVENT: Whipple mine explosion.",
+      narrative:"Word has come from the Whipple mine nearby. An explosion killed dozens of men — mostly Hungarian workers in the lower section. Three coroner juries, all picked by Sam Dixon, cleared the company of fault. Some miners there have refused to go back down.",
+      fact:"The company renamed the mine after the disaster to help with recruiting. The hazards that caused the explosion were never corrected.",
+      image:"whistle",
+      choices:[
+        { text:"Inspect your own section carefully", health:3, scrip:-2, debt:0, food:0, lung:-1, family:0, outcome:"You find a cracked timber and three bad roof bolts. You report them. The foreman is irritated." },
+        { text:"Say nothing — stay off their list", health:-5, scrip:0, debt:0, food:0, lung:2, family:0, outcome:"You say nothing. The work continues. The news from Whipple sits in your chest." },
+        { text:"Talk to your crew about safety", health:2, scrip:0, debt:0, food:0, lung:0, family:1, outcome:"The men listen. Nothing official changes. But everyone is watching the roof more carefully." },
+      ]
+    },
+    wife_atcamp: {
+      headline:"REAL EVENT: Explosion at YOUR mine.",
+      narrative:"You heard the whistle and ran to the tipple with every woman in camp. The explosion at the Whipple mine on May 2nd killed dozens. The company sent formal notices. There was no compensation. The company store kept running tabs for the widows — adding to what they owed.",
+      fact:"Widows of Whipple miners received no death benefit from the company. The only 'assistance' was continued credit at the company store — deepening their debt.",
+      image:"whistle",
+      choices:[
+        { text:"Organize the women — demand compensation", health:0, scrip:-3, debt:0, food:0, lung:0, family:2, outcome:"Eight women stand at the company office. The manager tells them to come back with a lawyer. None of them can afford one." },
+        { text:"Help the widows with food and care", health:-4, scrip:-4, debt:0, food:-8, lung:0, family:2, outcome:"You spend the week running between houses. The widows remember who showed up." },
+        { text:"Pray and hold your children close", health:3, scrip:0, debt:0, food:0, lung:0, family:1, outcome:"You stay inside and count who is still walking home each evening." },
+      ]
+    },
+    wife: {
+      headline:"REAL EVENT: Whipple mine explosion.",
+      narrative:"News has come from the Whipple mine. The explosion killed dozens of men — mostly Hungarian workers. The company store is already extending credit to the widows and adding it to their accounts. Every woman in camp is thinking the same thing.",
+      fact:"After major mine disasters, companies often increased store credit to affected families — creating new debt obligations even as they denied liability for the deaths.",
+      image:"graveyard",
+      choices:[
+        { text:"Start a household emergency fund", health:0, scrip:-4, debt:0, food:0, lung:0, family:2, outcome:"You put a dollar a week away in the tin. It won't be enough. It's something." },
+        { text:"Ask neighbors about their plans", health:3, scrip:0, debt:0, food:0, lung:0, family:2, outcome:"Three families are already thinking about leaving. Knowing who's staying matters." },
+        { text:"Don't think about it — focus on today", health:-4, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The fear sits unacknowledged. It shows up in other ways." },
+      ]
+    }
+  },
+  "paint_creek_1912": {
+    miner: {
+      headline:"REAL EVENT: Paint Creek strike spreads.",
+      narrative:"Miners along Paint Creek and Cabin Creek have walked out — demanding UMW recognition, the right to shop outside company stores, and an end to mine guards. The companies hired 300 Baldwin-Felts agents. Families are being evicted within 48 hours. Mother Jones is in the county.",
+      fact:"The 1912–1913 Paint Creek-Cabin Creek strike was one of the most violent labor conflicts in American history. Governor Glasscock declared martial law three times.",
+      image:"tents",
+      choices:[
+        { text:"Join the strike — walk out with them", health:-5, scrip:-8, debt:10, food:-10, lung:-2, family:0, outcome:"You walk out. The company has the eviction notice ready. You join the tent colony in the field." },
+        { text:"Secretly support — donate to the fund", health:0, scrip:-5, debt:0, food:0, lung:0, family:1, outcome:"You pass money to the union man quietly. Your name stays off their list — for now." },
+        { text:"Stay working — you can't risk the house", health:-6, scrip:3, debt:0, food:0, lung:3, family:0, outcome:"You cross the line. Some men won't look at you for months. You keep the house." },
+      ]
+    },
+    wife: {
+      headline:"REAL EVENT: Paint Creek strike — join or stay?",
+      narrative:"The Paint Creek miners are on strike. If your husband joins them, you lose the house in 48 hours. The union is setting up tent colonies for evicted families. The company is watching who talks to the organizers.",
+      fact:"During the Paint Creek strike, over 1,200 families were evicted from company housing. The tent colonies that housed them became organizing centers for the broader labor movement.",
+      image:"tents",
+      choices:[
+        { text:"Urge your husband to join the strike", health:-5, scrip:-6, debt:0, food:-10, lung:0, family:2, outcome:"You pack what you can carry. The tent colony is cold, but the women there hold each other up." },
+        { text:"Beg him to stay working", health:-5, scrip:2, debt:0, food:0, lung:0, family:-1, outcome:"He stays. The house stays. The strain between you doesn't leave for a long time." },
+        { text:"Leave the decision to him", health:0, scrip:0, debt:3, food:0, lung:0, family:1, outcome:"He weighs it for three days. Whatever he decides, you face it together." },
+      ]
+    }
+  },
+  "layland_1915": {
+    miner_atcamp: {
+      headline:"REAL EVENT: Explosion at Layland No. 3.",
+      narrative:"March 2, 1915. 8:30 in the morning. The blast was powerful enough to kill a man standing outside and blow out the mine entrance. 112 men are dead. 47 are trapped underground. The whistle is still blowing.",
+      fact:"The Layland No. 3 explosion remains one of the deadliest mine disasters in WV history. Rescue crews took five days to reopen the mine entrance.",
+      image:"collapse",
+      choices:[
+        { text:"Help with the rescue — volunteer immediately", health:-8, scrip:0, debt:0, food:0, lung:5, family:1, outcome:"You work five days at the entrance. Some of the 47 make it out. You don't sleep much afterward." },
+        { text:"Care for the families at the surface", health:-3, scrip:-3, debt:0, food:-8, lung:0, family:3, outcome:"You bring water and food to the families waiting. You are there when the news comes, good and terrible." },
+        { text:"You can barely stand. Just witness it.", health:3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You stand at the edge of the crowd. Some things can only be witnessed." },
+      ]
+    },
+    miner: {
+      headline:"REAL EVENT: Layland explosion — 112 dead.",
+      narrative:"On March 2nd, the Layland No. 3 mine in this county exploded. 112 miners killed. 47 trapped underground for five days. It happened eight miles from where you are standing right now.",
+      fact:"The Layland disaster occurred in Fayette County, the same county as the New River Gorge mines. It was the deadliest single-day event in the county's history.",
+      image:"whistle",
+      choices:[
+        { text:"Walk your section extra carefully today", health:2, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"You check every timber. You load half your normal tonnage. You go home intact." },
+        { text:"Work normally — paralysis helps no one", health:-5, scrip:4, debt:0, food:0, lung:4, family:0, outcome:"You focus on the work. The number 112 stays in your mind all day." },
+        { text:"Go to the relief fund meeting tonight", health:3, scrip:-3, debt:0, food:0, lung:0, family:2, outcome:"You give what you can. The fund helps the Layland widows for two months." },
+      ]
+    },
+    wife_atcamp: {
+      headline:"REAL EVENT: The whistle won't stop.",
+      narrative:"You heard it start and run to the mine with every other woman in camp. The Layland No. 3 blast. The entrance is sealed. 47 men are underground. Your husband was on that shift. You are waiting.",
+      fact:"Family members waited at mine entrances for days after disasters. No official communication system existed — women learned news from foremen or rescue workers.",
+      image:"mine-closed",
+      choices:[
+        { text:"Wait at the entrance — you won't leave", health:-8, scrip:0, debt:0, food:-8, lung:0, family:2, outcome:"You are there when they bring him up on the third day. He is alive. You don't let go for a long time." },
+        { text:"Go home to the children — keep them calm", health:-5, scrip:0, debt:0, food:-5, lung:0, family:1, outcome:"You sit with the children and wait. Neighbors come to tell you news when there is any." },
+        { text:"Organize food and water for waiting families", health:-3, scrip:-3, debt:0, food:-8, lung:0, family:3, outcome:"You keep yourself moving. It is the only way to survive the waiting." },
+      ]
+    },
+    wife: {
+      headline:"REAL EVENT: Layland — 112 killed nearby.",
+      narrative:"The Layland No. 3 explosion killed 112 men in your county. For five days, families gathered at the mine entrance. Every morning you watch your husband walk toward the mine.",
+      fact:"The Layland explosion changed how many families in Fayette County thought about mining. Some miners left the trade; others could not afford to.",
+      image:"graveyard",
+      choices:[
+        { text:"Ask your husband to find surface work", health:3, scrip:-6, debt:0, food:0, lung:0, family:1, outcome:"He looks for surface work. There isn't much. He goes back underground. You both know why." },
+        { text:"Start saving for a way out of the camp", health:0, scrip:-4, debt:0, food:0, lung:0, family:1, outcome:"You put money away. It takes years to accumulate. The goal helps." },
+        { text:"Live fully in each day you have", health:5, scrip:0, debt:0, food:0, lung:0, family:2, outcome:"You stop waiting for disaster and start being present. It is harder and better than fear." },
+      ]
+    }
+  },
+  "spanish_flu_1918": {
+    miner: {
+      headline:"REAL EVENT: Spanish flu hits the camp.",
+      narrative:"The flu is here. It's moving fast through the rows because the housing is close and the water is shared. It is killing young healthy men — exactly the men who load coal. The company has not stopped production.",
+      fact:"The 1918 Spanish Flu killed an estimated 675,000 Americans. Coal camp populations, with their crowded housing and shared water, suffered disproportionately.",
+      image:"sick-bed",
+      choices:[
+        { text:"Refuse to work — stay home and isolate", health:10, scrip:-6, debt:0, food:0, lung:-2, family:1, outcome:"You lose two weeks' pay. Your family doesn't get sick. It was the right call." },
+        { text:"Work but avoid close contact underground", health:-5, scrip:3, debt:0, food:0, lung:2, family:0, outcome:"You make it through the season. Three men in your section do not." },
+        { text:"Work full shifts — family needs the money", health:-12, scrip:5, debt:0, food:0, lung:3, family:-1, outcome:"You come home sick on day four. Your wife nurses you for two weeks. You survive." },
+      ]
+    },
+    wife: {
+      headline:"REAL EVENT: Influenza in the coal camp.",
+      narrative:"The flu moves quickly in close quarters — two rooms, shared wells, no running water. It is killing young healthy people first. You are boiling water, keeping the children inside, watching neighbors' doors each morning.",
+      fact:"Women in coal camps bore primary responsibility for family health during the 1918 pandemic with almost no medical resources. Many served as informal nurses for multiple families.",
+      image:"sick-bed",
+      choices:[
+        { text:"Quarantine your household completely", health:8, scrip:-3, debt:0, food:-8, lung:0, family:1, outcome:"You seal the house for three weeks. The children get restless. None of them get the flu." },
+        { text:"Nurse sick neighbors — they have no one", health:-8, scrip:0, debt:0, food:-5, lung:0, family:3, outcome:"You care for four families. You fall ill yourself in week three. You survive. They remember." },
+        { text:"Keep normal routines — the fear can't stop everything", health:-5, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"Two of your children catch mild cases. Everyone recovers. It was very close." },
+      ]
+    }
+  },
+  "matewan_1920": {
+    miner: {
+      headline:"REAL EVENT: Battle of Matewan.",
+      narrative:"Word from Matewan in Mingo County: Police Chief Sid Hatfield refused to let Baldwin-Felts agents evict union miners — and when the shooting started, Hatfield stood with the workers. Seven detectives dead. Men here are talking about Hatfield like something new is possible.",
+      fact:"The Battle of Matewan on May 19, 1920 became a symbol of labor resistance. Sid Hatfield was later assassinated on courthouse steps by Baldwin-Felts agents in 1921.",
+      image:"sid-hatfield",
+      choices:[
+        { text:"Take it as a sign — push for the union", health:0, scrip:-4, debt:0, food:0, lung:0, family:1, outcome:"You circulate a petition. Twelve men sign. The company agent notes every name." },
+        { text:"Keep your head — Hatfield will pay for this", health:-3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You're right to be cautious. Hatfield is shot dead on courthouse steps the following year." },
+        { text:"Celebrate quietly with the other men", health:4, scrip:0, debt:0, food:-3, lung:0, family:2, outcome:"The men share a bottle in someone's yard. For one evening, something feels possible." },
+      ]
+    },
+    wife: {
+      headline:"REAL EVENT: Battle of Matewan.",
+      narrative:"News of Matewan has reached camp. In Mingo County, Sid Hatfield stood with the workers against Baldwin-Felts agents. Women here are divided — some see proof things can change. Others see proof of how fast things get worse.",
+      fact:"Sid Hatfield's wife Jessie stood beside him on the Welch courthouse steps when he was shot and killed by Baldwin-Felts agents in August 1921.",
+      image:"sid-hatfield",
+      choices:[
+        { text:"Encourage your husband to organize", health:-3, scrip:0, debt:3, food:0, lung:0, family:1, outcome:"He takes the risk. The company notices. You are both more afraid and more alive." },
+        { text:"Urge caution — Hatfield will be punished", health:3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You are right. Hatfield is killed the next year. Caution kept your family safe." },
+        { text:"Talk to the other women about what it means", health:4, scrip:0, debt:0, food:0, lung:0, family:2, outcome:"The conversation itself is something. The women in camp are thinking about it together." },
+      ]
+    }
+  },
+  "blair_mountain_1921": {
+    miner: {
+      headline:"REAL EVENT: Miners march on Blair Mountain.",
+      narrative:"Between 5,000 and 20,000 armed miners marched on Logan County — the largest armed labor uprising since the Civil War. Federal troops arrived. Military aircraft dropped bombs. The march ended in defeat. Some men from nearby camps never came back.",
+      fact:"The Battle of Blair Mountain ended when President Harding sent in federal troops and military aircraft — the only time in US history the government bombed its own citizens on domestic soil in a labor dispute.",
+      image:"tents",
+      choices:[
+        { text:"Join the march — this is the moment", health:-8, scrip:-6, debt:8, food:-8, lung:0, family:0, outcome:"You march. Federal troops arrest hundreds. The union is broken for years. You made it back." },
+        { text:"Support from here — send food and money", health:0, scrip:-6, debt:0, food:-8, lung:0, family:2, outcome:"You contribute what you can. The men who went remember who helped." },
+        { text:"Stay home — this will end badly", health:3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You are right. The march fails. You keep your job. The defeat is still yours to carry." },
+      ]
+    },
+    wife: {
+      headline:"REAL EVENT: Blair Mountain — what comes home.",
+      narrative:"The miners' march ended at Blair Mountain with federal troops and military planes used against the marchers. Men who came back came back different. Men who didn't left families behind. The company posted a notice reminding workers their employment was at will.",
+      fact:"After Blair Mountain, the UMW's membership in WV collapsed from 50,000 to under 600. It would not recover until the New Deal's Section 7(a) guaranteed the right to organize in 1933.",
+      image:"graveyard",
+      choices:[
+        { text:"Grieve with the families who lost men", health:-3, scrip:-2, debt:0, food:-5, lung:0, family:3, outcome:"You spend three days going house to house. The grief is real. Being present matters." },
+        { text:"Help your husband process what happened", health:5, scrip:0, debt:0, food:0, lung:0, family:2, outcome:"You listen for hours. He doesn't have words for all of it. You sit with him anyway." },
+        { text:"Focus on survival — the fight is lost", health:0, scrip:2, debt:-3, food:5, lung:0, family:0, outcome:"You turn back to the practical. The debt eases a little. The hope doesn't fully come back." },
+      ]
+    }
+  },
+  "depression_1929": {
+    miner: {
+      headline:"REAL EVENT: The Depression reaches the mines.",
+      narrative:"Coal prices have been falling all decade. Now mines are cutting hours, cutting pay, or closing for weeks. You might show up and be told there is no work today. The company store debt keeps climbing even when the wages stop. Men are leaving for the mills up north.",
+      fact:"WV coal employment dropped from 140,000 in 1927 to under 90,000 by 1932. Many miners who left for northern steel mills found those jobs vanishing too.",
+      image:"mine-closed",
+      choices:[
+        { text:"Start looking for work up north", health:3, scrip:-3, debt:0, food:0, lung:-2, family:-1, outcome:"You go to Pittsburgh for a month. The mills aren't hiring either. You come back." },
+        { text:"Hold on — conditions have to improve", health:-5, scrip:-4, debt:8, food:-5, lung:0, family:0, outcome:"You wait it out. The debt grows through the closed weeks. The Depression is long." },
+        { text:"Diversify — garden, odd jobs, anything", health:-3, scrip:3, debt:-4, food:12, lung:0, family:1, outcome:"You work every angle. The garden, the neighbor's fence, the church woodpile. It keeps you afloat." },
+      ]
+    },
+    wife: {
+      headline:"REAL EVENT: The Depression hits the camp.",
+      narrative:"Mines closing for days or weeks at a time. When they open, wages are lower than last year. The store still expects payment. Families on your row are packing to head to Pittsburgh or Cleveland. You're watching them go.",
+      fact:"WV coal camp populations declined sharply in the early 1930s as families migrated to northern industrial cities. Many found urban poverty little better than the camps.",
+      image:"mine-closed",
+      choices:[
+        { text:"Push to leave — there must be better elsewhere", health:0, scrip:-6, debt:0, food:0, lung:0, family:1, outcome:"You push. Your husband resists. You compromise: one more year, then decide." },
+        { text:"Stay and dig in — this is what you know", health:0, scrip:0, debt:4, food:8, lung:0, family:1, outcome:"You extend the garden, trade labor with neighbors. Staying is hard. You make it work." },
+        { text:"Send the older children to relatives", health:-4, scrip:4, debt:0, food:5, lung:0, family:-1, outcome:"Your eldest goes to your sister in Ohio. It helps the food math. It breaks something too." },
+      ]
+    }
+  },
+  "hawks_nest_1931": {
+    miner: {
+      headline:"REAL EVENT: Hawks Nest — men dying fast.",
+      narrative:"The Hawks Nest Tunnel project at Gauley Bridge is just miles from here. Union Carbide hired nearly 5,000 workers — mostly Black men from the South — to drill through Gauley Mountain. Men who went there are coming back with a cough that kills in months. The silica content in that rock is extraordinarily high.",
+      fact:"The Hawks Nest Tunnel disaster killed an estimated 764 workers from acute silicosis — the worst industrial disaster in American history. Union Carbide concealed the silica risk and used political influence to suppress investigations.",
+      image:"drilling",
+      choices:[
+        { text:"Warn the men — don't go to Gauley", health:3, scrip:0, debt:0, food:0, lung:0, family:2, outcome:"Three men from your row were considering the tunnel work. They stay. You may have saved their lives." },
+        { text:"Go to the tunnel — the pay is better", health:-15, scrip:12, debt:-10, food:0, lung:20, family:0, outcome:"The pay is real. So is the silica. You come back with a cough that won't leave." },
+        { text:"Stay at the mine and say nothing", health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You keep to your own affairs. The tunnel men die. You had no power to stop it." },
+      ]
+    },
+    wife: {
+      headline:"REAL EVENT: Hawks Nest men coming home sick.",
+      narrative:"Men from surrounding camps went to the Hawks Nest Tunnel for better pay. They are coming back with a cough that doesn't stop. Some aren't coming back at all. The company calls it 'consumption.' Everyone here knows what silica does to lungs.",
+      fact:"Most Hawks Nest workers were Black men with no legal recourse and no access to the political system. Their deaths went largely unacknowledged for decades.",
+      image:"sick-bed",
+      choices:[
+        { text:"Urge your husband to stay away from the tunnel", health:4, scrip:-4, debt:0, food:0, lung:0, family:1, outcome:"He listens. You lose the tunnel wages. You keep him." },
+        { text:"Help the sick tunnel workers' families", health:-3, scrip:-4, debt:0, food:-6, lung:0, family:3, outcome:"You bring food and sit with the sick men's wives. It is the least anyone can do. It matters." },
+        { text:"Write to the county health office", health:0, scrip:-1, debt:0, food:0, lung:0, family:1, outcome:"The letter goes unanswered for months. A small investigation is launched. Union Carbide's lawyers arrive first." },
+      ]
+    }
+  }
+};
+
 const FONT = '"Press Start 2P", "Courier New", monospace';
 
 const C = {
@@ -688,121 +1338,71 @@ function CoalCountry() {
 
   const addLog = useCallback((msg) => setLog(p => [msg,...p].slice(0,16)), []);
 
-  // ── Fetch event ──────────────────────────────────────────────────────────────
+  // ── Pre-scripted event picker (replaces API fetch) ────────────────────────────
   useEffect(() => {
     if (!pending) return;
-    let gone = false;
     const { p } = pending;
-    setLoading(true);
-    setScreen("event");
 
-    // Check for a milestone event this year first
+    // Check for a milestone event this year
     const milestone = MILESTONES.find(
       m => m.year === p.year && !p.usedMilestones?.includes(m.id)
     );
-    const isMilestone = !!milestone;
-    const atCamp = isMilestone && milestone.campId === p.camp;
 
-    let seed;
-    if (isMilestone) {
-      if (p.character === "miner") {
-        seed = (atCamp && milestone.miner_seed_atcamp) ? milestone.miner_seed_atcamp : milestone.miner_seed;
-      } else {
-        seed = (atCamp && milestone.wife_seed_atcamp) ? milestone.wife_seed_atcamp : milestone.wife_seed;
+    let evt = null;
+
+    if (milestone) {
+      // Mark milestone used
+      p.usedMilestones = [...(p.usedMilestones || []), milestone.id];
+      const meData = MILESTONE_EVENTS[milestone.id];
+      if (meData) {
+        const isMiner = p.character === "miner";
+        const atCamp  = milestone.campId === p.camp;
+        if (isMiner) {
+          evt = atCamp && meData.miner_atcamp ? meData.miner_atcamp : meData.miner;
+        } else {
+          evt = atCamp && meData.wife_atcamp ? meData.wife_atcamp : meData.wife;
+        }
       }
-    } else {
-      const pool = p.character === "miner" ? MINER_SEEDS : WIFE_SEEDS;
-      seed = pool[Math.floor(Math.random() * pool.length)];
-    }
-    const season = SEASONS[p.seasonIdx];
-    const ethObj  = ETHNICITIES.find(e => e.id === p.ethnicity);
-    const campObj = COAL_CAMPS.find(c => c.id === p.camp);
-
-    // Mark milestone used
-    if (isMilestone) {
-      const updated = [...(p.usedMilestones || []), milestone.id];
-      p.usedMilestones = updated;
     }
 
-    const prompt = `You are the narrator for "Coal Country," an educational history game set in West Virginia's New River Gorge coal fields, 1910–1935. Your tone is factual, respectful, and grounded — like a strong museum exhibit that also tells a human story. Do not make light of suffering.
-${isMilestone ? `\nThis is a REAL HISTORICAL EVENT. Rules:
-1. The headline MUST begin with "REAL EVENT:" so the player knows this actually happened.
-2. ${atCamp
-  ? `This event happened AT THE PLAYER'S MINE (${campObj?.label}). Frame it as happening here, right now, to this worker.`
-  : `This event happened at a DIFFERENT location — NOT at ${campObj?.label}. Frame it as news reaching the camp, or a regional event the player is affected by. Never say it happened at ${campObj?.label}.`}
-3. Use real names, dates, and places from the event description in the narrative.
-4. The fact box must give additional verified historical context beyond the narrative.` : ""}
-Game state:
-- Character: ${p.character === "miner" ? "Coal Miner" : "Miner's Wife"} named ${p.name}
-- Background: ${ethObj?.label} (${ethObj?.origin})
-- Coal Camp: ${campObj?.label}, ${campObj?.county}
-- ${season} ${p.year} (this season covers roughly 3 months)
-- Health: ${p.health}/100, Food: ${p.food}/100
-- Scrip: $${p.scrip}, Company Debt: $${p.debt}, Adults alive: ${p.family}, Children: ${(p.children||[]).length} (ages approx. ${(p.children||[]).map(c=>p.year-c.birthYear).join(", ")||"none"})
-${p.character === "miner" ? `- Black Lung progression: ${p.blackLung}/100` : ""}
-
-Historical event to dramatize: "${seed}"
-
-Where relevant, let the character's ethnicity or camp location shape specific details.
-
-IMPORTANT: The choices should feel like genuine historical dilemmas — not obvious good/bad options. Each should have a real cost and real benefit. Show the player what's at stake.
-
-Return ONLY valid JSON, no markdown:
-{
-  "headline": "Short factual headline, 8 words or fewer",
-  "narrative": "2–3 sentences grounded in real conditions of WV coal country. Specific and human.",
-  "fact": "One sentence of genuine historical context — a statistic, law, named company, or real event.",
-  "choices": [
-    {
-      "text": "Choice label, 10 words or fewer",
-      "health": 0, "scrip": 0, "debt": 0, "food": 0, "lung": 0, "family": 0,
-      "outcome": "One plain sentence: what actually happens and why."
-    },
-    {
-      "text": "Choice label, 10 words or fewer",
-      "health": 0, "scrip": 0, "debt": 0, "food": 0, "lung": 0, "family": 0,
-      "outcome": "One plain sentence: what actually happens and why."
-    },
-    {
-      "text": "Choice label, 10 words or fewer",
-      "health": 0, "scrip": 0, "debt": 0, "food": 0, "lung": 0, "family": 0,
-      "outcome": "One plain sentence: what actually happens and why."
+    if (!evt) {
+      // Pick a random pre-scripted event, avoiding recent repeats
+      const pool = p.character === "miner" ? MINER_EVENTS : WIFE_EVENTS;
+      const used = p.usedEvents || [];
+      const available = pool.filter(e => !used.includes(e.id));
+      const source = available.length > 0 ? available : pool;
+      evt = source[Math.floor(Math.random() * source.length)];
+      // Track used events (keep last 8 to avoid immediate repeats)
+      p.usedEvents = [...used, evt.id].slice(-8);
     }
-  ]
-}
 
-Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, food −15 to +20, lung −4 to +10 (miner only, else 0), family −1 to 0. No choice should be obviously correct — real dilemmas had real tradeoffs.`;
+    // Resolve image from event's image hint or keyword matching
+    const resolvedImg = evt.image
+      ? EVENT_IMAGE_RULES.find(r => r.keywords.some(k => k === evt.image))?.img?.()
+        || getEventImage(evt.headline, evt.narrative)
+      : getEventImage(evt.headline, evt.narrative);
 
-    fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 900,
-        messages: [{ role:"user", content:prompt }],
-      }),
-    })
-    .then(r => r.json())
-    .then(data => {
-      if (gone) return;
-      const raw = (data.content?.[0]?.text || "").replace(/```json|```/g,"").trim();
-      setEvent(JSON.parse(raw));
-      setLoading(false);
-    })
-    .catch(() => {
-      if (gone) return;
-      setEvent(null);
-      setLoading(false);
-    });
-
-    return () => { gone = true; };
+    setEvent({ ...evt, _img: resolvedImg });
+    setLoading(false);
+    setScreen("event");
   }, [pending]);
 
   // ── Season advance ────────────────────────────────────────────────────────────
   const advanceSeason = useCallback((p) => {
     const np = {...p};
     np.food = clamp(np.food - 8);
-    if (np.food === 0) { np.health = clamp(np.health - 5); addLog("Family goes without adequate food this season."); }
+    if (np.food === 0) {
+      np.hungerTurns = (np.hungerTurns || 0) + 1;
+      if (np.hungerTurns === 1) {
+        np.health = clamp(np.health - 20);
+        addLog("The family goes without adequate food this season. Everyone is weakening.");
+      } else {
+        np.health = 0; // second consecutive starving season is fatal
+        addLog("A second season without food. The family does not survive.");
+      }
+    } else {
+      np.hungerTurns = 0;
+    }
     if (np.character === "miner" && np.blackLung > 55) np.health = clamp(np.health - Math.floor(np.blackLung / 45));
     np.seasonIdx = (np.seasonIdx + 1) % 4;
     if (np.seasonIdx === 0) np.year++;
@@ -828,13 +1428,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
     return np;
   }, [addLog]);
 
-  // Auto-advance past event screen if no event loaded (API fail)
-  useEffect(() => {
-    if (screen === "event" && !loading && !event && pending) {
-      const next = advanceSeason(pending.p);
-      if (next) { setPlayer(next); setEvent(null); setPending(null); setScreen("playing"); }
-    }
-  }, [screen, loading, event, pending, advanceSeason]);
+  // Events are now pre-scripted and always available
 
   // ── Handlers ──────────────────────────────────────────────────────────────────
   const handleWork = useCallback((opt) => {
