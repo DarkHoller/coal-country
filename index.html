@@ -86,6 +86,7 @@ const imgChurch = BASE_URL + "church.jpg";
 const imgWhistle = BASE_URL + "whistle.jpg";
 const imgTents = BASE_URL + "tents.jpg";
 const imgUnionOrganizer = BASE_URL + "union-organizer.jpg";
+const imgNewBaby        = BASE_URL + "new-baby.jpg";
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 
@@ -307,6 +308,7 @@ const EVENT_IMAGE_RULES = [
   { keywords: ["mine whistle","whistle blew","disaster","explosion at","killed in","bodies"], img: () => imgWhistle },
   { keywords: ["tent","strike","evict","blair mountain","1921","marched","union camp","homeless"], img: () => imgTents },
   { keywords: ["union organizer","organizer","united mine workers","umw","baldwin-felts","felts","strike vote","leaflet"], img: () => imgUnionOrganizer },
+  { keywords: ["new baby","baby arrives","child born","delivered","new child","birth","newborn","expecting","labor"], img: () => imgNewBaby },
   { keywords: ["pay envelope","payday","short","wages","docking","scrip office","empty envelope","pay cut"], img: () => imgPayEnvelope },
   { keywords: ["baking day","communal bak","mutual aid","sharing seeds","sharing food","community meal","women across"], img: () => imgBakingDay },
   { keywords: ["influenza","flu","spanish","sick in bed","sick","fever","mask","pneumoconiosis","cough"], img: () => imgSickBed },
@@ -745,16 +747,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
     })
     .catch(() => {
       if (gone) return;
-      setEvent({
-        headline: "Work continues in the dark.",
-        narrative: "Another season passes in the gorge. The mountain does not change. The company does not change.",
-        fact: "By 1920, more than 89,000 West Virginians worked in the coal industry, many in company-owned towns where employers controlled housing, stores, and local government.",
-        choices: [
-          { text:"Keep your head down and work",     health:-5, scrip:3,  debt:0, food:0,  lung:3, family:0, outcome:"You complete the season. Modest but steady." },
-          { text:"Spend time with your family",      health:5,  scrip:0,  debt:0, food:-8, lung:0, family:0, outcome:"Time at home is rare and valuable." },
-          { text:"Save money for the children",      health:0,  scrip:-5, debt:0, food:0,  lung:0, family:0, outcome:"A few dollars toward the children's future." },
-        ],
-      });
+      setEvent(null);
       setLoading(false);
     });
 
@@ -1141,22 +1134,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   // ── PLAYING ───────────────────────────────────────────────────────────────────
   if (screen === "playing") return (
     <div style={S.page}>
-      {/* Header — above image */}
-      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", fontSize:"8px", color:C.gray, marginBottom:"4px" }}>
-        <span>COAL COUNTRY</span>
-        <span>{season.toUpperCase()} {player.year}</span>
-        <button style={{ ...S.btnSm, fontSize:"7px", padding:"4px 8px", marginBottom:0 }} onClick={reset}>
-          RESTART
-        </button>
-      </div>
-      <div style={{ fontSize:"8px", color:C.dgray, marginBottom:"8px" }}>
-        {campName.toUpperCase()}  /  {player.name.toUpperCase()}
-      </div>
-      <Timeline year={player.year} seasonIdx={player.seasonIdx} />
-
-      <HR/>
-
-      {/* Scene image with stats overlay at bottom */}
+      {/* Scene image with header overlay at top and stats overlay at bottom */}
       <div style={{ position:"relative", marginBottom:"12px" }}>
         {SEASON_IMAGES[season] && (
           <img
@@ -1165,6 +1143,21 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
             style={{ width:"100%", display:"block", imageRendering:"pixelated" }}
           />
         )}
+        {/* Top HUD overlay */}
+        <div style={{ position:"absolute", top:0, left:0, right:0, background:"rgba(0,0,0,0.55)", padding:"8px 12px 10px" }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", fontSize:"8px", color:C.white, marginBottom:"4px" }}>
+            <span>COAL COUNTRY</span>
+            <span>{season.toUpperCase()} {player.year}</span>
+            <button style={{ ...S.btnSm, fontSize:"7px", padding:"4px 8px", marginBottom:0, color:C.white, borderColor:C.white }} onClick={reset}>
+              RESTART
+            </button>
+          </div>
+          <div style={{ fontSize:"8px", color:C.white, opacity:0.7, marginBottom:"8px" }}>
+            {campName.toUpperCase()}  /  {player.name.toUpperCase()}
+          </div>
+          <Timeline year={player.year} seasonIdx={player.seasonIdx} />
+        </div>
+        {/* Bottom stats overlay */}
         <div style={{ position:"absolute", bottom:0, left:0, right:0, background:"rgba(0,0,0,0.55)", padding:"8px 12px 10px" }}>
           <StatBar label="HEALTH"     value={player.health}    warn white />
           <StatBar label="FOOD"       value={player.food}      warn white />
