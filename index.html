@@ -9,6 +9,9 @@
     html, body, #root { background: #000; min-height: 100vh; }
     input[type=range] { -webkit-appearance: none; height: 4px; border-radius: 2px; background: #444; outline: none; }
     input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #f0c040; cursor: pointer; }
+    @media (max-width: 480px) {
+      body { font-size: 11px !important; }
+    }
   </style>
 </head>
 <body>
@@ -17,7 +20,7 @@
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel" data-presets="react">
-const { useState, useEffect, useCallback } = React;
+const { useState, useEffect, useCallback, useRef } = React;
 
 // ─── GITLAB IMAGE HOST ────────────────────────────────────────────────────────
 // Upload all images to your GitLab repo under an /images/ folder.
@@ -427,7 +430,7 @@ const S = {
     color: C.white,
     fontFamily: FONT,
     minHeight: "100vh",
-    padding: "20px 120px 32px",
+    padding: "20px 18px 32px",
     maxWidth: "100%",
     margin: "0 auto",
     lineHeight: 1.8,
@@ -458,7 +461,7 @@ const S = {
     border: `2px solid ${C.dgray}`,
     padding: "12px 14px",
     marginBottom: "14px",
-    fontSize: "15px",
+    fontSize: "13px",
     color: C.offwhite,
     lineHeight: 2,
     background: "#111",
@@ -467,7 +470,7 @@ const S = {
     border: `2px solid ${C.green}`,
     padding: "12px 14px",
     marginBottom: "14px",
-    fontSize: "15px",
+    fontSize: "13px",
     color: C.green,
     lineHeight: 2,
     background: "#001a00",
@@ -479,7 +482,7 @@ const S = {
     padding: "10px 12px",
     cursor: "pointer",
     fontFamily: FONT,
-    fontSize: "15px",
+    fontSize: "13px",
     width: "100%",
     textAlign: "left",
     marginBottom: "8px",
@@ -536,8 +539,8 @@ const S = {
   statTrk: { flex: 1, background: "#222", height: "10px", border: `1px solid ${C.dgray}` },
   statVal: { width: "30px", fontSize: "11px", color: C.gray, marginLeft: "8px", textAlign: "right" },
   logLine: { fontSize: "11px", color: C.dgray, marginBottom: "4px", lineHeight: 1.8 },
-  headline: { color: C.yellow, fontSize: "15px", margin: "10px 0 10px", lineHeight: 1.6, textTransform: "uppercase" },
-  narr: { fontSize: "15px", color: C.offwhite, lineHeight: 2.1, margin: "0 0 14px" },
+  headline: { color: C.yellow, fontSize: "16px", margin: "10px 0 10px", lineHeight: 1.6, textTransform: "uppercase" },
+  narr: { fontSize: "13px", color: C.offwhite, lineHeight: 2.1, margin: "0 0 14px" },
   deltaTag: { fontSize: "13px", marginLeft: "6px" },
 };
 
@@ -580,7 +583,7 @@ function Timeline({ year, seasonIdx }) {
 
   return (
     <div style={{ marginBottom:"12px" }}>
-      <div style={{ display:"flex", justifyContent:"space-between", fontSize:"15px", color:C.white, marginBottom:"4px" }}>
+      <div style={{ display:"flex", justifyContent:"space-between", fontSize:"13px", color:C.white, marginBottom:"4px" }}>
         <span>1910</span>
         <span style={{ color:C.yellow }}>SURVIVE TO 1935</span>
         <span>1935</span>
@@ -612,13 +615,13 @@ function Timeline({ year, seasonIdx }) {
               position:"absolute",
               left:`${tickPct}%`,
               transform:"translateX(-50%)",
-              fontSize:"15px",
+              fontSize:"13px",
               color: year >= my ? C.white : C.dgray,
             }}>{my}</span>
           );
         })}
       </div>
-      <div style={{ fontSize:"15px", color:C.white, marginTop:"4px" }}>
+      <div style={{ fontSize:"13px", color:C.white, marginTop:"4px" }}>
         {pct}% COMPLETE  /  {seasonsLeft} SEASONS REMAINING
       </div>
     </div>
@@ -640,6 +643,33 @@ function useWindowWidth() {
 function CoalCountry() {
   const windowWidth = useWindowWidth();
   const wide = windowWidth >= 650;
+  const audioRef = useRef(null);
+  const [muted, setMuted] = useState(false);
+  const [volume, setVolume] = useState(0.35);
+
+  // Init audio on first user interaction (browser autoplay policy)
+  useEffect(() => {
+    const audio = new Audio("https://raw.githubusercontent.com/DarkHoller/coal-country/main/Coal-Country-Theme-Song.mp3");
+    audio.loop = true;
+    audio.volume = volume;
+    audioRef.current = audio;
+    const tryPlay = () => {
+      audio.play().catch(() => {});
+      window.removeEventListener("click", tryPlay);
+      window.removeEventListener("keydown", tryPlay);
+    };
+    window.addEventListener("click", tryPlay);
+    window.addEventListener("keydown", tryPlay);
+    return () => {
+      audio.pause();
+      window.removeEventListener("click", tryPlay);
+      window.removeEventListener("keydown", tryPlay);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.volume = muted ? 0 : volume;
+  }, [volume, muted]);
   const [screen,    setScreen]    = useState("menu");
   const [player,    setPlayer]    = useState(null);
   const [name,      setName]      = useState("");
@@ -657,6 +687,14 @@ function CoalCountry() {
   const addLog = useCallback((msg) => setLog(p => [msg,...p].slice(0,16)), []);
 
   // ── Fetch event ──────────────────────────────────────────────────────────────
+  // Auto-advance past event screen if no event loaded (API fail)
+  useEffect(() => {
+    if (screen === "event" && !loading && !event && pending) {
+      const next = advanceSeason(pending.p);
+      if (next) { setPlayer(next); setEvent(null); setPending(null); setScreen("playing"); }
+    }
+  }, [screen, loading, event, pending, advanceSeason]);
+
   useEffect(() => {
     if (!pending) return;
     let gone = false;
@@ -881,7 +919,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   // ── MENU ──────────────────────────────────────────────────────────────────────
 
   if (screen === "menu") return (
-    <div style={S.page}>
+    <div style={{ ...S.page, padding: wide ? "20px 120px 32px" : "20px 18px 32px" }}>
       {/* Hero image with title overlaid */}
       <div style={{ position:"relative", marginBottom:"18px", maxWidth:"600px", margin:"0 auto 18px" }}>
         <img
@@ -920,7 +958,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
 
       <HR/>
 
-      <div style={{ fontSize:"15px", color:C.offwhite, lineHeight:2.2, marginBottom:"20px" }}>
+      <div style={{ fontSize:"13px", color:C.offwhite, lineHeight:2.2, marginBottom:"20px" }}>
         This is the story of YOUR family.<br/>
         Survive to 1935.<br/>
         Keep your health.<br/>
@@ -943,7 +981,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   if (screen === "setup") {
     const stepLabels = ["CHOOSE YOUR ROLE","YOUR BACKGROUND","YOUR COAL CAMP","YOUR NAME"];
     return (
-      <div style={S.page}>
+      <div style={{ ...S.page, padding: wide ? "20px 120px 32px" : "20px 18px 32px" }}>
         <div style={{ color:C.gray, fontSize:"11px", letterSpacing:"2px", marginBottom:"4px" }}>
           COAL COUNTRY  &gt;  SETUP
         </div>
@@ -955,7 +993,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         {/* STEP 0: Role */}
         {step === 0 && (
           <>
-            <div style={{ fontSize:"15px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
+            <div style={{ fontSize:"13px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
               The year is 1910. Your family has come<br/>
               to Fayette County to find work.
             </div>
@@ -969,7 +1007,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
                 style={{ ...S.btn, ...(charType===c.id ? S.btnSelected : {}) }}
                 onClick={() => setCharType(c.id)}>
                 <div style={{ display:"flex", alignItems:"center", gap:"10px", marginBottom:"6px" }}>
-                  <img src={c.img} alt="" style={{ width:"48px", height:"48px", imageRendering:"pixelated" }} />
+                  <img src={c.img} alt="" style={{ width:"72px", height:"72px", imageRendering:"pixelated" }} />
                   <span style={{ color:charType===c.id ? C.yellow : C.white }}>{charType===c.id ? "> " : "  "}{c.label}</span>
                 </div>
                 {c.lines.map((l,i) => (
@@ -988,7 +1026,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         {/* STEP 1: Ethnicity */}
         {step === 1 && (
           <>
-            <div style={{ fontSize:"15px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
+            <div style={{ fontSize:"13px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
               The mines drew workers from across<br/>
               America and the world. Who are you?
             </div>
@@ -1022,7 +1060,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         {/* STEP 2: Camp */}
         {step === 2 && (
           <>
-            <div style={{ fontSize:"15px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
+            <div style={{ fontSize:"13px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
               Choose the coal camp where your<br/>
               family will live and work:
             </div>
@@ -1060,7 +1098,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         {/* STEP 3: Name */}
         {step === 3 && (
           <>
-            <div style={{ fontSize:"15px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
+            <div style={{ fontSize:"13px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
               What is your name?
             </div>
             <input style={S.input} value={name} onChange={e=>setName(e.target.value)} placeholder="your name..." autoFocus />
@@ -1068,12 +1106,11 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
             {name.length > 1 && (
               <div style={{ marginTop:"16px" }}>
                 <div style={S.infoBox}>
-                  <SectionLabel>YOUR FAMILY</SectionLabel>
-                  <div>Name:       {name}</div>
-                  <div>Role:       {charType==="miner" ? "Coal Miner" : "Miner's Wife"}</div>
-                  <div>Background: {ETHNICITIES.find(e=>e.id===ethnicity)?.label}</div>
-                  <div>Camp:       {COAL_CAMPS.find(c=>c.id===camp)?.label}</div>
-                  <div>Debt:       $40 scrip (company advance)</div>
+                  <SectionLabel>ABOUT YOU</SectionLabel>
+                  <div>Name: {name},  age 25</div>
+                  <div>Married, no children yet</div>
+                  <div>Housing: company-owned, rented from {COAL_CAMPS.find(c=>c.id===camp)?.company || "the company"}</div>
+                  <div>Starting debt: $40 scrip (company advance)</div>
                 </div>
                 <div style={{ display:"flex", justifyContent:"space-between" }}>
                   <button style={S.btnSm} onClick={() => setStep(2)}>&lt; BACK</button>
@@ -1089,7 +1126,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
 
   // ── END ───────────────────────────────────────────────────────────────────────
   if (screen === "end") return (
-    <div style={S.page}>
+    <div style={{ ...S.page, padding: wide ? "20px 120px 32px" : "20px 18px 32px" }}>
       <img
         src={endMsg.includes("evict") || endMsg.includes("debt") ? imgEvicted : imgGraveyard}
         alt="End"
@@ -1100,7 +1137,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         THE STORY<br/>ENDS HERE
       </div>
       <HR/>
-      <div style={{ fontSize:"15px", color:C.offwhite, lineHeight:2.2, maxWidth:"800px" }}>
+      <div style={{ fontSize:"13px", color:C.offwhite, lineHeight:2.2, maxWidth:"800px" }}>
         {endMsg}
       </div>
       <div style={{ color:C.dgray, fontSize:"11px", marginTop:"14px" }}>
@@ -1114,14 +1151,14 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
 
   // ── WON ───────────────────────────────────────────────────────────────────────
   if (screen === "won") return (
-    <div style={S.page}>
+    <div style={{ ...S.page, padding: wide ? "20px 120px 32px" : "20px 18px 32px" }}>
       <img src={imgVictory} alt="Victory" style={{ width:"100%", display:"block", imageRendering:"pixelated", marginBottom:"10px", borderBottom:`2px solid ${C.dgray}` }} />
       <HR/>
-      <div style={{ textAlign:"center", color:C.green, fontSize:"15px", margin:"20px 0", lineHeight:1.8 }}>
+      <div style={{ textAlign:"center", color:C.green, fontSize:"13px", margin:"20px 0", lineHeight:1.8 }}>
         {player?.name}<br/>SURVIVED TO 1935
       </div>
       <HR/>
-      <div style={{ fontSize:"15px", color:C.offwhite, lineHeight:2.2, maxWidth:"800px" }}>
+      <div style={{ fontSize:"13px", color:C.offwhite, lineHeight:2.2, maxWidth:"800px" }}>
         <p>The coal companies eventually closed their gates. You outlasted them.</p>
         <p>In 1935, the Social Security Act passed — the first federal safety net for American workers. The labor organizing that coal miners helped build made it possible.</p>
         {player?.blackLung > 55 && (
@@ -1145,13 +1182,29 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
 
   // ── PLAYING ───────────────────────────────────────────────────────────────────
   if (screen === "playing") return (
-    <div style={S.page}>
-      {/* ── TOP BAR: title + season + restart ── */}
+    <div style={{ ...S.page, padding: wide ? "20px 120px 32px" : "20px 18px 32px" }}>
+      {/* ── TOP BAR: title + season + restart + audio ── */}
       <div style={{ display:"flex", justifyContent:"center", alignItems:"center", gap:"24px", marginBottom:"14px", flexWrap:"wrap" }}>
         <span style={{ fontSize:"13px", color:C.white, fontWeight:"bold", letterSpacing:"0.08em" }}>COAL COUNTRY</span>
         <span style={{ fontSize:"11px", color:C.gray }}>
           {campName.toUpperCase()}  /  {player.name.toUpperCase()}  ·  {season.toUpperCase()} {player.year}
         </span>
+        <div style={{ display:"flex", alignItems:"center", gap:"8px" }}>
+          <button
+            style={{ ...S.btnSm, fontSize:"9px", padding:"4px 8px", marginBottom:0, minWidth:"36px" }}
+            onClick={() => setMuted(m => !m)}
+            title={muted ? "Unmute" : "Mute"}
+          >
+            {muted ? "🔇" : "🔊"}
+          </button>
+          <input
+            type="range" min="0" max="1" step="0.05"
+            value={muted ? 0 : volume}
+            onChange={e => { setMuted(false); setVolume(parseFloat(e.target.value)); }}
+            style={{ width:"70px", accentColor:C.yellow, cursor:"pointer" }}
+            title="Volume"
+          />
+        </div>
         <button style={{ ...S.btnSm, fontSize:"9px", padding:"4px 10px", marginBottom:0 }} onClick={reset}>
           RESTART
         </button>
@@ -1209,7 +1262,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
           )}
 
       {/* Season prompt */}
-      <div style={{ fontSize:"15px", color:C.offwhite, marginBottom:"14px", lineHeight:2 }}>
+      <div style={{ fontSize:"13px", color:C.offwhite, marginBottom:"14px", lineHeight:2 }}>
         {season.toUpperCase()} {player.year} — 3 MONTHS<br/>
         <span style={{ color:C.gray }}>
           {player.character === "miner"
@@ -1224,7 +1277,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         return (
           <button key={opt.id} style={S.btn} onClick={() => handleWork(opt)}>
             <div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
-              {optImg && <img src={optImg} alt="" style={{ width:"44px", height:"44px", imageRendering:"pixelated", flexShrink:0 }} />}
+              {optImg && <img src={optImg} alt="" style={{ width:"72px", height:"72px", imageRendering:"pixelated", flexShrink:0 }} />}
               <div style={{ flex:1 }}>
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"4px" }}>
                   <span style={{ color:C.white }}>{i+1}. {opt.label}</span>
@@ -1263,7 +1316,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
           }}
         >
           <div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
-            <img src={imgDoctor} alt="" style={{ width:"48px", height:"48px", imageRendering:"pixelated", flexShrink:0 }} />
+            <img src={imgDoctor} alt="" style={{ width:"72px", height:"72px", imageRendering:"pixelated", flexShrink:0 }} />
             <div style={{ flex:1 }}>
               <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
                 <span style={{ color:C.white }}>VISIT COMPANY DOCTOR</span>
@@ -1285,7 +1338,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
             ...S.btnBig,
             width:"100%",
             textAlign:"center",
-            fontSize:"15px",
+            fontSize:"13px",
             padding:"12px",
             marginTop:0,
             letterSpacing:"2px",
@@ -1322,7 +1375,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
 
   // ── EVENT ─────────────────────────────────────────────────────────────────────
   if (screen === "event") return (
-    <div style={S.page}>
+    <div style={{ ...S.page, padding: wide ? "20px 120px 32px" : "20px 18px 32px" }}>
       {SEASON_IMAGES[season] && (
         <img
           src={SEASON_IMAGES[season]}
@@ -1341,7 +1394,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
 
       {loading ? (
         <div style={{ textAlign:"center", margin:"60px 0", lineHeight:3 }}>
-          <div style={{ color:C.white, fontSize:"15px" }}>. . .</div>
+          <div style={{ color:C.white, fontSize:"13px" }}>. . .</div>
           <div style={{ color:C.gray, fontSize:"11px" }}>loading historical event</div>
         </div>
       ) : event ? (
@@ -1370,7 +1423,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
           )}
 
           <HR/>
-          <div style={{ fontSize:"15px", color:C.gray, marginBottom:"10px" }}>
+          <div style={{ fontSize:"13px", color:C.gray, marginBottom:"10px" }}>
             WHAT DO YOU DO?
           </div>
 
@@ -1406,7 +1459,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
 
   // ── STORE ─────────────────────────────────────────────────────────────────────
   if (screen === "store") return (
-    <div style={S.page}>
+    <div style={{ ...S.page, padding: wide ? "20px 120px 32px" : "20px 18px 32px" }}>
       <img src={imgStoreInterior} alt="Company Store" style={{ width:"100%", display:"block", imageRendering:"pixelated", marginBottom:"12px", borderBottom:`2px solid ${C.dgray}` }} />
       <div style={{ color:C.white, fontSize:"13px", letterSpacing:"2px", marginBottom:"4px" }}>
         {companyName.toUpperCase()}
@@ -1428,7 +1481,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         "I owe my soul to the company store."
       </div>
 
-      <div style={{ fontSize:"15px", color:C.gray, marginBottom:"12px" }}>
+      <div style={{ fontSize:"13px", color:C.gray, marginBottom:"12px" }}>
         SCRIP: <span style={{ color:C.white }}>${player.scrip}</span>
         {"   "}
         DEBT: <span style={{ color:player.debt>90?C.red:C.white }}>${player.debt}</span>
