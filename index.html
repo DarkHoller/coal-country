@@ -98,6 +98,19 @@ const imgBlairMountain  = BASE_URL + "blair-mountain.jpg";
 const imgTipple         = BASE_URL + "tipple.jpg";
 const imgStrikeTalk     = BASE_URL + "strike-talk.jpg";
 const imgFired          = BASE_URL + "fired.jpg";
+const imgBoarder        = BASE_URL + "boarder.jpg";
+const imgCommunityBaking= BASE_URL + "community-baking-day.jpg";
+const imgCommunityMeal  = BASE_URL + "community-meal-day.jpg";
+const imgInspection     = BASE_URL + "company-man-inspection.jpg";
+const imgFoodRunsLow    = BASE_URL + "food-runs-low.jpg";
+const imgGasInMines     = BASE_URL + "gas-in-the-mines.jpg";
+const imgGreatDepression= BASE_URL + "great-depression.jpg";
+const imgSafetyLamp     = BASE_URL + "green-miner-safety-lamp.jpg";
+const imgHawksNest      = BASE_URL + "halks-nest.jpg";
+const imgInjuryNew      = BASE_URL + "injury.jpg";
+const imgLaylandExp     = BASE_URL + "layland-explosion.jpg";
+const imgMatewan        = BASE_URL + "matewan.jpg";
+const imgMineExplosion  = BASE_URL + "mine-explosion.jpg";
 const imgExplosion      = BASE_URL + "explosion.jpg";
 const imgBalanceDue     = BASE_URL + "balance-due.jpg";
 const imgDoctorHouse    = BASE_URL + "doctor-house.jpg";
@@ -350,6 +363,19 @@ const IMAGE_MAP = {
   "explosion": imgExplosion,   "balance-due": imgBalanceDue,"doctor-house": imgDoctorHouse,
   "tipple": imgTipple,
   "strike-talk": imgStrikeTalk, "fired": imgFired,
+  "boarder": imgBoarder,
+  "community-baking-day": imgCommunityBaking,
+  "community-meal-day": imgCommunityMeal,
+  "company-man-inspection": imgInspection,
+  "food-runs-low": imgFoodRunsLow,
+  "gas-in-the-mines": imgGasInMines,
+  "great-depression": imgGreatDepression,
+  "green-miner-safety-lamp": imgSafetyLamp,
+  "halks-nest": imgHawksNest,
+  "injury-new": imgInjuryNew,
+  "layland-explosion": imgLaylandExp,
+  "matewan": imgMatewan,
+  "mine-explosion": imgMineExplosion,
 };
 
 function getEventImage(headline, narrative) {
@@ -457,7 +483,7 @@ const MINER_EVENTS = [
   },
   {
     id:"gas_pocket",
-    image:"canary",
+    image:"gas-in-the-mines",
     headline:"Gas detected in the lower level.",
     narrative:"Your lamp flickers in a way that means gas. Someone else notices it too. The foreman has been told, but he wants the tonnage. The company is paying a bonus for high output this month.",
     fact:"Methane gas explosions killed over 3,000 WV miners between 1900 and 1940. Miners were legally required to report gas but had no power to stop work.",
@@ -495,29 +521,27 @@ const MINER_EVENTS = [
     ]
   },
   {
-    id:"scrip_only",
-    image:"pay-envelope",
-    headline:"Scrip office: cash only next month.",
-    narrative:"The scrip office posts a notice: this month's wages will be paid in store credit only — not redeemable for cash. You owe rent. You owe the doctor. Cash doesn't come until the company decides it does.",
-    fact:"Scrip systems were ruled illegal by WV statute in 1887, but companies found legal workarounds. Enforcement was rare until federal oversight arrived in the 1930s.",
-    image:"pay-envelope",
+    id:"explosion_nearby",
+    image:"mine-explosion",
+    headline:"Explosion at a nearby mine.",
+    narrative:"The sound reached your camp before the news did — a deep crack, then silence, then the whistle. An explosion at a mine three miles up the gorge. How many men were underground, no one knows yet. You were on surface today. Tomorrow you have to go back down.",
+    fact:"WV recorded over 500 fatal mine explosions between 1900 and 1935. After each disaster, miners returned to work within days — they had no choice. The company owned the house.",
     choices:[
-      { text:"Borrow cash from a coworker", health:0, scrip:3, debt:5, food:0, lung:0, family:0, outcome:"A neighbor lends you what he can spare. You both know this will happen again next month." },
-      { text:"Use the store credit on staples", health:0, scrip:0, debt:4, food:15, lung:0, family:0, outcome:"You stock up on flour and salt pork. The debt column grows longer." },
-      { text:"Write a letter of complaint to the state", health:3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"It takes three weeks. The state replies that the practice is being 'reviewed.' Nothing changes." },
+      { text:"Go underground tomorrow as usual", health:-6, scrip:4, debt:0, food:0, lung:4, family:0, outcome:"You descend the next morning. Your lamp feels heavier. You load your tonnage." },
+      { text:"Request a surface assignment for a week", health:5, scrip:-4, debt:0, food:0, lung:-2, family:0, outcome:"The foreman marks you as trouble. You keep your lungs for one more week." },
+      { text:"Talk to the men about what you all saw", health:3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"Six men gather at the boarding house. Nobody says the word 'strike.' Everybody thinks it." },
     ]
   },
   {
     id:"mine_inspector",
     image:"baldwin-felts",
-    headline:"State mine inspector arrives.",
-    narrative:"The state mine inspector is here. The foreman has spent two days cleaning the section, covering the worst timbers, and briefing every man: speak well of the company, or find another job.",
-    fact:"WV mine inspectors were often underfunded and politically connected to the coal operators they were meant to oversee. Independent inspection became effective only after the 1930s.",
-    image:"union-organizer",
+    headline:"Baldwin-Felts detectives arrive at camp.",
+    narrative:"Two men in dark suits came through the camp gate this morning with rifles and the company manager beside them. Everyone knows who they are. Baldwin-Felts agents don't come unless someone has been organizing — or the company thinks they have. They are taking names at the mine entrance.",
+    fact:"The Baldwin-Felts Detective Agency was hired by WV coal operators as private enforcers. They carried out evictions, surveilled workers, and were directly involved in violent confrontations including the Matewan Massacre of 1920.",
     choices:[
-      { text:"Tell the inspector about the gas section", health:5, scrip:-4, debt:0, food:0, lung:-2, family:0, outcome:"The section is marked hazardous. You are reassigned to the worst room in the mine within the week." },
-      { text:"Say nothing — you need this job", health:-3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The inspector leaves a favorable report. The timbers stay unbraced. You keep your job." },
-      { text:"Answer his questions honestly but carefully", health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The inspector writes a modest complaint. Something small is fixed. The larger dangers remain." },
+      { text:"Keep your head down and say nothing", health:-3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You pass without eye contact. Your name stays off the list — for now." },
+      { text:"Warn your union-sympathetic coworkers", health:0, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"You pass the word quietly. Three men go home early. The agents note who left." },
+      { text:"Ask what authority they have here", health:5, scrip:-5, debt:3, food:0, lung:0, family:0, outcome:"One of them smiles. 'We work for the company. The company owns everything here.' He writes your name down." },
     ]
   },
   {
@@ -613,7 +637,7 @@ const MINER_EVENTS = [
   },
   {
     id:"haulage_accident",
-    image:"injury",
+    image:"injury-new",
     headline:"Haulage rope snaps on the man-trip.",
     narrative:"The rope on the man-trip cart snaps coming up the slope. Two men are thrown against the ribs and badly hurt. You barely jump clear in time. The rope has been fraying for months. The company knew.",
     fact:"Transportation accidents — runaway cars, snapped haulage ropes, and shaft failures — were the second leading cause of death in WV mines after roof falls.",
@@ -626,7 +650,7 @@ const MINER_EVENTS = [
   },
   {
     id:"new_miner",
-    image:"canary",
+    image:"green-miner-safety-lamp",
     headline:"Green miner handles his lamp badly.",
     narrative:"The new man — fresh off the train from somewhere in Pennsylvania — is working next to your section. He doesn't know how to trim a safety lamp. You can see it from thirty feet away. Gas has been running this week.",
     fact:"Inexperienced miners were a constant danger in rapidly expanding mines. Training was informal and miners were expected to learn on the job — often from near misses.",
@@ -694,7 +718,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"company_inspection",
-    image:"family-evicted",
+    image:"company-man-inspection",
     headline:"Company man comes to inspect the house.",
     narrative:"The company agent is walking the row, checking every house for 'sanitary violations.' A dirty house can be cause for eviction. You have twelve hours' notice. The coal dust comes in through the walls. It always does.",
     fact:"Coal company housing came with strict behavioral codes. Inspections for cleanliness and 'moral character' were used to threaten families who showed union sympathies.",
@@ -733,7 +757,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"february_food",
-    image:"store-interior",
+    image:"food-runs-low",
     headline:"Food runs low in deep February.",
     narrative:"The garden is long gone. The last of the preserved beans ran out Tuesday. The store credit is nearly exhausted and payday isn't until Friday. There are four people in this house who need to eat today.",
     fact:"Winter food insecurity was common in coal camps. Company stores extended credit strategically, keeping families just solvent enough to stay but never free of debt.",
@@ -759,7 +783,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"pepperoni_rolls",
-    image:"baking-day",
+    image:"community-baking-day",
     headline:"A chance to sell baked goods.",
     narrative:"The boarding house on the next creek wants two dozen pepperoni rolls each Friday. That's real cash money — not scrip. It means early mornings and the price of flour and pepperoni up front, but it's income the company doesn't control.",
     fact:"Miners' wives in WV coal camps supplemented family income through baking, taking in laundry, and raising boarders. The pepperoni roll — WV's most iconic food — was born in the coal camps.",
@@ -772,7 +796,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"boarder_opportunity",
-    image:"store-interior",
+    image:"boarder",
     headline:"A boarder could help with rent.",
     narrative:"A young miner new to camp is looking for a room. He'd sleep in the kitchen corner and pay three dollars a month. It means less space for your family and more cooking, but three dollars doesn't come from the company.",
     fact:"Taking in boarders was extremely common in coal camps — over 30% of miners' households in WV censuses from 1910–1920 had non-family members living with them.",
@@ -811,7 +835,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"seeds_sharing",
-    image:"baking-day",
+    image:"community-meal-day",
     headline:"Community meal day — all welcome.",
     narrative:"Someone has set up tables outside. Women from three rows over are cooking together — a big pot of soup, loaves of bread, pepper rolls passed hand to hand. There is no charge. The company agent walks past twice and says nothing.",
     fact:"Community meals and communal baking were real practices in WV coal camps. The pepperoni roll — WV's most iconic food — was developed and refined through exactly this kind of shared labor between Italian, Polish, and Appalachian women.",
@@ -823,7 +847,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"communal_baking",
-    image:"baking-day",
+    image:"community-baking-day",
     headline:"Communal baking day in the camp.",
     narrative:"Someone has an outdoor oven. Ten women are spending Saturday making bread, rolls, and pies together. The work is easier shared. The singing helps. The company man walks past twice but doesn't stop.",
     fact:"Communal baking was a real practice in WV coal camps. The pepperoni roll was developed and refined through exactly this kind of shared knowledge between Italian, Polish, and Appalachian women.",
@@ -849,15 +873,14 @@ const WIFE_EVENTS = [
   },
   {
     id:"letter_home",
-    image:"evicted",
-    headline:"A letter from your family back home.",
-    narrative:"Your mother's handwriting. She asks when you are coming back. She says your father is not well. She says things are hard here too, but she misses you. You don't have an answer to give her.",
-    fact:"Migration to WV coal camps separated families across generations. Many Appalachian workers and immigrant families maintained ties to home regions for decades.",
-    image:"evicted",
+    image:"church",
+    headline:"You are asked to lead the women's circle.",
+    narrative:"Sister Adkins from the free church has asked you to lead the women's prayer circle this month. It meets Thursday evenings. In the church, women organize the socials, teach the children, and decide how the community money is spent. It is one of the few places where your judgment counts for something.",
+    fact:"Women's church circles in Appalachian coal camps were significant centers of community organization and mutual aid. They operated largely outside company oversight and were often the backbone of community welfare during strikes and disasters.",
     choices:[
-      { text:"Write back honestly — you don't know when", health:5, scrip:-1, debt:0, food:0, lung:0, family:0, outcome:"You write three pages. It takes you two evenings. It helps more than you expected." },
-      { text:"Send a little money with the reply", health:0, scrip:-4, debt:0, food:0, lung:0, family:0, outcome:"You send what you can spare. Your mother's next letter is warmer." },
-      { text:"You can't bear to write back yet", health:-5, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The letter sits on the shelf for weeks. The not-writing is its own weight." },
+      { text:"Accept — this matters to you", health:8, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You lead the circle for four weeks. The women plan a community meal and a fund for the Kowalski children. You feel like yourself." },
+      { text:"Help but let someone else lead", health:4, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You bring pies and stay until the end. Sister Adkins thanks you personally." },
+      { text:"Too tired — politely decline", health:2, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You rest. Sister Adkins understands. She asks again next month." },
     ]
   },
   {
@@ -882,6 +905,7 @@ const WIFE_EVENTS = [
 const MILESTONE_EVENTS = {
   "whipple_1910": {
     miner_atcamp: {
+      image:"explosion",
       headline:"REAL EVENT: Explosion at YOUR mine.",
       narrative:"May 2, 1910. An explosion tore through the Whipple mine — this mine. The blast caught mostly Hungarian workers in the lower section. Three coroner juries were convened; all 15 jurors were coal company officials selected personally by Sam Dixon. All three found no fault.",
       fact:"The 1910 Whipple explosion killed dozens of miners. Sam Dixon, president of New River Company, controlled the county coroner process. No company was ever found liable.",
@@ -907,7 +931,7 @@ const MILESTONE_EVENTS = {
       headline:"REAL EVENT: Explosion at YOUR mine.",
       narrative:"You heard the whistle and ran to the tipple with every woman in camp. The explosion at the Whipple mine on May 2nd killed dozens. The company sent formal notices. There was no compensation. The company store kept running tabs for the widows — adding to what they owed.",
       fact:"Widows of Whipple miners received no death benefit from the company. The only 'assistance' was continued credit at the company store — deepening their debt.",
-      image:"whistle",
+      image:"explosion",
       choices:[
         { text:"Organize the women — demand compensation", health:0, scrip:-3, debt:0, food:0, lung:0, family:0, outcome:"Eight women stand at the company office. The manager tells them to come back with a lawyer. None of them can afford one." },
         { text:"Help the widows with food and care", health:-4, scrip:-4, debt:0, food:-8, lung:0, family:0, outcome:"You spend the week running between houses. The widows remember who showed up." },
@@ -952,6 +976,7 @@ const MILESTONE_EVENTS = {
   },
   "layland_1915": {
     miner_atcamp: {
+      image:"explosion",
       headline:"REAL EVENT: Explosion at Layland No. 3.",
       narrative:"March 2, 1915. 8:30 in the morning. The blast was powerful enough to kill a man standing outside and blow out the mine entrance. 112 men are dead. 47 are trapped underground. The whistle is still blowing.",
       fact:"The Layland No. 3 explosion remains one of the deadliest mine disasters in WV history. Rescue crews took five days to reopen the mine entrance.",
