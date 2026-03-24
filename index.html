@@ -540,13 +540,14 @@ const S = {
 };
 
 function clamp(v, lo=0, hi=100){ return Math.max(lo, Math.min(hi, v)); }
+function ordinal(n) { const s=["th","st","nd","rd"]; const v=n%100; return n+(s[(v-20)%10]||s[v]||s[0]); }
 
-function StatBar({ label, value, max=100, warn=false }) {
+function StatBar({ label, value, max=100, warn=false, white=false }) {
   const pct = clamp((value / max) * 100);
   const color = warn && pct < 25 ? C.red : warn && pct < 50 ? C.yellow : C.white;
   return (
     <div style={S.statRow}>
-      <span style={S.statLbl}>{label}</span>
+      <span style={{ ...S.statLbl, color: white ? C.white : C.gray }}>{label}</span>
       <div style={S.statTrk}>
         <div style={{ width:`${pct}%`, background:color, height:"100%" }} />
       </div>
@@ -691,7 +692,7 @@ Game state:
 - Coal Camp: ${campObj?.label}, ${campObj?.county}
 - ${season} ${p.year} (this season covers roughly 3 months)
 - Health: ${p.health}/100, Food: ${p.food}/100
-- Scrip: $${p.scrip}, Company Debt: $${p.debt}, Family alive: ${p.family}/4
+- Scrip: $${p.scrip}, Company Debt: $${p.debt}, Adults alive: ${p.family}, Children: ${(p.children||[]).length} (ages approx. ${(p.children||[]).map(c=>p.year-c.birthYear).join(", ")||"none"})
 ${p.character === "miner" ? `- Black Lung progression: ${p.blackLung}/100` : ""}
 
 Historical event to dramatize: "${seed}"
@@ -808,7 +809,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
     p.scrip  = clamp(p.scrip  + (choice.scrip  || 0), 0, 999);
     p.debt   = clamp(p.debt   + (choice.debt   || 0), 0, 999);
     p.food   = clamp(p.food   + (choice.food   || 0));
-    p.family = clamp(p.family + (choice.family || 0), 0, 4);
+    p.family = clamp(p.family + (choice.family || 0), 0, 99);
     if (p.character === "miner") p.blackLung = clamp(p.blackLung + (choice.lung || 0));
     // usedMilestones already carried on p from handleWork
     addLog(`${event?.headline} — ${choice.outcome}`);
@@ -1140,7 +1141,22 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   // ── PLAYING ───────────────────────────────────────────────────────────────────
   if (screen === "playing") return (
     <div style={S.page}>
-      {/* Scene image with HUD overlay */}
+      {/* Header — above image */}
+      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", fontSize:"8px", color:C.gray, marginBottom:"4px" }}>
+        <span>COAL COUNTRY</span>
+        <span>{season.toUpperCase()} {player.year}</span>
+        <button style={{ ...S.btnSm, fontSize:"7px", padding:"4px 8px", marginBottom:0 }} onClick={reset}>
+          RESTART
+        </button>
+      </div>
+      <div style={{ fontSize:"8px", color:C.dgray, marginBottom:"8px" }}>
+        {campName.toUpperCase()}  /  {player.name.toUpperCase()}
+      </div>
+      <Timeline year={player.year} seasonIdx={player.seasonIdx} />
+
+      <HR/>
+
+      {/* Scene image with stats overlay at bottom */}
       <div style={{ position:"relative", marginBottom:"12px" }}>
         {SEASON_IMAGES[season] && (
           <img
@@ -1149,30 +1165,15 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
             style={{ width:"100%", display:"block", imageRendering:"pixelated" }}
           />
         )}
-        <div style={{ position:"absolute", top:0, left:0, right:0, background:"rgba(0,0,0,0.78)", padding:"10px 12px 12px" }}>
-          {/* Header */}
-          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", fontSize:"8px", color:C.gray, marginBottom:"4px" }}>
-            <span>COAL COUNTRY</span>
-            <span>{season.toUpperCase()} {player.year}</span>
-            <button style={{ ...S.btnSm, fontSize:"7px", padding:"4px 8px", marginBottom:0 }} onClick={reset}>
-              RESTART
-            </button>
-          </div>
-          <div style={{ fontSize:"8px", color:C.dgray, marginBottom:"8px" }}>
-            {campName.toUpperCase()}  /  {player.name.toUpperCase()}
-          </div>
-          {/* Timeline */}
-          <Timeline year={player.year} seasonIdx={player.seasonIdx} />
-          <HR/>
-          {/* Stats */}
-          <StatBar label="HEALTH"     value={player.health}    warn />
-          <StatBar label="FOOD"       value={player.food}      warn />
+        <div style={{ position:"absolute", bottom:0, left:0, right:0, background:"rgba(0,0,0,0.55)", padding:"8px 12px 10px" }}>
+          <StatBar label="HEALTH"     value={player.health}    warn white />
+          <StatBar label="FOOD"       value={player.food}      warn white />
           {player.character === "miner" &&
-            <StatBar label="BLACK LUNG" value={player.blackLung} />}
-          <div style={{ display:"flex", gap:"18px", marginTop:"10px", fontSize:"8px", color:C.gray }}>
-            <span>SCRIP: <span style={{ color:C.white }}>${player.scrip}</span></span>
+            <StatBar label="BLACK LUNG" value={player.blackLung} white />}
+          <div style={{ display:"flex", gap:"18px", marginTop:"8px", fontSize:"8px", color:C.white }}>
+            <span>SCRIP: <span style={{ color:C.white, fontWeight:"bold" }}>${player.scrip}</span></span>
             <span>DEBT: <span style={{ color:player.debt>100?C.red:player.debt>70?C.yellow:C.white }}>${player.debt}</span></span>
-            <span>FAMILY: <span style={{ color:C.white }}>{player.family}/4</span></span>
+            <span>FAMILY: <span style={{ color:C.white }}>{player.family} adults · {(player.children||[]).length} children</span></span>
           </div>
         </div>
       </div>
