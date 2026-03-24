@@ -556,7 +556,7 @@ const MINER_EVENTS = [
     fact:"Between 1900 and 1940, over 20,000 WV coal miners died in occupational accidents. Many more died of disease and injury not counted in official records.",
     image:"graveyard",
     choices:[
-      { text:"Start a safety committee among the men", health:3, scrip:-2, debt:0, food:0, lung:0, family:02, outcome:"Six men join. The foreman watches. The committee meets quietly. It matters to the families." },
+      { text:"Start a safety committee among the men", health:3, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"Six men join. The foreman watches. The committee meets quietly. It matters to the families." },
       { text:"Put more away for your family", health:0, scrip:-5, debt:0, food:0, lung:0, family:0, outcome:"A few extra dollars in the tin under the bed. It doesn't feel like enough." },
       { text:"Work harder while you still can", health:-7, scrip:5, debt:0, food:0, lung:5, family:0, outcome:"You push through the grief with labor. It is what you know." },
     ]
@@ -616,7 +616,7 @@ const MINER_EVENTS = [
     fact:"Welsh miners brought a strong tradition of choral singing and labor organizing from the South Wales coalfields. Many became early UMW organizers in Appalachian mines.",
     image:"drilling",
     choices:[
-      { text:"Stay and learn the songs", health:7, scrip:0, debt:0, food:0, lung:0, family:02, outcome:"Owen teaches you a mining song about the valley and the dark. You carry it home." },
+      { text:"Stay and learn the songs", health:7, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"Owen teaches you a mining song about the valley and the dark. You carry it home." },
       { text:"Listen from a distance, then work", health:3, scrip:2, debt:0, food:0, lung:1, family:0, outcome:"You catch a verse or two before getting back to loading. The song stays with you." },
       { text:"Keep working — can't afford the time", health:-3, scrip:4, debt:0, food:0, lung:2, family:0, outcome:"You make good tonnage. The singing fades down the shaft." },
     ]
@@ -628,8 +628,8 @@ const MINER_EVENTS = [
     fact:"Before WV workmen's compensation laws strengthened in the 1920s, a miner's family received nothing from the company after a death — only continued debt at the company store.",
     image:"graveyard",
     choices:[
-      { text:"Give generously — a week's scrip", health:0, scrip:-5, debt:0, food:0, lung:0, family:03, outcome:"The widow gets enough to move to her sister's house in Ohio. Your family eats a little less this month." },
-      { text:"Give what you can spare", health:0, scrip:-2, debt:0, food:0, lung:0, family:01, outcome:"Every bit helps. She remembers who gave and who didn't." },
+      { text:"Give generously — a week's scrip", health:0, scrip:-5, debt:0, food:0, lung:0, family:0, outcome:"The widow gets enough to move to her sister's house in Ohio. Your family eats a little less this month." },
+      { text:"Give what you can spare", health:0, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"Every bit helps. She remembers who gave and who didn't." },
       { text:"Pass the hat without contributing", health:0, scrip:0, debt:0, food:0, lung:0, family:-1, outcome:"No one says anything. Everyone notices." },
     ]
   },
@@ -645,7 +645,7 @@ const WIFE_EVENTS = [
     choices:[
       { text:"Stretch the food — cook everything thin", health:-5, scrip:2, debt:0, food:-10, lung:0, family:0, outcome:"You feed everyone. Barely. No one complains to you about it." },
       { text:"Buy on credit at the company store", health:0, scrip:0, debt:6, food:15, lung:0, family:0, outcome:"The family eats. The debt grows. This is how the trap works." },
-      { text:"Ask neighbors to share and share back", health:3, scrip:0, debt:0, food:8, lung:0, family:01, outcome:"Three families on the row trade what they have. It keeps everyone above zero." },
+      { text:"Ask neighbors to share and share back", health:3, scrip:0, debt:0, food:8, lung:0, family:0, outcome:"Three families on the row trade what they have. It keeps everyone above zero." },
     ]
   },
   {
@@ -670,7 +670,7 @@ const WIFE_EVENTS = [
     image:"sick-bed",
     choices:[
       { text:"Buy medicine from the company store", health:5, scrip:-6, debt:0, food:0, lung:0, family:0, outcome:"The patent medicine helps a little. The coughing eases by February. It will come back." },
-      { text:"Seal the walls with rags and paper", health:4, scrip:-2, debt:0, food:0, lung:0, family:01, outcome:"The dust is reduced. The children sleep better. You use your sewing scraps to do it." },
+      { text:"Seal the walls with rags and paper", health:4, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"The dust is reduced. The children sleep better. You use your sewing scraps to do it." },
       { text:"There's nothing to be done", health:-6, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The coughing continues all winter. The youngest starts to wheeze." },
     ]
   },
@@ -683,7 +683,7 @@ const WIFE_EVENTS = [
     image:"sick-bed",
     choices:[
       { text:"Pay for the company doctor", health:8, scrip:-6, debt:0, food:0, lung:0, family:0, outcome:"The doctor comes. He gives the baby a tonic. The fever breaks on the fourth day." },
-      { text:"Go to the herb woman up the hollow", health:6, scrip:-2, debt:0, food:0, lung:0, family:01, outcome:"The old woman's tea brings the fever down by nightfall. She charges you almost nothing." },
+      { text:"Go to the herb woman up the hollow", health:6, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"The old woman's tea brings the fever down by nightfall. She charges you almost nothing." },
       { text:"Wait and keep the child cool", health:-8, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You use wet cloths and hope. The fever finally breaks on day five. It was very close." },
     ]
   },
@@ -695,7 +695,7 @@ const WIFE_EVENTS = [
     image:"store-interior",
     choices:[
       { text:"Go further into debt at the store", health:3, scrip:0, debt:8, food:20, lung:0, family:0, outcome:"The family eats. The debt passes another milestone. You stop counting what you owe." },
-      { text:"Ask neighbors on the row for help", health:4, scrip:0, debt:0, food:12, lung:0, family:02, outcome:"Two families bring what they can spare. You will do the same for them someday. You already know it." },
+      { text:"Ask neighbors on the row for help", health:4, scrip:0, debt:0, food:12, lung:0, family:0, outcome:"Two families bring what they can spare. You will do the same for them someday. You already know it." },
       { text:"Skip your own meals to feed the children", health:-12, scrip:0, debt:0, food:8, lung:0, family:0, outcome:"The children eat. You don't, for three days. You feel it in your body for weeks." },
     ]
   },
@@ -707,7 +707,7 @@ const WIFE_EVENTS = [
     image:"store-interior",
     choices:[
       { text:"Walk to town to buy at an outside store", health:-3, scrip:2, debt:0, food:10, lung:0, family:0, outcome:"Four miles each way. You save money but the foreman notes you aren't buying at his store." },
-      { text:"Start growing what you can this spring", health:3, scrip:-2, debt:0, food:8, lung:0, family:01, outcome:"You put in a kitchen garden. It won't be enough, but it's something you control." },
+      { text:"Start growing what you can this spring", health:3, scrip:-2, debt:0, food:8, lung:0, family:0, outcome:"You put in a kitchen garden. It won't be enough, but it's something you control." },
       { text:"Buy less and stretch what you have", health:-6, scrip:2, debt:0, food:-5, lung:0, family:0, outcome:"You cut portions. Everyone notices. You tell them it's fine." },
     ]
   },
@@ -718,8 +718,8 @@ const WIFE_EVENTS = [
     fact:"Miners' wives in WV coal camps supplemented family income through baking, taking in laundry, and raising boarders. The pepperoni roll — WV's most iconic food — was born in the coal camps.",
     image:"baking-day",
     choices:[
-      { text:"Take the order — start this week", health:-4, scrip:8, debt:0, food:-5, lung:0, family:01, outcome:"You rise at four every Friday. The money is yours. The company can't dock it." },
-      { text:"Try it for one month, see how it goes", health:-2, scrip:4, debt:0, food:-3, lung:0, family:01, outcome:"The boarding house keeps ordering. You keep baking. It becomes a real income." },
+      { text:"Take the order — start this week", health:-4, scrip:8, debt:0, food:-5, lung:0, family:0, outcome:"You rise at four every Friday. The money is yours. The company can't dock it." },
+      { text:"Try it for one month, see how it goes", health:-2, scrip:4, debt:0, food:-3, lung:0, family:0, outcome:"The boarding house keeps ordering. You keep baking. It becomes a real income." },
       { text:"Too much work on top of everything else", health:4, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You rest that morning instead. The extra money isn't there, but neither is the exhaustion." },
     ]
   },
@@ -732,7 +732,7 @@ const WIFE_EVENTS = [
     choices:[
       { text:"Take him in — the money matters", health:-3, scrip:0, debt:-8, food:-5, lung:0, family:0, outcome:"The house is cramped. The debt eases. He's quiet and works hard." },
       { text:"Try it for one season", health:-2, scrip:0, debt:-4, food:-3, lung:0, family:0, outcome:"He stays three months before finding his own lodging. The money was real." },
-      { text:"The house is too full already", health:3, scrip:0, debt:0, food:0, lung:0, family:01, outcome:"You keep the space for your family. The debt doesn't ease, but the children have room." },
+      { text:"The house is too full already", health:3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You keep the space for your family. The debt doesn't ease, but the children have room." },
     ]
   },
   {
@@ -742,8 +742,8 @@ const WIFE_EVENTS = [
     fact:"Miners' wives organized formal and informal mutual aid networks across WV coal camps. These were precursors to union benefit funds and later New Deal social insurance.",
     image:"baking-day",
     choices:[
-      { text:"Join and contribute every week", health:3, scrip:-2, debt:0, food:0, lung:0, family:03, outcome:"Twelve families join. When Hal Mays is killed two months later, his widow gets ninety dollars." },
-      { text:"Contribute once but not regularly", health:0, scrip:-2, debt:0, food:0, lung:0, family:01, outcome:"You give what you can. The fund grows slowly. You feel part of something." },
+      { text:"Join and contribute every week", health:3, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"Twelve families join. When Hal Mays is killed two months later, his widow gets ninety dollars." },
+      { text:"Contribute once but not regularly", health:0, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"You give what you can. The fund grows slowly. You feel part of something." },
       { text:"Too risky — the company is watching", health:-3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You stay home. Emma understands. You both know the risk is real." },
     ]
   },
@@ -755,9 +755,9 @@ const WIFE_EVENTS = [
     fact:"Coal companies routinely evicted miners' widows within days of a miner's death. The house was company property, and death did not suspend the obligation to vacate.",
     image:"evicted",
     choices:[
-      { text:"Let her family stay with you", health:-3, scrip:0, debt:0, food:-8, lung:0, family:02, outcome:"Three extra people in your house for two weeks. Margaret finds her sister. Your family pulled together." },
-      { text:"Help her appeal the eviction", health:0, scrip:-2, debt:0, food:0, lung:0, family:01, outcome:"The company grants one additional week. She finds lodging with her brother in Ohio." },
-      { text:"Give what food you can spare", health:0, scrip:0, debt:0, food:-6, lung:0, family:01, outcome:"You bring what you have. It doesn't solve her housing. It's still something." },
+      { text:"Let her family stay with you", health:-3, scrip:0, debt:0, food:-8, lung:0, family:0, outcome:"Three extra people in your house for two weeks. Margaret finds her sister. Your family pulled together." },
+      { text:"Help her appeal the eviction", health:0, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"The company grants one additional week. She finds lodging with her brother in Ohio." },
+      { text:"Give what food you can spare", health:0, scrip:0, debt:0, food:-6, lung:0, family:0, outcome:"You bring what you have. It doesn't solve her housing. It's still something." },
     ]
   },
   {
@@ -767,8 +767,8 @@ const WIFE_EVENTS = [
     fact:"Kitchen gardens were a vital food source for coal camp families. WV extension records show over 60% of mining families maintained gardens in the 1910s and 1920s.",
     image:"garden",
     choices:[
-      { text:"Share all you have and plant heavy this spring", health:5, scrip:-3, debt:0, food:15, lung:0, family:02, outcome:"Your garden produces well. You are off the store's flour for two months in summer." },
-      { text:"Trade a few seeds, keep your best", health:3, scrip:0, debt:0, food:8, lung:0, family:01, outcome:"A modest garden. Enough to matter. You keep the best seeds for next year." },
+      { text:"Share all you have and plant heavy this spring", health:5, scrip:-3, debt:0, food:15, lung:0, family:0, outcome:"Your garden produces well. You are off the store's flour for two months in summer." },
+      { text:"Trade a few seeds, keep your best", health:3, scrip:0, debt:0, food:8, lung:0, family:0, outcome:"A modest garden. Enough to matter. You keep the best seeds for next year." },
       { text:"Too tired to garden on top of everything", health:2, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You rest. The seeds stay in the envelope." },
     ]
   },
@@ -779,8 +779,8 @@ const WIFE_EVENTS = [
     fact:"Communal baking was a real practice in WV coal camps. The pepperoni roll was developed and refined through exactly this kind of shared knowledge between Italian, Polish, and Appalachian women.",
     image:"baking-day",
     choices:[
-      { text:"Go and bring the children", health:8, scrip:0, debt:0, food:12, lung:0, family:03, outcome:"Your children play while you bake. You come home with bread and a recipe you didn't have before." },
-      { text:"Contribute ingredients, take your share", health:3, scrip:-2, debt:0, food:8, lung:0, family:01, outcome:"You bake your portion and leave early. The food is better than what you make alone." },
+      { text:"Go and bring the children", health:8, scrip:0, debt:0, food:12, lung:0, family:0, outcome:"Your children play while you bake. You come home with bread and a recipe you didn't have before." },
+      { text:"Contribute ingredients, take your share", health:3, scrip:-2, debt:0, food:8, lung:0, family:0, outcome:"You bake your portion and leave early. The food is better than what you make alone." },
       { text:"Stay home — too much to do", health:-3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You miss a morning of connection. The chores are still there when you finish." },
     ]
   },
@@ -791,8 +791,8 @@ const WIFE_EVENTS = [
     fact:"During the 1912–1913 Paint Creek–Cabin Creek strike, over 1,200 families were evicted from company housing. The UMW set up tent colonies; companies had guards watching nearby roads.",
     image:"tents",
     choices:[
-      { text:"Bring food after dark — risk it", health:0, scrip:-4, debt:0, food:-8, lung:0, family:02, outcome:"You walk the two miles after the children are asleep. A woman thanks you. No one sees you." },
-      { text:"Donate what you can through the church", health:3, scrip:-2, debt:0, food:-4, lung:0, family:01, outcome:"The free church organizes a collection. Some of it reaches the tent families." },
+      { text:"Bring food after dark — risk it", health:0, scrip:-4, debt:0, food:-8, lung:0, family:0, outcome:"You walk the two miles after the children are asleep. A woman thanks you. No one sees you." },
+      { text:"Donate what you can through the church", health:3, scrip:-2, debt:0, food:-4, lung:0, family:0, outcome:"The free church organizes a collection. Some of it reaches the tent families." },
       { text:"Stay away — you can't afford trouble", health:-4, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You watch from the window. The tent families go hungry. You pray it doesn't reach you." },
     ]
   },
@@ -803,8 +803,8 @@ const WIFE_EVENTS = [
     fact:"Migration to WV coal camps separated families across generations. Many Appalachian workers and immigrant families maintained ties to home regions for decades.",
     image:"evicted",
     choices:[
-      { text:"Write back honestly — you don't know when", health:5, scrip:-1, debt:0, food:0, lung:0, family:01, outcome:"You write three pages. It takes you two evenings. It helps more than you expected." },
-      { text:"Send a little money with the reply", health:0, scrip:-4, debt:0, food:0, lung:0, family:02, outcome:"You send what you can spare. Your mother's next letter is warmer." },
+      { text:"Write back honestly — you don't know when", health:5, scrip:-1, debt:0, food:0, lung:0, family:0, outcome:"You write three pages. It takes you two evenings. It helps more than you expected." },
+      { text:"Send a little money with the reply", health:0, scrip:-4, debt:0, food:0, lung:0, family:0, outcome:"You send what you can spare. Your mother's next letter is warmer." },
       { text:"You can't bear to write back yet", health:-5, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The letter sits on the shelf for weeks. The not-writing is its own weight." },
     ]
   },
@@ -815,8 +815,8 @@ const WIFE_EVENTS = [
     fact:"Independent religious services were a form of cultural resistance in coal camps. Companies monitored attendance at non-company churches, viewing it as a sign of 'independent spirit.'",
     image:"church",
     choices:[
-      { text:"Go and bring the whole family", health:8, scrip:0, debt:0, food:0, lung:0, family:03, outcome:"You spend the morning together. The children know the hymns by heart. The company man writes nothing in his book." },
-      { text:"Go alone while the family rests", health:5, scrip:0, debt:0, food:0, lung:0, family:01, outcome:"An hour to yourself. The singing is plain and real." },
+      { text:"Go and bring the whole family", health:8, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You spend the morning together. The children know the hymns by heart. The company man writes nothing in his book." },
+      { text:"Go alone while the family rests", health:5, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"An hour to yourself. The singing is plain and real." },
       { text:"Stay home — the company is watching", health:-4, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You watch the neighbors file past from the window. You keep your safety. It costs something." },
     ]
   },
@@ -856,9 +856,9 @@ const MILESTONE_EVENTS = {
       fact:"Widows of Whipple miners received no death benefit from the company. The only 'assistance' was continued credit at the company store — deepening their debt.",
       image:"whistle",
       choices:[
-        { text:"Organize the women — demand compensation", health:0, scrip:-3, debt:0, food:0, lung:0, family:02, outcome:"Eight women stand at the company office. The manager tells them to come back with a lawyer. None of them can afford one." },
-        { text:"Help the widows with food and care", health:-4, scrip:-4, debt:0, food:-8, lung:0, family:02, outcome:"You spend the week running between houses. The widows remember who showed up." },
-        { text:"Pray and hold your children close", health:3, scrip:0, debt:0, food:0, lung:0, family:01, outcome:"You stay inside and count who is still walking home each evening." },
+        { text:"Organize the women — demand compensation", health:0, scrip:-3, debt:0, food:0, lung:0, family:0, outcome:"Eight women stand at the company office. The manager tells them to come back with a lawyer. None of them can afford one." },
+        { text:"Help the widows with food and care", health:-4, scrip:-4, debt:0, food:-8, lung:0, family:0, outcome:"You spend the week running between houses. The widows remember who showed up." },
+        { text:"Pray and hold your children close", health:3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You stay inside and count who is still walking home each evening." },
       ]
     },
     wife: {
@@ -867,8 +867,8 @@ const MILESTONE_EVENTS = {
       fact:"After major mine disasters, companies often increased store credit to affected families — creating new debt obligations even as they denied liability for the deaths.",
       image:"graveyard",
       choices:[
-        { text:"Start a household emergency fund", health:0, scrip:-4, debt:0, food:0, lung:0, family:02, outcome:"You put a dollar a week away in the tin. It won't be enough. It's something." },
-        { text:"Ask neighbors about their plans", health:3, scrip:0, debt:0, food:0, lung:0, family:02, outcome:"Three families are already thinking about leaving. Knowing who's staying matters." },
+        { text:"Start a household emergency fund", health:0, scrip:-4, debt:0, food:0, lung:0, family:0, outcome:"You put a dollar a week away in the tin. It won't be enough. It's something." },
+        { text:"Ask neighbors about their plans", health:3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"Three families are already thinking about leaving. Knowing who's staying matters." },
         { text:"Don't think about it — focus on today", health:-4, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The fear sits unacknowledged. It shows up in other ways." },
       ]
     }
@@ -881,7 +881,7 @@ const MILESTONE_EVENTS = {
       image:"tents",
       choices:[
         { text:"Join the strike — walk out with them", health:-5, scrip:-8, debt:10, food:-10, lung:-2, family:0, outcome:"You walk out. The company has the eviction notice ready. You join the tent colony in the field." },
-        { text:"Secretly support — donate to the fund", health:0, scrip:-5, debt:0, food:0, lung:0, family:01, outcome:"You pass money to the union man quietly. Your name stays off their list — for now." },
+        { text:"Secretly support — donate to the fund", health:0, scrip:-5, debt:0, food:0, lung:0, family:0, outcome:"You pass money to the union man quietly. Your name stays off their list — for now." },
         { text:"Stay working — you can't risk the house", health:-6, scrip:3, debt:0, food:0, lung:3, family:0, outcome:"You cross the line. Some men won't look at you for months. You keep the house." },
       ]
     },
@@ -891,9 +891,9 @@ const MILESTONE_EVENTS = {
       fact:"During the Paint Creek strike, over 1,200 families were evicted from company housing. The tent colonies that housed them became organizing centers for the broader labor movement.",
       image:"tents",
       choices:[
-        { text:"Urge your husband to join the strike", health:-5, scrip:-6, debt:0, food:-10, lung:0, family:02, outcome:"You pack what you can carry. The tent colony is cold, but the women there hold each other up." },
+        { text:"Urge your husband to join the strike", health:-5, scrip:-6, debt:0, food:-10, lung:0, family:0, outcome:"You pack what you can carry. The tent colony is cold, but the women there hold each other up." },
         { text:"Beg him to stay working", health:-5, scrip:2, debt:0, food:0, lung:0, family:-1, outcome:"He stays. The house stays. The strain between you doesn't leave for a long time." },
-        { text:"Leave the decision to him", health:0, scrip:0, debt:3, food:0, lung:0, family:01, outcome:"He weighs it for three days. Whatever he decides, you face it together." },
+        { text:"Leave the decision to him", health:0, scrip:0, debt:3, food:0, lung:0, family:0, outcome:"He weighs it for three days. Whatever he decides, you face it together." },
       ]
     }
   },
@@ -904,8 +904,8 @@ const MILESTONE_EVENTS = {
       fact:"The Layland No. 3 explosion remains one of the deadliest mine disasters in WV history. Rescue crews took five days to reopen the mine entrance.",
       image:"collapse",
       choices:[
-        { text:"Help with the rescue — volunteer immediately", health:-8, scrip:0, debt:0, food:0, lung:5, family:01, outcome:"You work five days at the entrance. Some of the 47 make it out. You don't sleep much afterward." },
-        { text:"Care for the families at the surface", health:-3, scrip:-3, debt:0, food:-8, lung:0, family:03, outcome:"You bring water and food to the families waiting. You are there when the news comes, good and terrible." },
+        { text:"Help with the rescue — volunteer immediately", health:-8, scrip:0, debt:0, food:0, lung:5, family:0, outcome:"You work five days at the entrance. Some of the 47 make it out. You don't sleep much afterward." },
+        { text:"Care for the families at the surface", health:-3, scrip:-3, debt:0, food:-8, lung:0, family:0, outcome:"You bring water and food to the families waiting. You are there when the news comes, good and terrible." },
         { text:"You can barely stand. Just witness it.", health:3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You stand at the edge of the crowd. Some things can only be witnessed." },
       ]
     },
@@ -917,7 +917,7 @@ const MILESTONE_EVENTS = {
       choices:[
         { text:"Walk your section extra carefully today", health:2, scrip:-2, debt:0, food:0, lung:0, family:0, outcome:"You check every timber. You load half your normal tonnage. You go home intact." },
         { text:"Work normally — paralysis helps no one", health:-5, scrip:4, debt:0, food:0, lung:4, family:0, outcome:"You focus on the work. The number 112 stays in your mind all day." },
-        { text:"Go to the relief fund meeting tonight", health:3, scrip:-3, debt:0, food:0, lung:0, family:02, outcome:"You give what you can. The fund helps the Layland widows for two months." },
+        { text:"Go to the relief fund meeting tonight", health:3, scrip:-3, debt:0, food:0, lung:0, family:0, outcome:"You give what you can. The fund helps the Layland widows for two months." },
       ]
     },
     wife_atcamp: {
@@ -926,9 +926,9 @@ const MILESTONE_EVENTS = {
       fact:"Family members waited at mine entrances for days after disasters. No official communication system existed — women learned news from foremen or rescue workers.",
       image:"mine-closed",
       choices:[
-        { text:"Wait at the entrance — you won't leave", health:-8, scrip:0, debt:0, food:-8, lung:0, family:02, outcome:"You are there when they bring him up on the third day. He is alive. You don't let go for a long time." },
-        { text:"Go home to the children — keep them calm", health:-5, scrip:0, debt:0, food:-5, lung:0, family:01, outcome:"You sit with the children and wait. Neighbors come to tell you news when there is any." },
-        { text:"Organize food and water for waiting families", health:-3, scrip:-3, debt:0, food:-8, lung:0, family:03, outcome:"You keep yourself moving. It is the only way to survive the waiting." },
+        { text:"Wait at the entrance — you won't leave", health:-8, scrip:0, debt:0, food:-8, lung:0, family:0, outcome:"You are there when they bring him up on the third day. He is alive. You don't let go for a long time." },
+        { text:"Go home to the children — keep them calm", health:-5, scrip:0, debt:0, food:-5, lung:0, family:0, outcome:"You sit with the children and wait. Neighbors come to tell you news when there is any." },
+        { text:"Organize food and water for waiting families", health:-3, scrip:-3, debt:0, food:-8, lung:0, family:0, outcome:"You keep yourself moving. It is the only way to survive the waiting." },
       ]
     },
     wife: {
@@ -937,9 +937,9 @@ const MILESTONE_EVENTS = {
       fact:"The Layland explosion changed how many families in Fayette County thought about mining. Some miners left the trade; others could not afford to.",
       image:"graveyard",
       choices:[
-        { text:"Ask your husband to find surface work", health:3, scrip:-6, debt:0, food:0, lung:0, family:01, outcome:"He looks for surface work. There isn't much. He goes back underground. You both know why." },
-        { text:"Start saving for a way out of the camp", health:0, scrip:-4, debt:0, food:0, lung:0, family:01, outcome:"You put money away. It takes years to accumulate. The goal helps." },
-        { text:"Live fully in each day you have", health:5, scrip:0, debt:0, food:0, lung:0, family:02, outcome:"You stop waiting for disaster and start being present. It is harder and better than fear." },
+        { text:"Ask your husband to find surface work", health:3, scrip:-6, debt:0, food:0, lung:0, family:0, outcome:"He looks for surface work. There isn't much. He goes back underground. You both know why." },
+        { text:"Start saving for a way out of the camp", health:0, scrip:-4, debt:0, food:0, lung:0, family:0, outcome:"You put money away. It takes years to accumulate. The goal helps." },
+        { text:"Live fully in each day you have", health:5, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You stop waiting for disaster and start being present. It is harder and better than fear." },
       ]
     }
   },
@@ -950,7 +950,7 @@ const MILESTONE_EVENTS = {
       fact:"The 1918 Spanish Flu killed an estimated 675,000 Americans. Coal camp populations, with their crowded housing and shared water, suffered disproportionately.",
       image:"sick-bed",
       choices:[
-        { text:"Refuse to work — stay home and isolate", health:10, scrip:-6, debt:0, food:0, lung:-2, family:01, outcome:"You lose two weeks' pay. Your family doesn't get sick. It was the right call." },
+        { text:"Refuse to work — stay home and isolate", health:10, scrip:-6, debt:0, food:0, lung:-2, family:0, outcome:"You lose two weeks' pay. Your family doesn't get sick. It was the right call." },
         { text:"Work but avoid close contact underground", health:-5, scrip:3, debt:0, food:0, lung:2, family:0, outcome:"You make it through the season. Three men in your section do not." },
         { text:"Work full shifts — family needs the money", health:-12, scrip:5, debt:0, food:0, lung:3, family:-1, outcome:"You come home sick on day four. Your wife nurses you for two weeks. You survive." },
       ]
@@ -961,8 +961,8 @@ const MILESTONE_EVENTS = {
       fact:"Women in coal camps bore primary responsibility for family health during the 1918 pandemic with almost no medical resources. Many served as informal nurses for multiple families.",
       image:"sick-bed",
       choices:[
-        { text:"Quarantine your household completely", health:8, scrip:-3, debt:0, food:-8, lung:0, family:01, outcome:"You seal the house for three weeks. The children get restless. None of them get the flu." },
-        { text:"Nurse sick neighbors — they have no one", health:-8, scrip:0, debt:0, food:-5, lung:0, family:03, outcome:"You care for four families. You fall ill yourself in week three. You survive. They remember." },
+        { text:"Quarantine your household completely", health:8, scrip:-3, debt:0, food:-8, lung:0, family:0, outcome:"You seal the house for three weeks. The children get restless. None of them get the flu." },
+        { text:"Nurse sick neighbors — they have no one", health:-8, scrip:0, debt:0, food:-5, lung:0, family:0, outcome:"You care for four families. You fall ill yourself in week three. You survive. They remember." },
         { text:"Keep normal routines — the fear can't stop everything", health:-5, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"Two of your children catch mild cases. Everyone recovers. It was very close." },
       ]
     }
@@ -974,9 +974,9 @@ const MILESTONE_EVENTS = {
       fact:"The Battle of Matewan on May 19, 1920 became a symbol of labor resistance. Sid Hatfield was later assassinated on courthouse steps by Baldwin-Felts agents in 1921.",
       image:"sid-hatfield",
       choices:[
-        { text:"Take it as a sign — push for the union", health:0, scrip:-4, debt:0, food:0, lung:0, family:01, outcome:"You circulate a petition. Twelve men sign. The company agent notes every name." },
+        { text:"Take it as a sign — push for the union", health:0, scrip:-4, debt:0, food:0, lung:0, family:0, outcome:"You circulate a petition. Twelve men sign. The company agent notes every name." },
         { text:"Keep your head — Hatfield will pay for this", health:-3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You're right to be cautious. Hatfield is shot dead on courthouse steps the following year." },
-        { text:"Celebrate quietly with the other men", health:4, scrip:0, debt:0, food:-3, lung:0, family:02, outcome:"The men share a bottle in someone's yard. For one evening, something feels possible." },
+        { text:"Celebrate quietly with the other men", health:4, scrip:0, debt:0, food:-3, lung:0, family:0, outcome:"The men share a bottle in someone's yard. For one evening, something feels possible." },
       ]
     },
     wife: {
@@ -985,9 +985,9 @@ const MILESTONE_EVENTS = {
       fact:"Sid Hatfield's wife Jessie stood beside him on the Welch courthouse steps when he was shot and killed by Baldwin-Felts agents in August 1921.",
       image:"sid-hatfield",
       choices:[
-        { text:"Encourage your husband to organize", health:-3, scrip:0, debt:3, food:0, lung:0, family:01, outcome:"He takes the risk. The company notices. You are both more afraid and more alive." },
+        { text:"Encourage your husband to organize", health:-3, scrip:0, debt:3, food:0, lung:0, family:0, outcome:"He takes the risk. The company notices. You are both more afraid and more alive." },
         { text:"Urge caution — Hatfield will be punished", health:3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You are right. Hatfield is killed the next year. Caution kept your family safe." },
-        { text:"Talk to the other women about what it means", health:4, scrip:0, debt:0, food:0, lung:0, family:02, outcome:"The conversation itself is something. The women in camp are thinking about it together." },
+        { text:"Talk to the other women about what it means", health:4, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The conversation itself is something. The women in camp are thinking about it together." },
       ]
     }
   },
@@ -999,7 +999,7 @@ const MILESTONE_EVENTS = {
       image:"tents",
       choices:[
         { text:"Join the march — this is the moment", health:-8, scrip:-6, debt:8, food:-8, lung:0, family:0, outcome:"You march. Federal troops arrest hundreds. The union is broken for years. You made it back." },
-        { text:"Support from here — send food and money", health:0, scrip:-6, debt:0, food:-8, lung:0, family:02, outcome:"You contribute what you can. The men who went remember who helped." },
+        { text:"Support from here — send food and money", health:0, scrip:-6, debt:0, food:-8, lung:0, family:0, outcome:"You contribute what you can. The men who went remember who helped." },
         { text:"Stay home — this will end badly", health:3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You are right. The march fails. You keep your job. The defeat is still yours to carry." },
       ]
     },
@@ -1009,8 +1009,8 @@ const MILESTONE_EVENTS = {
       fact:"After Blair Mountain, the UMW's membership in WV collapsed from 50,000 to under 600. It would not recover until the New Deal's Section 7(a) guaranteed the right to organize in 1933.",
       image:"graveyard",
       choices:[
-        { text:"Grieve with the families who lost men", health:-3, scrip:-2, debt:0, food:-5, lung:0, family:03, outcome:"You spend three days going house to house. The grief is real. Being present matters." },
-        { text:"Help your husband process what happened", health:5, scrip:0, debt:0, food:0, lung:0, family:02, outcome:"You listen for hours. He doesn't have words for all of it. You sit with him anyway." },
+        { text:"Grieve with the families who lost men", health:-3, scrip:-2, debt:0, food:-5, lung:0, family:0, outcome:"You spend three days going house to house. The grief is real. Being present matters." },
+        { text:"Help your husband process what happened", health:5, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You listen for hours. He doesn't have words for all of it. You sit with him anyway." },
         { text:"Focus on survival — the fight is lost", health:0, scrip:2, debt:-3, food:5, lung:0, family:0, outcome:"You turn back to the practical. The debt eases a little. The hope doesn't fully come back." },
       ]
     }
@@ -1024,7 +1024,7 @@ const MILESTONE_EVENTS = {
       choices:[
         { text:"Start looking for work up north", health:3, scrip:-3, debt:0, food:0, lung:-2, family:-1, outcome:"You go to Pittsburgh for a month. The mills aren't hiring either. You come back." },
         { text:"Hold on — conditions have to improve", health:-5, scrip:-4, debt:8, food:-5, lung:0, family:0, outcome:"You wait it out. The debt grows through the closed weeks. The Depression is long." },
-        { text:"Diversify — garden, odd jobs, anything", health:-3, scrip:3, debt:-4, food:12, lung:0, family:01, outcome:"You work every angle. The garden, the neighbor's fence, the church woodpile. It keeps you afloat." },
+        { text:"Diversify — garden, odd jobs, anything", health:-3, scrip:3, debt:-4, food:12, lung:0, family:0, outcome:"You work every angle. The garden, the neighbor's fence, the church woodpile. It keeps you afloat." },
       ]
     },
     wife: {
@@ -1033,8 +1033,8 @@ const MILESTONE_EVENTS = {
       fact:"WV coal camp populations declined sharply in the early 1930s as families migrated to northern industrial cities. Many found urban poverty little better than the camps.",
       image:"mine-closed",
       choices:[
-        { text:"Push to leave — there must be better elsewhere", health:0, scrip:-6, debt:0, food:0, lung:0, family:01, outcome:"You push. Your husband resists. You compromise: one more year, then decide." },
-        { text:"Stay and dig in — this is what you know", health:0, scrip:0, debt:4, food:8, lung:0, family:01, outcome:"You extend the garden, trade labor with neighbors. Staying is hard. You make it work." },
+        { text:"Push to leave — there must be better elsewhere", health:0, scrip:-6, debt:0, food:0, lung:0, family:0, outcome:"You push. Your husband resists. You compromise: one more year, then decide." },
+        { text:"Stay and dig in — this is what you know", health:0, scrip:0, debt:4, food:8, lung:0, family:0, outcome:"You extend the garden, trade labor with neighbors. Staying is hard. You make it work." },
         { text:"Send the older children to relatives", health:-4, scrip:4, debt:0, food:5, lung:0, family:-1, outcome:"Your eldest goes to your sister in Ohio. It helps the food math. It breaks something too." },
       ]
     }
@@ -1046,7 +1046,7 @@ const MILESTONE_EVENTS = {
       fact:"The Hawks Nest Tunnel disaster killed an estimated 764 workers from acute silicosis — the worst industrial disaster in American history. Union Carbide concealed the silica risk and used political influence to suppress investigations.",
       image:"drilling",
       choices:[
-        { text:"Warn the men — don't go to Gauley", health:3, scrip:0, debt:0, food:0, lung:0, family:02, outcome:"Three men from your row were considering the tunnel work. They stay. You may have saved their lives." },
+        { text:"Warn the men — don't go to Gauley", health:3, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"Three men from your row were considering the tunnel work. They stay. You may have saved their lives." },
         { text:"Go to the tunnel — the pay is better", health:-15, scrip:12, debt:-10, food:0, lung:20, family:0, outcome:"The pay is real. So is the silica. You come back with a cough that won't leave." },
         { text:"Stay at the mine and say nothing", health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You keep to your own affairs. The tunnel men die. You had no power to stop it." },
       ]
@@ -1057,9 +1057,9 @@ const MILESTONE_EVENTS = {
       fact:"Most Hawks Nest workers were Black men with no legal recourse and no access to the political system. Their deaths went largely unacknowledged for decades.",
       image:"sick-bed",
       choices:[
-        { text:"Urge your husband to stay away from the tunnel", health:4, scrip:-4, debt:0, food:0, lung:0, family:01, outcome:"He listens. You lose the tunnel wages. You keep him." },
-        { text:"Help the sick tunnel workers' families", health:-3, scrip:-4, debt:0, food:-6, lung:0, family:03, outcome:"You bring food and sit with the sick men's wives. It is the least anyone can do. It matters." },
-        { text:"Write to the county health office", health:0, scrip:-1, debt:0, food:0, lung:0, family:01, outcome:"The letter goes unanswered for months. A small investigation is launched. Union Carbide's lawyers arrive first." },
+        { text:"Urge your husband to stay away from the tunnel", health:4, scrip:-4, debt:0, food:0, lung:0, family:0, outcome:"He listens. You lose the tunnel wages. You keep him." },
+        { text:"Help the sick tunnel workers' families", health:-3, scrip:-4, debt:0, food:-6, lung:0, family:0, outcome:"You bring food and sit with the sick men's wives. It is the least anyone can do. It matters." },
+        { text:"Write to the county health office", health:0, scrip:-1, debt:0, food:0, lung:0, family:0, outcome:"The letter goes unanswered for months. A small investigation is launched. Union Carbide's lawyers arrive first." },
       ]
     }
   }
