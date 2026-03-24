@@ -1999,17 +1999,16 @@ function CoalCountry() {
         </div>
       ) : event ? (
         <>
-          {(() => {
-            const evtImg = getEventImage(event.headline, event.narrative);
-            return evtImg ? (
+          {event._img && (
+            <div style={{ maxWidth:"600px", margin:"0 auto 12px" }}>
               <img
-                src={evtImg}
+                src={event._img}
                 alt=""
                 style={{ width:"100%", display:"block", imageRendering:"pixelated",
-                         marginBottom:"12px", borderBottom:`2px solid ${C.dgray}` }}
+                         borderBottom:`2px solid ${C.dgray}` }}
               />
-            ) : null;
-          })()}
+            </div>
+          )}
           <div style={S.headline}>{event.headline?.toUpperCase()}</div>
           <div style={S.narr}>{event.narrative}</div>
 
