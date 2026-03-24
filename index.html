@@ -431,12 +431,12 @@ const S = {
     maxWidth: "600px",
     margin: "0 auto",
     lineHeight: 1.8,
-    fontSize: "10px",
+    fontSize: "13px",
   },
   title: {
     color: C.white,
     textAlign: "center",
-    fontSize: "18px",
+    fontSize: "22px",
     letterSpacing: "3px",
     margin: "0 0 6px",
     textTransform: "uppercase",
@@ -445,7 +445,7 @@ const S = {
   sub: {
     textAlign: "center",
     color: C.gray,
-    fontSize: "8px",
+    fontSize: "11px",
     letterSpacing: "2px",
     marginBottom: "20px",
   },
@@ -458,7 +458,7 @@ const S = {
     border: `2px solid ${C.dgray}`,
     padding: "12px 14px",
     marginBottom: "14px",
-    fontSize: "9px",
+    fontSize: "15px",
     color: C.offwhite,
     lineHeight: 2,
     background: "#111",
@@ -467,7 +467,7 @@ const S = {
     border: `2px solid ${C.green}`,
     padding: "12px 14px",
     marginBottom: "14px",
-    fontSize: "9px",
+    fontSize: "15px",
     color: C.green,
     lineHeight: 2,
     background: "#001a00",
@@ -479,7 +479,7 @@ const S = {
     padding: "10px 12px",
     cursor: "pointer",
     fontFamily: FONT,
-    fontSize: "9px",
+    fontSize: "15px",
     width: "100%",
     textAlign: "left",
     marginBottom: "8px",
@@ -498,7 +498,7 @@ const S = {
     padding: "12px 22px",
     cursor: "pointer",
     fontFamily: FONT,
-    fontSize: "10px",
+    fontSize: "13px",
     letterSpacing: "2px",
     marginTop: "12px",
     display: "inline-block",
@@ -510,7 +510,7 @@ const S = {
     padding: "6px 10px",
     cursor: "pointer",
     fontFamily: FONT,
-    fontSize: "8px",
+    fontSize: "11px",
     marginBottom: "6px",
     marginRight: "8px",
   },
@@ -520,25 +520,25 @@ const S = {
     color: C.white,
     padding: "8px 12px",
     fontFamily: FONT,
-    fontSize: "10px",
+    fontSize: "13px",
     width: "200px",
     outline: "none",
   },
   sectionLabel: {
     color: C.green,
-    fontSize: "8px",
+    fontSize: "11px",
     letterSpacing: "3px",
     marginBottom: "8px",
     display: "block",
   },
   statRow: { display: "flex", alignItems: "center", marginBottom: "6px" },
-  statLbl: { width: "100px", color: C.gray, fontSize: "8px", textAlign: "right", flexShrink: 0, marginRight: "10px", lineHeight: 1.4 },
+  statLbl: { width: "110px", color: C.gray, fontSize: "11px", textAlign: "right", flexShrink: 0, marginRight: "10px", lineHeight: 1.4 },
   statTrk: { flex: 1, background: "#222", height: "10px", border: `1px solid ${C.dgray}` },
-  statVal: { width: "30px", fontSize: "8px", color: C.gray, marginLeft: "8px", textAlign: "right" },
-  logLine: { fontSize: "8px", color: C.dgray, marginBottom: "4px", lineHeight: 1.8 },
-  headline: { color: C.yellow, fontSize: "12px", margin: "10px 0 10px", lineHeight: 1.6, textTransform: "uppercase" },
-  narr: { fontSize: "9px", color: C.offwhite, lineHeight: 2.1, margin: "0 0 14px" },
-  deltaTag: { fontSize: "7px", marginLeft: "6px" },
+  statVal: { width: "30px", fontSize: "11px", color: C.gray, marginLeft: "8px", textAlign: "right" },
+  logLine: { fontSize: "11px", color: C.dgray, marginBottom: "4px", lineHeight: 1.8 },
+  headline: { color: C.yellow, fontSize: "15px", margin: "10px 0 10px", lineHeight: 1.6, textTransform: "uppercase" },
+  narr: { fontSize: "15px", color: C.offwhite, lineHeight: 2.1, margin: "0 0 14px" },
+  deltaTag: { fontSize: "13px", marginLeft: "6px" },
 };
 
 function clamp(v, lo=0, hi=100){ return Math.max(lo, Math.min(hi, v)); }
@@ -580,7 +580,7 @@ function Timeline({ year, seasonIdx }) {
 
   return (
     <div style={{ marginBottom:"12px" }}>
-      <div style={{ display:"flex", justifyContent:"space-between", fontSize:"7px", color:C.gray, marginBottom:"4px" }}>
+      <div style={{ display:"flex", justifyContent:"space-between", fontSize:"15px", color:C.white, marginBottom:"4px" }}>
         <span>1910</span>
         <span style={{ color:C.yellow }}>SURVIVE TO 1935</span>
         <span>1935</span>
@@ -612,13 +612,13 @@ function Timeline({ year, seasonIdx }) {
               position:"absolute",
               left:`${tickPct}%`,
               transform:"translateX(-50%)",
-              fontSize:"6px",
+              fontSize:"15px",
               color: year >= my ? C.white : C.dgray,
             }}>{my}</span>
           );
         })}
       </div>
-      <div style={{ fontSize:"7px", color:C.gray, marginTop:"4px" }}>
+      <div style={{ fontSize:"15px", color:C.white, marginTop:"4px" }}>
         {pct}% COMPLETE  /  {seasonsLeft} SEASONS REMAINING
       </div>
     </div>
@@ -886,7 +886,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         }}>
           <div style={S.title}>COAL<br/>COUNTRY</div>
           <div style={S.sub}>NEW RIVER GORGE  ·  1910-1935</div>
-          <div style={{ color:C.gray, fontSize:"8px", letterSpacing:"2px", marginTop:"6px" }}>
+          <div style={{ color:C.gray, fontSize:"11px", letterSpacing:"2px", marginTop:"6px" }}>
             * FAYETTE COUNTY COALFIELDS, WEST VIRGINIA *
           </div>
         </div>
@@ -908,7 +908,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
 
       <HR/>
 
-      <div style={{ fontSize:"9px", color:C.offwhite, lineHeight:2.2, marginBottom:"20px" }}>
+      <div style={{ fontSize:"15px", color:C.offwhite, lineHeight:2.2, marginBottom:"20px" }}>
         This is the story of YOUR family.<br/>
         Survive to 1935.<br/>
         Keep your health.<br/>
@@ -921,7 +921,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         </button>
       </div>
 
-      <div style={{ textAlign:"center", color:C.dgray, fontSize:"7px", marginTop:"24px", letterSpacing:"2px" }}>
+      <div style={{ textAlign:"center", color:C.dgray, fontSize:"13px", marginTop:"24px", letterSpacing:"2px" }}>
         ARROW KEYS TO MOVE  ENTER TO SELECT
       </div>
     </div>
@@ -932,10 +932,10 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
     const stepLabels = ["CHOOSE YOUR ROLE","YOUR BACKGROUND","YOUR COAL CAMP","YOUR NAME"];
     return (
       <div style={S.page}>
-        <div style={{ color:C.gray, fontSize:"8px", letterSpacing:"2px", marginBottom:"4px" }}>
+        <div style={{ color:C.gray, fontSize:"11px", letterSpacing:"2px", marginBottom:"4px" }}>
           COAL COUNTRY  &gt;  SETUP
         </div>
-        <div style={{ color:C.yellow, fontSize:"10px", marginBottom:"16px" }}>
+        <div style={{ color:C.yellow, fontSize:"13px", marginBottom:"16px" }}>
           {stepLabels[step]}
         </div>
         <HR/>
@@ -943,7 +943,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         {/* STEP 0: Role */}
         {step === 0 && (
           <>
-            <div style={{ fontSize:"9px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
+            <div style={{ fontSize:"15px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
               The year is 1910. Your family has come<br/>
               to Fayette County to find work.
             </div>
@@ -961,7 +961,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
                   <span style={{ color:charType===c.id ? C.yellow : C.white }}>{charType===c.id ? "> " : "  "}{c.label}</span>
                 </div>
                 {c.lines.map((l,i) => (
-                  <div key={i} style={{ color:C.gray, fontSize:"8px" }}>  {l}</div>
+                  <div key={i} style={{ color:C.gray, fontSize:"11px" }}>  {l}</div>
                 ))}
               </button>
             ))}
@@ -976,7 +976,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         {/* STEP 1: Ethnicity */}
         {step === 1 && (
           <>
-            <div style={{ fontSize:"9px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
+            <div style={{ fontSize:"15px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
               The mines drew workers from across<br/>
               America and the world. Who are you?
             </div>
@@ -988,11 +988,11 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
                   <span style={{ color:ethnicity===e.id ? C.yellow : C.white }}>
                     {ethnicity===e.id ? "> " : "  "}{e.label}
                   </span>
-                  <span style={{ color:C.green, fontSize:"7px" }}>{e.bonusLabel}</span>
+                  <span style={{ color:C.green, fontSize:"13px" }}>{e.bonusLabel}</span>
                 </div>
-                <div style={{ color:C.gray, fontSize:"8px", marginTop:"4px" }}>  {e.origin}</div>
+                <div style={{ color:C.gray, fontSize:"11px", marginTop:"4px" }}>  {e.origin}</div>
                 {ethnicity===e.id && (
-                  <div style={{ color:C.offwhite, fontSize:"8px", marginTop:"8px", borderTop:`1px solid ${C.dgray}`, paddingTop:"8px", lineHeight:1.9 }}>
+                  <div style={{ color:C.offwhite, fontSize:"11px", marginTop:"8px", borderTop:`1px solid ${C.dgray}`, paddingTop:"8px", lineHeight:1.9 }}>
                     {e.note}
                   </div>
                 )}
@@ -1010,7 +1010,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         {/* STEP 2: Camp */}
         {step === 2 && (
           <>
-            <div style={{ fontSize:"9px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
+            <div style={{ fontSize:"15px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
               Choose the coal camp where your<br/>
               family will live and work:
             </div>
@@ -1022,10 +1022,10 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
                   <span style={{ color:camp===c.id ? C.yellow : C.white }}>
                     {camp===c.id ? "> " : "  "}{c.label}
                   </span>
-                  <span style={{ color:C.gray, fontSize:"7px" }}>{c.county}</span>
+                  <span style={{ color:C.gray, fontSize:"13px" }}>{c.county}</span>
                 </div>
                 {camp===c.id && (
-                  <div style={{ color:C.offwhite, fontSize:"8px", marginTop:"8px", borderTop:`1px solid ${C.dgray}`, paddingTop:"8px", lineHeight:1.9 }}>
+                  <div style={{ color:C.offwhite, fontSize:"11px", marginTop:"8px", borderTop:`1px solid ${C.dgray}`, paddingTop:"8px", lineHeight:1.9 }}>
                     <div>{c.note}</div>
                     {c.history && (
                       <div style={{ color:C.green, marginTop:"6px", borderTop:`1px solid ${C.dgray}`, paddingTop:"6px" }}>
@@ -1048,7 +1048,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         {/* STEP 3: Name */}
         {step === 3 && (
           <>
-            <div style={{ fontSize:"9px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
+            <div style={{ fontSize:"15px", color:C.gray, marginBottom:"14px", lineHeight:2 }}>
               What is your name?
             </div>
             <input style={S.input} value={name} onChange={e=>setName(e.target.value)} placeholder="your name..." autoFocus />
@@ -1084,14 +1084,14 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         style={{ width:"100%", display:"block", imageRendering:"pixelated", marginBottom:"10px", borderBottom:`2px solid ${C.dgray}` }}
       />
       <HR/>
-      <div style={{ textAlign:"center", color:C.red, fontSize:"14px", margin:"20px 0", lineHeight:1.8 }}>
+      <div style={{ textAlign:"center", color:C.red, fontSize:"17px", margin:"20px 0", lineHeight:1.8 }}>
         THE STORY<br/>ENDS HERE
       </div>
       <HR/>
-      <div style={{ fontSize:"9px", color:C.offwhite, lineHeight:2.2, maxWidth:"520px" }}>
+      <div style={{ fontSize:"15px", color:C.offwhite, lineHeight:2.2, maxWidth:"520px" }}>
         {endMsg}
       </div>
-      <div style={{ color:C.dgray, fontSize:"8px", marginTop:"14px" }}>
+      <div style={{ color:C.dgray, fontSize:"11px", marginTop:"14px" }}>
         Year {player?.year}  /  {player?.turns||0} seasons survived
       </div>
       <div style={{ textAlign:"center", marginTop:"20px" }}>
@@ -1105,18 +1105,18 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
     <div style={S.page}>
       <img src={imgVictory} alt="Victory" style={{ width:"100%", display:"block", imageRendering:"pixelated", marginBottom:"10px", borderBottom:`2px solid ${C.dgray}` }} />
       <HR/>
-      <div style={{ textAlign:"center", color:C.green, fontSize:"12px", margin:"20px 0", lineHeight:1.8 }}>
+      <div style={{ textAlign:"center", color:C.green, fontSize:"15px", margin:"20px 0", lineHeight:1.8 }}>
         {player?.name}<br/>SURVIVED TO 1935
       </div>
       <HR/>
-      <div style={{ fontSize:"9px", color:C.offwhite, lineHeight:2.2, maxWidth:"520px" }}>
+      <div style={{ fontSize:"15px", color:C.offwhite, lineHeight:2.2, maxWidth:"520px" }}>
         <p>The coal companies eventually closed their gates. You outlasted them.</p>
         <p>In 1935, the Social Security Act passed — the first federal safety net for American workers. The labor organizing that coal miners helped build made it possible.</p>
         {player?.blackLung > 55 && (
           <p style={{ color:C.yellow }}>Your lungs bore the cost. Black lung was not recognized as a compensable disease until 1969.</p>
         )}
       </div>
-      <div style={{ color:C.dgray, fontSize:"8px", marginTop:"14px" }}>
+      <div style={{ color:C.dgray, fontSize:"11px", marginTop:"14px" }}>
         Health: {player?.health}  /  Debt: ${player?.debt}  /  {player?.turns} seasons
       </div>
       <div style={{ textAlign:"center", marginTop:"20px" }}>
@@ -1145,14 +1145,14 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         )}
         {/* Top HUD overlay */}
         <div style={{ position:"absolute", top:0, left:0, right:0, background:"rgba(0,0,0,0.55)", padding:"8px 12px 10px" }}>
-          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", fontSize:"8px", color:C.white, marginBottom:"4px" }}>
-            <span>COAL COUNTRY</span>
-            <span>{season.toUpperCase()} {player.year}</span>
-            <button style={{ ...S.btnSm, fontSize:"7px", padding:"4px 8px", marginBottom:0, color:C.white, borderColor:C.white }} onClick={reset}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"4px" }}>
+            <span style={{ fontSize:"13px", color:C.white, fontWeight:"bold", letterSpacing:"0.05em" }}>COAL COUNTRY</span>
+            <span style={{ fontSize:"13px", color:C.white, fontWeight:"bold", letterSpacing:"0.05em" }}>{season.toUpperCase()} {player.year}</span>
+            <button style={{ ...S.btnSm, fontSize:"15px", padding:"4px 10px", marginBottom:0, color:C.white, borderColor:C.white }} onClick={reset}>
               RESTART
             </button>
           </div>
-          <div style={{ fontSize:"8px", color:C.white, opacity:0.7, marginBottom:"8px" }}>
+          <div style={{ fontSize:"13px", color:C.white, marginBottom:"8px", letterSpacing:"0.04em" }}>
             {campName.toUpperCase()}  /  {player.name.toUpperCase()}
           </div>
           <Timeline year={player.year} seasonIdx={player.seasonIdx} />
@@ -1163,7 +1163,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
           <StatBar label="FOOD"       value={player.food}      warn white />
           {player.character === "miner" &&
             <StatBar label="BLACK LUNG" value={player.blackLung} white />}
-          <div style={{ display:"flex", gap:"18px", marginTop:"8px", fontSize:"8px", color:C.white }}>
+          <div style={{ display:"flex", gap:"18px", marginTop:"8px", fontSize:"11px", color:C.white }}>
             <span>SCRIP: <span style={{ color:C.white, fontWeight:"bold" }}>${player.scrip}</span></span>
             <span>DEBT: <span style={{ color:player.debt>100?C.red:player.debt>70?C.yellow:C.white }}>${player.debt}</span></span>
             <span>FAMILY: <span style={{ color:C.white }}>{player.family} adults · {(player.children||[]).length} children</span></span>
@@ -1174,7 +1174,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
       <HR/>
 
       {/* Season prompt */}
-      <div style={{ fontSize:"9px", color:C.offwhite, marginBottom:"14px", lineHeight:2 }}>
+      <div style={{ fontSize:"15px", color:C.offwhite, marginBottom:"14px", lineHeight:2 }}>
         {season.toUpperCase()} {player.year} — 3 MONTHS<br/>
         <span style={{ color:C.gray }}>
           {player.character === "miner"
@@ -1193,7 +1193,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
               <div style={{ flex:1 }}>
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"4px" }}>
                   <span style={{ color:C.white }}>{i+1}. {opt.label}</span>
-                  <span style={{ fontSize:"8px" }}>
+                  <span style={{ fontSize:"11px" }}>
                     <DeltaBadge val={opt.scrip}   unit="$ scrip" />
                     <DeltaBadge val={opt.health}  unit=" hp" />
                     {opt.lung !== 0 && player.character === "miner" &&
@@ -1202,7 +1202,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
                       <DeltaBadge val={opt.food} unit=" food" />}
                   </span>
                 </div>
-                <div style={{ color:C.gray, fontSize:"8px" }}>{opt.desc}</div>
+                <div style={{ color:C.gray, fontSize:"11px" }}>{opt.desc}</div>
               </div>
             </div>
           </button>
@@ -1232,12 +1232,12 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
             <div style={{ flex:1 }}>
               <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
                 <span style={{ color:C.white }}>VISIT COMPANY DOCTOR</span>
-                <span style={{ fontSize:"8px" }}>
+                <span style={{ fontSize:"11px" }}>
                   <span style={{ color:C.red }}>-$10 scrip</span>
                   <span style={{ color:C.green, marginLeft:"8px" }}>+28 health</span>
                 </span>
               </div>
-              <div style={{ color:C.gray, fontSize:"8px", marginTop:"4px" }}>
+              <div style={{ color:C.gray, fontSize:"11px", marginTop:"4px" }}>
                 Company doctors worked for the company, not the miner.
               </div>
             </div>
@@ -1250,7 +1250,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
             ...S.btnBig,
             width:"100%",
             textAlign:"center",
-            fontSize:"9px",
+            fontSize:"15px",
             padding:"12px",
             marginTop:0,
             letterSpacing:"2px",
@@ -1293,10 +1293,10 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
           style={{ width:"100%", display:"block", imageRendering:"pixelated", marginBottom:"10px", borderBottom:`2px solid ${C.dgray}` }}
         />
       )}
-      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", fontSize:"8px", color:C.gray, marginBottom:"6px" }}>
+      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", fontSize:"11px", color:C.gray, marginBottom:"6px" }}>
         <span>COAL COUNTRY</span>
         <span>{season.toUpperCase()} {player.year}</span>
-        <button style={{ ...S.btnSm, fontSize:"7px", padding:"4px 8px", marginBottom:0 }} onClick={reset}>
+        <button style={{ ...S.btnSm, fontSize:"13px", padding:"4px 8px", marginBottom:0 }} onClick={reset}>
           RESTART
         </button>
       </div>
@@ -1304,8 +1304,8 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
 
       {loading ? (
         <div style={{ textAlign:"center", margin:"60px 0", lineHeight:3 }}>
-          <div style={{ color:C.white, fontSize:"12px" }}>. . .</div>
-          <div style={{ color:C.gray, fontSize:"8px" }}>loading historical event</div>
+          <div style={{ color:C.white, fontSize:"15px" }}>. . .</div>
+          <div style={{ color:C.gray, fontSize:"11px" }}>loading historical event</div>
         </div>
       ) : event ? (
         <>
@@ -1325,7 +1325,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
 
           {event.fact && (
             <div style={S.factBox}>
-              <div style={{ color:C.green, fontSize:"7px", letterSpacing:"2px", marginBottom:"6px" }}>
+              <div style={{ color:C.green, fontSize:"13px", letterSpacing:"2px", marginBottom:"6px" }}>
                 -- HISTORICAL RECORD --
               </div>
               {event.fact}
@@ -1333,7 +1333,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
           )}
 
           <HR/>
-          <div style={{ fontSize:"9px", color:C.gray, marginBottom:"10px" }}>
+          <div style={{ fontSize:"15px", color:C.gray, marginBottom:"10px" }}>
             WHAT DO YOU DO?
           </div>
 
@@ -1344,7 +1344,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
                 <span style={{ color:C.white }}>
                   {i+1}. {c.text}
                 </span>
-                <span style={{ fontSize:"7px", textAlign:"right" }}>
+                <span style={{ fontSize:"13px", textAlign:"right" }}>
                   {c.health !== 0 && <DeltaBadge val={c.health} unit="hp" invert />}
                   {c.scrip  !== 0 && <DeltaBadge val={c.scrip}  unit="$"  />}
                   {c.debt   !== 0 && <DeltaBadge val={-c.debt}  unit="$ debt" />}
@@ -1356,7 +1356,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
               </div>
               {/* Outcome preview in dim text */}
               {c.outcome && (
-                <div style={{ color:C.dgray, fontSize:"8px", lineHeight:1.8 }}>
+                <div style={{ color:C.dgray, fontSize:"11px", lineHeight:1.8 }}>
                   &gt; {c.outcome}
                 </div>
               )}
@@ -1371,15 +1371,15 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
   if (screen === "store") return (
     <div style={S.page}>
       <img src={imgStoreInterior} alt="Company Store" style={{ width:"100%", display:"block", imageRendering:"pixelated", marginBottom:"12px", borderBottom:`2px solid ${C.dgray}` }} />
-      <div style={{ color:C.white, fontSize:"10px", letterSpacing:"2px", marginBottom:"4px" }}>
+      <div style={{ color:C.white, fontSize:"13px", letterSpacing:"2px", marginBottom:"4px" }}>
         {companyName.toUpperCase()}
       </div>
-      <div style={{ color:C.gray, fontSize:"8px", letterSpacing:"2px", marginBottom:"14px" }}>
+      <div style={{ color:C.gray, fontSize:"11px", letterSpacing:"2px", marginBottom:"14px" }}>
         COMPANY STORE  ·  {campName.toUpperCase()}
       </div>
 
       <div style={S.factBox}>
-        <div style={{ color:C.green, fontSize:"7px", letterSpacing:"2px", marginBottom:"6px" }}>
+        <div style={{ color:C.green, fontSize:"13px", letterSpacing:"2px", marginBottom:"6px" }}>
           -- HISTORICAL RECORD --
         </div>
         Company stores charged above-market prices
@@ -1391,7 +1391,7 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
         "I owe my soul to the company store."
       </div>
 
-      <div style={{ fontSize:"9px", color:C.gray, marginBottom:"12px" }}>
+      <div style={{ fontSize:"15px", color:C.gray, marginBottom:"12px" }}>
         SCRIP: <span style={{ color:C.white }}>${player.scrip}</span>
         {"   "}
         DEBT: <span style={{ color:player.debt>90?C.red:C.white }}>${player.debt}</span>
@@ -1406,14 +1406,14 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
             onClick={() => handleBuy(item)} disabled={off}>
             <div style={{ display:"flex", justifyContent:"space-between" }}>
               <span style={{ color:off ? C.dgray : C.white }}>{item.label}</span>
-              <span style={{ color:C.yellow, fontSize:"8px" }}>${item.cost} scrip</span>
+              <span style={{ color:C.yellow, fontSize:"11px" }}>${item.cost} scrip</span>
             </div>
-            <div style={{ color:C.gray, fontSize:"8px", marginTop:"4px" }}>
+            <div style={{ color:C.gray, fontSize:"11px", marginTop:"4px" }}>
               {item.desc}
               {item.food   > 0 && <DeltaBadge val={item.food}   unit=" food" />}
               {item.health > 0 && <DeltaBadge val={item.health} unit="hp" />}
               {item.lung   < 0 && <DeltaBadge val={item.lung}   unit=" lung" invert />}
-              {item.minerOnly && <span style={{ color:C.dgray, fontSize:"7px" }}> (miners only)</span>}
+              {item.minerOnly && <span style={{ color:C.dgray, fontSize:"13px" }}> (miners only)</span>}
             </div>
           </button>
         );
