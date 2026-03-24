@@ -687,14 +687,6 @@ function CoalCountry() {
   const addLog = useCallback((msg) => setLog(p => [msg,...p].slice(0,16)), []);
 
   // ── Fetch event ──────────────────────────────────────────────────────────────
-  // Auto-advance past event screen if no event loaded (API fail)
-  useEffect(() => {
-    if (screen === "event" && !loading && !event && pending) {
-      const next = advanceSeason(pending.p);
-      if (next) { setPlayer(next); setEvent(null); setPending(null); setScreen("playing"); }
-    }
-  }, [screen, loading, event, pending, advanceSeason]);
-
   useEffect(() => {
     if (!pending) return;
     let gone = false;
@@ -833,6 +825,14 @@ Stat delta guidelines: health −18 to +12, scrip −8 to +12, debt 0 to +15, fo
     if (np.year > END_YEAR) { setPlayer(np); setScreen("won"); return null; }
     return np;
   }, [addLog]);
+
+  // Auto-advance past event screen if no event loaded (API fail)
+  useEffect(() => {
+    if (screen === "event" && !loading && !event && pending) {
+      const next = advanceSeason(pending.p);
+      if (next) { setPlayer(next); setEvent(null); setPending(null); setScreen("playing"); }
+    }
+  }, [screen, loading, event, pending, advanceSeason]);
 
   // ── Handlers ──────────────────────────────────────────────────────────────────
   const handleWork = useCallback((opt) => {
