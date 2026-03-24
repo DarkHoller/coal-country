@@ -93,6 +93,14 @@ const imgNewBaby        = BASE_URL + "new-baby.jpg";
 const imgSoundOn        = BASE_URL + "sound-on.jpg";
 const imgFamilyEvicted  = BASE_URL + "family-evicted.jpg";
 const imgSickBaby       = BASE_URL + "sick-baby.jpg";
+const imgBaldwinFelts   = BASE_URL + "baldwin-felts.jpg";
+const imgBlairMountain  = BASE_URL + "blair-mountain.jpg";
+const imgTipple         = BASE_URL + "tipple.jpg";
+const imgStrikeTalk     = BASE_URL + "strike-talk.jpg";
+const imgFired          = BASE_URL + "fired.jpg";
+const imgExplosion      = BASE_URL + "explosion.jpg";
+const imgBalanceDue     = BASE_URL + "balance-due.jpg";
+const imgDoctorHouse    = BASE_URL + "doctor-house.jpg";
 const imgSoundOff       = BASE_URL + "sound-off.jpg";
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
@@ -329,6 +337,21 @@ const EVENT_IMAGE_RULES = [
   { keywords: ["doctor","nurse visit","patent medicine","physician"], img: () => imgDoctor },
 ];
 
+const IMAGE_MAP = {
+  "collapse": imgCollapse,     "canary": imgCanary,         "church": imgChurch,
+  "drilling": imgDrilling,     "evicted": imgEvicted,       "family-evicted": imgFamilyEvicted,
+  "flooding": imgFlooding,     "graveyard": imgGraveyard,   "injury": imgInjury,
+  "mine-closed": imgMineClosed,"mother-jones": imgMotherJones,"new-baby": imgNewBaby,
+  "pay-envelope": imgPayEnvelope,"sick-baby": imgSickBaby,  "sick-bed": imgSickBed,
+  "sid-hatfield": imgSidHatfield,"store-interior": imgStoreInterior,"tents": imgTents,
+  "union-organizer": imgUnionOrganizer,"victory": imgVictory,"whistle": imgWhistle,
+  "baking-day": imgBakingDay,  "garden": imgGarden,         "doctor": imgDoctor,
+  "baldwin-felts": imgBaldwinFelts,"blair-mountain": imgBlairMountain,
+  "explosion": imgExplosion,   "balance-due": imgBalanceDue,"doctor-house": imgDoctorHouse,
+  "tipple": imgTipple,
+  "strike-talk": imgStrikeTalk, "fired": imgFired,
+};
+
 function getEventImage(headline, narrative) {
   const text = ((headline || "") + " " + (narrative || "")).toLowerCase();
   for (const rule of EVENT_IMAGE_RULES) {
@@ -421,6 +444,7 @@ const MILESTONES = [
 const MINER_EVENTS = [
   {
     id:"roof_warning",
+    image:"collapse",
     headline:"Roof timber splits underground.",
     narrative:"A sharp crack echoes through your section. A main roof timber has split — the classic sign before a cave-in. The foreman is down the shaft and hasn't seen it. The men around you are watching you decide.",
     fact:"Roof falls were the leading cause of death in WV coal mines from 1910–1935, accounting for more fatalities than explosions.",
@@ -433,6 +457,7 @@ const MINER_EVENTS = [
   },
   {
     id:"gas_pocket",
+    image:"canary",
     headline:"Gas detected in the lower level.",
     narrative:"Your lamp flickers in a way that means gas. Someone else notices it too. The foreman has been told, but he wants the tonnage. The company is paying a bonus for high output this month.",
     fact:"Methane gas explosions killed over 3,000 WV miners between 1900 and 1940. Miners were legally required to report gas but had no power to stop work.",
@@ -445,6 +470,7 @@ const MINER_EVENTS = [
   },
   {
     id:"pay_docking",
+    image:"balance-due",
     headline:"Payday envelope comes up short.",
     narrative:"Your pay envelope is two dollars short. The company calls it a 'docking' — impure coal mixed with slate in your car. You measured it yourself. The checkweighman works for the company.",
     fact:"The truck system allowed companies to dock miners' pay for 'impure' coal. Miners had no independent checkweighman until WV law changed in 1917.",
@@ -457,6 +483,7 @@ const MINER_EVENTS = [
   },
   {
     id:"pay_cut",
+    image:"pay-envelope",
     headline:"Company announces ten-cent pay cut.",
     narrative:"A notice goes up at the mine entrance: effective Monday, the rate drops ten cents per ton. No reason given. The foreman says it's the market. You've heard that before.",
     fact:"WV coal operators cut wages repeatedly in the 1920s as coal prices fell. Miners had no legal protection against wage cuts until the New Deal.",
@@ -469,6 +496,7 @@ const MINER_EVENTS = [
   },
   {
     id:"scrip_only",
+    image:"pay-envelope",
     headline:"Scrip office: cash only next month.",
     narrative:"The scrip office posts a notice: this month's wages will be paid in store credit only — not redeemable for cash. You owe rent. You owe the doctor. Cash doesn't come until the company decides it does.",
     fact:"Scrip systems were ruled illegal by WV statute in 1887, but companies found legal workarounds. Enforcement was rare until federal oversight arrived in the 1930s.",
@@ -481,6 +509,7 @@ const MINER_EVENTS = [
   },
   {
     id:"mine_inspector",
+    image:"baldwin-felts",
     headline:"State mine inspector arrives.",
     narrative:"The state mine inspector is here. The foreman has spent two days cleaning the section, covering the worst timbers, and briefing every man: speak well of the company, or find another job.",
     fact:"WV mine inspectors were often underfunded and politically connected to the coal operators they were meant to oversee. Independent inspection became effective only after the 1930s.",
@@ -493,6 +522,7 @@ const MINER_EVENTS = [
   },
   {
     id:"union_organizer",
+    image:"union-organizer",
     headline:"UMW organizer spotted at mine entrance.",
     narrative:"A man in a good coat is handing out leaflets near the tipple. He's from the United Mine Workers. The foreman is watching from the window. A Baldwin-Felts detective is leaning against the fence.",
     fact:"UMW organizing in southern WV was met with Baldwin-Felts agents, company evictions, and blacklisting. The union did not gain a foothold in Fayette County until after the New Deal.",
@@ -505,6 +535,7 @@ const MINER_EVENTS = [
   },
   {
     id:"strike_talk",
+    image:"strike-talk",
     headline:"Men are talking about walking out.",
     narrative:"After another docking, a dozen men are meeting behind the boarding house tonight. A strike would mean losing the company house within 48 hours — but the dockings can't go on.",
     fact:"Company-owned housing gave operators tremendous leverage against strikes. Evictions within 48 hours of work stoppage were standard practice in WV coal fields.",
@@ -517,6 +548,7 @@ const MINER_EVENTS = [
   },
   {
     id:"coworker_fired",
+    image:"fired",
     headline:"Coworker dismissed for union talk.",
     narrative:"Jake Briggs is gone. He came to work Monday and his lamp tag was missing. The foreman said there was 'no work available' in his section. Everyone knows he attended the union meeting last week.",
     fact:"Blacklisting was routine in WV coal camps. Companies shared lists of 'agitators,' making it nearly impossible for fired union men to find work in the region.",
@@ -529,6 +561,7 @@ const MINER_EVENTS = [
   },
   {
     id:"black_damp",
+    image:"canary",
     headline:"Coworker collapses from bad air.",
     narrative:"You're loading your second car when Thomas Koval drops face-first into the coal. Black damp — carbon dioxide pooling in the low spots. The ventilation hasn't been working properly for weeks.",
     fact:"Black damp (CO2 accumulation) and white damp (CO) were constant dangers in poorly ventilated mines. Canaries were used as early warning systems; many mines skipped them.",
@@ -541,6 +574,7 @@ const MINER_EVENTS = [
   },
   {
     id:"wet_cough",
+    image:"sick-bed",
     headline:"Your cough has changed this season.",
     narrative:"The cough you've had all year has changed. It's wetter now, deeper. Your wife noticed. You've been in the dust for years — everyone coughs, but not like this. The company doctor will certify you fit. That's what he's paid to do.",
     fact:"Black lung disease (pneumoconiosis) was not officially recognized as a compensable occupational disease in WV until 1969. Before that, companies called it 'miners' asthma.'",
@@ -553,6 +587,7 @@ const MINER_EVENTS = [
   },
   {
     id:"funeral_month",
+    image:"graveyard",
     headline:"Three funerals in one month.",
     narrative:"Ren Massey, Pete Horvath, and old Caldwell. Roof fall, gas, and his heart finally giving out from forty years of loading. Three Sundays, three holes in the camp churchyard. Everyone is counting their own odds.",
     fact:"Between 1900 and 1940, over 20,000 WV coal miners died in occupational accidents. Many more died of disease and injury not counted in official records.",
@@ -565,6 +600,7 @@ const MINER_EVENTS = [
   },
   {
     id:"company_church",
+    image:"church",
     headline:"Preacher says the union is sinful.",
     narrative:"The company-owned church is full this Sunday. The preacher — who lives in a company house and draws a company salary — delivers a sermon on obedience. He names the union twice. The collection plate goes to the mine office.",
     fact:"Coal companies often built and staffed camp churches, using them to discourage union organizing and reinforce loyalty to the company.",
@@ -577,6 +613,7 @@ const MINER_EVENTS = [
   },
   {
     id:"haulage_accident",
+    image:"injury",
     headline:"Haulage rope snaps on the man-trip.",
     narrative:"The rope on the man-trip cart snaps coming up the slope. Two men are thrown against the ribs and badly hurt. You barely jump clear in time. The rope has been fraying for months. The company knew.",
     fact:"Transportation accidents — runaway cars, snapped haulage ropes, and shaft failures — were the second leading cause of death in WV mines after roof falls.",
@@ -589,6 +626,7 @@ const MINER_EVENTS = [
   },
   {
     id:"new_miner",
+    image:"canary",
     headline:"Green miner handles his lamp badly.",
     narrative:"The new man — fresh off the train from somewhere in Pennsylvania — is working next to your section. He doesn't know how to trim a safety lamp. You can see it from thirty feet away. Gas has been running this week.",
     fact:"Inexperienced miners were a constant danger in rapidly expanding mines. Training was informal and miners were expected to learn on the job — often from near misses.",
@@ -601,6 +639,7 @@ const MINER_EVENTS = [
   },
   {
     id:"water_seeping",
+    image:"flooding",
     headline:"Water seeping through the floor.",
     narrative:"The floor of your working section is wet today. Not just damp — water is seeping in steadily. The lower shaft has been pumping hard all week. If the pump fails, that section fills. Men are working down there now.",
     fact:"Mine flooding was a serious danger in WV's coal fields. Flash floods in the New River watershed could inundate lower mine shafts within hours.",
@@ -613,6 +652,7 @@ const MINER_EVENTS = [
   },
   {
     id:"welsh_songs",
+    image:"church",
     headline:"An old miner sings from the Rhondda.",
     narrative:"Owen Davies, the oldest Welshman in camp, is teaching the young men the songs his father sang in the Rhondda Valley. In Welsh. Underground. The sound carries strange through coal and rock.",
     fact:"Welsh miners brought a strong tradition of choral singing and labor organizing from the South Wales coalfields. Many became early UMW organizers in Appalachian mines.",
@@ -625,6 +665,7 @@ const MINER_EVENTS = [
   },
   {
     id:"widow_collection",
+    image:"evicted",
     headline:"Hat passed for a miner's widow.",
     narrative:"Charlie Benson's widow has four children and a two-week notice from the company to vacate. The men are passing a hat. It will amount to a few dollars. The company gave her nothing.",
     fact:"Before WV workmen's compensation laws strengthened in the 1920s, a miner's family received nothing from the company after a death — only continued debt at the company store.",
@@ -640,6 +681,7 @@ const MINER_EVENTS = [
 const WIFE_EVENTS = [
   {
     id:"wages_short",
+    image:"store-interior",
     headline:"Wages barely cover what is owed.",
     narrative:"Your husband brings home the pay envelope. After the house rent, the lamp oil, and what's owed at the store from last month, there is almost nothing left for food. The company store is where you must shop. The prices went up again.",
     fact:"The company store system trapped families in debt. Prices at company stores ran 10–40% higher than independent stores, which families were often discouraged or prevented from using.",
@@ -679,7 +721,7 @@ const WIFE_EVENTS = [
   {
     id:"child_fever",
     requiresChildren: true,
-    image:"sick-baby",
+    image:"doctor-house",
     headline:"Your youngest has a fever that won't break.",
     narrative:"Three days now. The baby won't eat. The company doctor charges a dollar for a house call — that's half a day's wages. There's a woman up the hollow who knows herbs, but your husband says to trust the doctor.",
     fact:"Infant mortality in WV coal camps ran twice the national average. Company doctors prioritized keeping miners fit for work, not treating families.",
@@ -691,6 +733,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"february_food",
+    image:"store-interior",
     headline:"Food runs low in deep February.",
     narrative:"The garden is long gone. The last of the preserved beans ran out Tuesday. The store credit is nearly exhausted and payday isn't until Friday. There are four people in this house who need to eat today.",
     fact:"Winter food insecurity was common in coal camps. Company stores extended credit strategically, keeping families just solvent enough to stay but never free of debt.",
@@ -703,6 +746,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"store_price_rise",
+    image:"store-interior",
     headline:"Store raises prices with no warning.",
     narrative:"Flour up three cents a pound. Salt pork up two. No notice posted, no reason given. The company store manager just shrugs. There is no other place to shop in this camp. Your husband's wages did not go up.",
     fact:"Company store prices were entirely at the operator's discretion. The captive market — families who could only shop at one store — gave companies total pricing power.",
@@ -715,6 +759,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"pepperoni_rolls",
+    image:"baking-day",
     headline:"A chance to sell baked goods.",
     narrative:"The boarding house on the next creek wants two dozen pepperoni rolls each Friday. That's real cash money — not scrip. It means early mornings and the price of flour and pepperoni up front, but it's income the company doesn't control.",
     fact:"Miners' wives in WV coal camps supplemented family income through baking, taking in laundry, and raising boarders. The pepperoni roll — WV's most iconic food — was born in the coal camps.",
@@ -727,6 +772,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"boarder_opportunity",
+    image:"store-interior",
     headline:"A boarder could help with rent.",
     narrative:"A young miner new to camp is looking for a room. He'd sleep in the kitchen corner and pay three dollars a month. It means less space for your family and more cooking, but three dollars doesn't come from the company.",
     fact:"Taking in boarders was extremely common in coal camps — over 30% of miners' households in WV censuses from 1910–1920 had non-family members living with them.",
@@ -739,6 +785,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"mutual_aid_fund",
+    image:"baking-day",
     headline:"Union wives organizing a mutual aid fund.",
     narrative:"Emma Kowalski is going door to door on the row. She wants every family to contribute fifty cents a week to a fund that pays out ten dollars when a man is killed. The company church preacher has already said it's 'socialism.'",
     fact:"Miners' wives organized formal and informal mutual aid networks across WV coal camps. These were precursors to union benefit funds and later New Deal social insurance.",
@@ -764,18 +811,19 @@ const WIFE_EVENTS = [
   },
   {
     id:"seeds_sharing",
-    headline:"Women sharing seeds from kitchen gardens.",
-    narrative:"Up and down the row, women are trading seeds from last year's gardens — tomatoes, beans, squash. It costs nothing. The company store doesn't control seeds. It's a small act of independence that the company agent probably doesn't even notice.",
-    fact:"Kitchen gardens were a vital food source for coal camp families. WV extension records show over 60% of mining families maintained gardens in the 1910s and 1920s.",
-    image:"garden",
+    image:"baking-day",
+    headline:"Community meal day — all welcome.",
+    narrative:"Someone has set up tables outside. Women from three rows over are cooking together — a big pot of soup, loaves of bread, pepper rolls passed hand to hand. There is no charge. The company agent walks past twice and says nothing.",
+    fact:"Community meals and communal baking were real practices in WV coal camps. The pepperoni roll — WV's most iconic food — was developed and refined through exactly this kind of shared labor between Italian, Polish, and Appalachian women.",
     choices:[
-      { text:"Share all you have and plant heavy this spring", health:5, scrip:-3, debt:0, food:15, lung:0, family:0, outcome:"Your garden produces well. You are off the store's flour for two months in summer." },
-      { text:"Trade a few seeds, keep your best", health:3, scrip:0, debt:0, food:8, lung:0, family:0, outcome:"A modest garden. Enough to matter. You keep the best seeds for next year." },
-      { text:"Too tired to garden on top of everything", health:2, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You rest. The seeds stay in the envelope." },
+      { text:"Go and bring the whole family", health:8, scrip:0, debt:0, food:12, lung:0, family:0, outcome:"Your children eat well and play with their neighbors. You come home with a recipe and full bellies." },
+      { text:"Contribute what you can and eat together", health:5, scrip:-2, debt:0, food:8, lung:0, family:0, outcome:"You bring flour and share the work. The meal is better than what you make alone." },
+      { text:"Stay home — too much to do", health:-2, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The work waits. The meal happens without you. The children ask why you didn't go." },
     ]
   },
   {
     id:"communal_baking",
+    image:"baking-day",
     headline:"Communal baking day in the camp.",
     narrative:"Someone has an outdoor oven. Ten women are spending Saturday making bread, rolls, and pies together. The work is easier shared. The singing helps. The company man walks past twice but doesn't stop.",
     fact:"Communal baking was a real practice in WV coal camps. The pepperoni roll was developed and refined through exactly this kind of shared knowledge between Italian, Polish, and Appalachian women.",
@@ -788,6 +836,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"tent_families",
+    image:"tents",
     headline:"Strike families camped up the road.",
     narrative:"Paint Creek strike families are living in tents two miles away after being evicted. The company has told workers not to bring them food. The union asks you to help. The risk of being seen is real.",
     fact:"During the 1912–1913 Paint Creek–Cabin Creek strike, over 1,200 families were evicted from company housing. The UMW set up tent colonies; companies had guards watching nearby roads.",
@@ -800,6 +849,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"letter_home",
+    image:"evicted",
     headline:"A letter from your family back home.",
     narrative:"Your mother's handwriting. She asks when you are coming back. She says your father is not well. She says things are hard here too, but she misses you. You don't have an answer to give her.",
     fact:"Migration to WV coal camps separated families across generations. Many Appalachian workers and immigrant families maintained ties to home regions for decades.",
@@ -812,6 +862,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"sunday_service",
+    image:"church",
     headline:"Sunday is the one hour nothing is theirs.",
     narrative:"The free Methodist service is held in a yard two rows over. No company preacher, no collection plate connected to the mine office, no sermon about the virtue of obedience. Just people singing in someone's yard.",
     fact:"Independent religious services were a form of cultural resistance in coal camps. Companies monitored attendance at non-company churches, viewing it as a sign of 'independent spirit.'",
@@ -995,6 +1046,7 @@ const MILESTONE_EVENTS = {
   },
   "blair_mountain_1921": {
     miner: {
+      image:"blair-mountain",
       headline:"REAL EVENT: Miners march on Blair Mountain.",
       narrative:"Between 5,000 and 20,000 armed miners marched on Logan County — the largest armed labor uprising since the Civil War. Federal troops arrived. Military aircraft dropped bombs. The march ended in defeat. Some men from nearby camps never came back.",
       fact:"The Battle of Blair Mountain ended when President Harding sent in federal troops and military aircraft — the only time in US history the government bombed its own citizens on domestic soil in a labor dispute.",
@@ -1388,8 +1440,7 @@ function CoalCountry() {
 
     // Resolve image from event's image hint or keyword matching
     const resolvedImg = evt.image
-      ? EVENT_IMAGE_RULES.find(r => r.keywords.some(k => k === evt.image))?.img?.()
-        || getEventImage(evt.headline, evt.narrative)
+      ? (IMAGE_MAP[evt.image] || getEventImage(evt.headline, evt.narrative))
       : getEventImage(evt.headline, evt.narrative);
 
     setEvent({ ...evt, _img: resolvedImg });
@@ -1775,24 +1826,30 @@ function CoalCountry() {
           style={{ width:"60px", accentColor:"#ffdd00", cursor:"pointer" }} />
       </div>
 
-      <img
-        src={endMsg.includes("evict") || endMsg.includes("debt") ? imgEvicted : imgGraveyard}
-        alt="End"
-        style={{ width:"100%", display:"block", imageRendering:"pixelated", marginBottom:"10px", borderBottom:`2px solid ${C.dgray}` }}
-      />
-      <HR/>
-      <div style={{ textAlign:"center", color:C.red, fontSize:"17px", margin:"20px 0", lineHeight:1.8 }}>
-        THE STORY<br/>ENDS HERE
-      </div>
-      <HR/>
-      <div style={{ fontSize:"13px", color:C.offwhite, lineHeight:2.2, maxWidth:"800px" }}>
-        {endMsg}
-      </div>
-      <div style={{ color:C.dgray, fontSize:"11px", marginTop:"14px" }}>
-        Year {player?.year}  /  {player?.turns||0} seasons survived
-      </div>
-      <div style={{ textAlign:"center", marginTop:"20px" }}>
-        <button style={S.btnBig} onClick={reset}>PLAY AGAIN</button>
+      <div style={{ display:"flex", flexDirection: wide ? "row" : "column", gap: wide ? "24px" : "0", alignItems:"flex-start" }}>
+        <div style={{ flexShrink:0, width: wide ? "45%" : "100%", marginBottom: wide ? 0 : "12px" }}>
+          <img
+            src={endMsg.includes("evict") || endMsg.includes("debt") ? imgEvicted : imgGraveyard}
+            alt="End"
+            style={{ width:"100%", display:"block", imageRendering:"pixelated", borderBottom:`2px solid ${C.dgray}` }}
+          />
+        </div>
+        <div style={{ flex:1 }}>
+          <HR/>
+          <div style={{ textAlign:"center", color:C.red, fontSize:"17px", margin:"20px 0", lineHeight:1.8 }}>
+            THE STORY<br/>ENDS HERE
+          </div>
+          <HR/>
+          <div style={{ fontSize:"13px", color:C.offwhite, lineHeight:2.2 }}>
+            {endMsg}
+          </div>
+          <div style={{ color:C.dgray, fontSize:"11px", marginTop:"14px" }}>
+            Year {player?.year}  /  {player?.turns||0} seasons survived
+          </div>
+          <div style={{ textAlign:"center", marginTop:"20px" }}>
+            <button style={S.btnBig} onClick={reset}>PLAY AGAIN</button>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -1812,7 +1869,11 @@ function CoalCountry() {
           style={{ width:"60px", accentColor:"#ffdd00", cursor:"pointer" }} />
       </div>
 
-      <img src={imgVictory} alt="Victory" style={{ width:"100%", display:"block", imageRendering:"pixelated", marginBottom:"10px", borderBottom:`2px solid ${C.dgray}` }} />
+      <div style={{ display:"flex", flexDirection: wide ? "row" : "column", gap: wide ? "24px" : "0", alignItems:"flex-start", marginBottom:"16px" }}>
+        <div style={{ flexShrink:0, width: wide ? "45%" : "100%", marginBottom: wide ? 0 : "12px" }}>
+          <img src={imgVictory} alt="Victory" style={{ width:"100%", display:"block", imageRendering:"pixelated", borderBottom:`2px solid ${C.dgray}` }} />
+        </div>
+        <div style={{ flex:1 }}>
       <HR/>
       <div style={{ textAlign:"center", color:C.green, fontSize:"13px", margin:"20px 0", lineHeight:1.8 }}>
         {player?.name}<br/>SURVIVED TO 1935
@@ -1831,6 +1892,8 @@ function CoalCountry() {
       <div style={{ textAlign:"center", marginTop:"20px" }}>
         <button style={S.btnBig} onClick={reset}>PLAY AGAIN</button>
       </div>
+        </div>{/* end right column */}
+      </div>{/* end flex row */}
     </div>
   );
 
@@ -1946,7 +2009,7 @@ function CoalCountry() {
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"4px" }}>
                   <span style={{ color:C.white }}>{opt.label}</span>
                   <span style={{ fontSize:"11px" }}>
-                    <DeltaBadge val={opt.scrip}   unit="$ scrip" />
+                    <DeltaBadge val={player.wagePenalty && opt.scrip > 0 ? Math.floor(opt.scrip * 0.8) : opt.scrip} unit="$ scrip" />
                     <DeltaBadge val={opt.health}  unit=" hp" />
                     {opt.lung !== 0 && player.character === "miner" &&
                       <DeltaBadge val={opt.lung} unit=" lung" invert />}
@@ -2065,9 +2128,10 @@ function CoalCountry() {
           <div style={{ color:C.gray, fontSize:"11px" }}>loading historical event</div>
         </div>
       ) : event ? (
-        <>
+        <div style={{ display:"flex", flexDirection: wide ? "row" : "column", gap: wide ? "24px" : "0", alignItems:"flex-start" }}>
+          {/* LEFT: event image */}
           {event._img && (
-            <div style={{ maxWidth:"600px", margin:"0 auto 12px" }}>
+            <div style={{ flexShrink:0, width: wide ? "45%" : "100%", marginBottom: wide ? 0 : "12px" }}>
               <img
                 src={event._img}
                 alt=""
@@ -2076,49 +2140,48 @@ function CoalCountry() {
               />
             </div>
           )}
-          <div style={S.headline}>{event.headline?.toUpperCase()}</div>
-          <div style={S.narr}>{event.narrative}</div>
+          {/* RIGHT: narrative + choices */}
+          <div style={{ flex:1 }}>
+            <div style={S.headline}>{event.headline?.toUpperCase()}</div>
+            <div style={S.narr}>{event.narrative}</div>
 
-          {event.fact && (
-            <div style={S.factBox}>
-              <div style={{ color:C.green, fontSize:"13px", letterSpacing:"2px", marginBottom:"6px" }}>
-                -- HISTORICAL RECORD --
-              </div>
-              {event.fact}
-            </div>
-          )}
-
-          <HR/>
-          <div style={{ fontSize:"13px", color:C.gray, marginBottom:"10px" }}>
-            WHAT DO YOU DO?
-          </div>
-
-          {event.choices?.map((c, i) => (
-            <button key={i} style={S.btn} onClick={() => handleChoice(c)}>
-              {/* Choice label + stat preview on same row */}
-              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom: c.outcome ? "6px" : 0 }}>
-                <span style={{ color:C.white }}>
-                  {c.text}
-                </span>
-                <span style={{ fontSize:"13px", textAlign:"right" }}>
-                  {c.health !== 0 && <DeltaBadge val={c.health} unit="hp" />}
-                  {c.scrip  !== 0 && <DeltaBadge val={c.scrip}  unit="$"  />}
-                  {c.debt   !== 0 && <DeltaBadge val={-c.debt}  unit="$ debt" />}
-                  {c.food   !== 0 && <DeltaBadge val={c.food}   unit=" food" />}
-                  {c.lung   !== 0 && player.character === "miner" &&
-                    <DeltaBadge val={c.lung} unit=" lung" invert />}
-                  {c.family !== 0 && <DeltaBadge val={c.family} unit=" family" invert />}
-                </span>
-              </div>
-              {/* Outcome preview in dim text */}
-              {c.outcome && (
-                <div style={{ color:C.dgray, fontSize:"11px", lineHeight:1.8 }}>
-                  &gt; {c.outcome}
+            {event.fact && (
+              <div style={S.factBox}>
+                <div style={{ color:C.green, fontSize:"13px", letterSpacing:"2px", marginBottom:"6px" }}>
+                  -- HISTORICAL RECORD --
                 </div>
-              )}
-            </button>
-          ))}
-        </>
+                {event.fact}
+              </div>
+            )}
+
+            <HR/>
+            <div style={{ fontSize:"13px", color:C.gray, marginBottom:"10px" }}>
+              WHAT DO YOU DO?
+            </div>
+
+            {event.choices?.map((c, i) => (
+              <button key={i} style={S.btn} onClick={() => handleChoice(c)}>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom: c.outcome ? "6px" : 0 }}>
+                  <span style={{ color:C.white }}>{c.text}</span>
+                  <span style={{ fontSize:"13px", textAlign:"right" }}>
+                    {c.health !== 0 && <DeltaBadge val={c.health} unit="hp" />}
+                    {c.scrip  !== 0 && <DeltaBadge val={c.scrip}  unit="$"  />}
+                    {c.debt   !== 0 && <DeltaBadge val={-c.debt}  unit="$ debt" />}
+                    {c.food   !== 0 && <DeltaBadge val={c.food}   unit=" food" />}
+                    {c.lung   !== 0 && player.character === "miner" &&
+                      <DeltaBadge val={c.lung} unit=" lung" invert />}
+                    {c.family !== 0 && <DeltaBadge val={c.family} unit=" family" invert />}
+                  </span>
+                </div>
+                {c.outcome && (
+                  <div style={{ color:C.dgray, fontSize:"11px", lineHeight:1.8 }}>
+                    &gt; {c.outcome}
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
       ) : null}
     </div>
   );
@@ -2138,7 +2201,9 @@ function CoalCountry() {
           style={{ width:"60px", accentColor:"#ffdd00", cursor:"pointer" }} />
       </div>
 
-      <img src={imgStoreInterior} alt="Company Store" style={{ width:"100%", display:"block", imageRendering:"pixelated", marginBottom:"12px", borderBottom:`2px solid ${C.dgray}` }} />
+      <div style={{ maxWidth:"600px", margin:"0 auto 12px" }}>
+        <img src={imgStoreInterior} alt="Company Store" style={{ width:"100%", display:"block", imageRendering:"pixelated", borderBottom:`2px solid ${C.dgray}` }} />
+      </div>
       <div style={{ color:C.white, fontSize:"13px", letterSpacing:"2px", marginBottom:"4px" }}>
         {companyName.toUpperCase()}
       </div>
