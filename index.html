@@ -91,6 +91,7 @@ const imgTents = BASE_URL + "tents.jpg";
 const imgUnionOrganizer = BASE_URL + "union-organizer.jpg";
 const imgNewBaby        = BASE_URL + "new-baby.jpg";
 const imgSoundOn        = BASE_URL + "sound-on.jpg";
+const imgFamilyEvicted  = BASE_URL + "family-evicted.jpg";
 const imgSoundOff       = BASE_URL + "sound-off.jpg";
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
@@ -143,7 +144,7 @@ const ETHNICITIES = [
     bonus:"family", bonusLabel:"Family morale bonus" },
   { id:"welsh",       label:"Welsh Immigrant",   origin:"Arrived from the Welsh coalfields.",
     note:"Welsh miners brought technical expertise and a strong union tradition. They were frequently union organizers in the American mines.",
-    bonus:"lung",   bonusLabel:"Lung resistance" },
+    bonus:"lung",   bonusLabel:"Union organizing tradition" },
 ];
 
 const COAL_CAMPS = [
@@ -311,13 +312,14 @@ const EVENT_IMAGE_RULES = [
   { keywords: ["matewan","hatfield","mingo","1920","battle of matewan"],    img: () => imgSidHatfield },
   { keywords: ["church","sermon","sunday","revival","preacher","baptist","collection plate","tithe"], img: () => imgChurch },
   { keywords: ["mine whistle","whistle blew","disaster","explosion at","killed in","bodies"], img: () => imgWhistle },
-  { keywords: ["tent","strike","evict","blair mountain","1921","marched","union camp","homeless"], img: () => imgTents },
+  { keywords: ["tent","blair mountain","1921","marched","union camp","homeless"], img: () => imgTents },
+  { keywords: ["evict","eviction","vacate","leave the house","company house","belongings","widow next door","family being evicted"], img: () => imgFamilyEvicted },
   { keywords: ["union organizer","organizer","united mine workers","umw","baldwin-felts","felts","strike vote","leaflet"], img: () => imgUnionOrganizer },
   { keywords: ["new baby","baby arrives","child born","delivered","new child","birth","newborn","expecting","labor"], img: () => imgNewBaby },
   { keywords: ["pay envelope","payday","short","wages","docking","scrip office","empty envelope","pay cut"], img: () => imgPayEnvelope },
   { keywords: ["baking day","communal bak","mutual aid","sharing seeds","sharing food","community meal","women across"], img: () => imgBakingDay },
   { keywords: ["influenza","flu","spanish","sick in bed","sick","fever","mask","pneumoconiosis","cough"], img: () => imgSickBed },
-  { keywords: ["evict","leave the house","company house","belongings"], img: () => imgEvicted },
+  { keywords: ["widow","widowed","husband was killed","husband died","no compensation"], img: () => imgEvicted },
   { keywords: ["flood","flooded","water rising","water in the mine","seeping","lower level floods"], img: () => imgFlooding },
   { keywords: ["canary","gas pocket","gas detected","firedamp","methane","poisonous"], img: () => imgCanary },
   { keywords: ["depression","closed","no work","mine closes","mine shut","no wages this week","cut hours","stop production"], img: () => imgMineClosed },
@@ -648,6 +650,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"company_inspection",
+    image:"family-evicted",
     headline:"Company man comes to inspect the house.",
     narrative:"The company agent is walking the row, checking every house for 'sanitary violations.' A dirty house can be cause for eviction. You have twelve hours' notice. The coal dust comes in through the walls. It always does.",
     fact:"Coal company housing came with strict behavioral codes. Inspections for cleanliness and 'moral character' were used to threaten families who showed union sympathies.",
@@ -660,6 +663,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"children_coughing",
+    requiresChildren: true,
     headline:"Children cough through the night.",
     narrative:"Coal dust coats every surface in this house — the windowsills, the bedding, the children's hair. They've been coughing since October. Same as last October. The company doctor says it's winter air.",
     fact:"Children in coal camps had dramatically higher rates of respiratory illness than comparable populations. Coal dust entered homes through gaps in walls and floors of company-built housing.",
@@ -672,6 +676,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"child_fever",
+    requiresChildren: true,
     headline:"Your youngest has a fever that won't break.",
     narrative:"Three days now. The baby won't eat. The company doctor charges a dollar for a house call — that's half a day's wages. There's a woman up the hollow who knows herbs, but your husband says to trust the doctor.",
     fact:"Infant mortality in WV coal camps ran twice the national average. Company doctors prioritized keeping miners fit for work, not treating families.",
@@ -744,6 +749,7 @@ const WIFE_EVENTS = [
   },
   {
     id:"widow_eviction",
+    image:"family-evicted",
     headline:"Widow next door gets eviction notice.",
     narrative:"Margaret Tully's husband was killed four days ago. This morning, the company's agent slid an eviction notice under her door — she has one week to vacate. She has three children and nowhere to go.",
     fact:"Coal companies routinely evicted miners' widows within days of a miner's death. The house was company property, and death did not suspend the obligation to vacate.",
@@ -1368,9 +1374,11 @@ function CoalCountry() {
     if (!evt) {
       // Pick a random pre-scripted event, avoiding recent repeats
       const pool = p.character === "miner" ? MINER_EVENTS : WIFE_EVENTS;
+      const hasChildren = (p.children||[]).length > 0;
       const used = p.usedEvents || [];
-      const available = pool.filter(e => !used.includes(e.id));
-      const source = available.length > 0 ? available : pool;
+      const eligible = pool.filter(e => !e.requiresChildren || hasChildren);
+      const available = eligible.filter(e => !used.includes(e.id));
+      const source = available.length > 0 ? available : eligible;
       evt = source[Math.floor(Math.random() * source.length)];
       // Track used events (keep last 8 to avoid immediate repeats)
       p.usedEvents = [...used, evt.id].slice(-8);
@@ -1490,14 +1498,16 @@ function CoalCountry() {
     const p = {
       character:charType, name, ethnicity, camp,
       health:95, food:50, scrip:3, debt:40,
-      blackLung:0, family:4,
+      blackLung:0, family:2,
+      children:[{ birthTurn:-8, birthYear:START_YEAR-2, birthSeason:"Spring" }],
+      lastBirthTurn:-8,
       year:START_YEAR, seasonIdx:0, turns:0,
       usedMilestones:[],
     };
     if (ethObj?.bonus === "health")    p.health = clamp(p.health + 8);
     if (ethObj?.bonus === "food")      p.food   = clamp(p.food + 12);
     if (ethObj?.bonus === "debt")      p.debt   = Math.max(0, p.debt - 8);
-    if (ethObj?.bonus === "lung")      p.lungResist = true;
+    if (ethObj?.bonus === "lung" && p.character === "miner") p.lungResist = true;
     if (ethObj?.bonus === "community") p.food   = clamp(p.food + 10);
     if (p.ethnicity === "african")     p.wagePenalty = true;
     setPlayer(p);
@@ -1516,6 +1526,20 @@ function CoalCountry() {
 
   if (screen === "menu") return (
     <div style={{ ...S.page, padding: wide ? "20px 120px 32px" : "20px 18px 32px" }}>
+      {/* Audio controls */}
+      <div style={{ position:"fixed", top:"12px", right:"16px", display:"flex", alignItems:"center", gap:"8px", zIndex:100 }}>
+        <button
+          style={{ background:"none", border:"none", padding:0, cursor:"pointer", lineHeight:0 }}
+          onClick={() => setMuted(m => !m)}
+          title={muted ? "Unmute" : "Mute"}
+        >
+          <img src={muted ? imgSoundOff : imgSoundOn} alt={muted ? "Unmute" : "Mute"}
+            style={{ width:"24px", height:"24px", imageRendering:"pixelated", display:"block" }} />
+        </button>
+        <input type="range" min="0" max="1" step="0.05" value={muted ? 0 : volume}
+          onChange={e => { setMuted(false); setVolume(parseFloat(e.target.value)); }}
+          style={{ width:"60px", accentColor:"#ffdd00", cursor:"pointer" }} />
+      </div>
       {/* Hero image with title overlaid */}
       <div style={{ position:"relative", marginBottom:"18px", maxWidth:"600px", margin:"0 auto 18px" }}>
         <img
@@ -1578,6 +1602,20 @@ function CoalCountry() {
     const stepLabels = ["CHOOSE YOUR ROLE","YOUR BACKGROUND","YOUR COAL CAMP","YOUR NAME"];
     return (
       <div style={{ ...S.page, padding: wide ? "20px 120px 32px" : "20px 18px 32px" }}>
+      {/* Audio controls */}
+      <div style={{ position:"fixed", top:"12px", right:"16px", display:"flex", alignItems:"center", gap:"8px", zIndex:100 }}>
+        <button
+          style={{ background:"none", border:"none", padding:0, cursor:"pointer", lineHeight:0 }}
+          onClick={() => setMuted(m => !m)}
+          title={muted ? "Unmute" : "Mute"}
+        >
+          <img src={muted ? imgSoundOff : imgSoundOn} alt={muted ? "Unmute" : "Mute"}
+            style={{ width:"24px", height:"24px", imageRendering:"pixelated", display:"block" }} />
+        </button>
+        <input type="range" min="0" max="1" step="0.05" value={muted ? 0 : volume}
+          onChange={e => { setMuted(false); setVolume(parseFloat(e.target.value)); }}
+          style={{ width:"60px", accentColor:"#ffdd00", cursor:"pointer" }} />
+      </div>
         <div style={{ color:C.gray, fontSize:"11px", letterSpacing:"2px", marginBottom:"4px" }}>
           COAL COUNTRY  &gt;  SETUP
         </div>
@@ -1723,6 +1761,18 @@ function CoalCountry() {
   // ── END ───────────────────────────────────────────────────────────────────────
   if (screen === "end") return (
     <div style={{ ...S.page, padding: wide ? "20px 120px 32px" : "20px 18px 32px" }}>
+      {/* Audio controls */}
+      <div style={{ position:"fixed", top:"12px", right:"16px", display:"flex", alignItems:"center", gap:"8px", zIndex:100 }}>
+        <button style={{ background:"none", border:"none", padding:0, cursor:"pointer", lineHeight:0 }}
+          onClick={() => setMuted(m => !m)} title={muted ? "Unmute" : "Mute"}>
+          <img src={muted ? imgSoundOff : imgSoundOn} alt={muted ? "Unmute" : "Mute"}
+            style={{ width:"24px", height:"24px", imageRendering:"pixelated", display:"block" }} />
+        </button>
+        <input type="range" min="0" max="1" step="0.05" value={muted ? 0 : volume}
+          onChange={e => { setMuted(false); setVolume(parseFloat(e.target.value)); }}
+          style={{ width:"60px", accentColor:"#ffdd00", cursor:"pointer" }} />
+      </div>
+
       <img
         src={endMsg.includes("evict") || endMsg.includes("debt") ? imgEvicted : imgGraveyard}
         alt="End"
@@ -1748,6 +1798,18 @@ function CoalCountry() {
   // ── WON ───────────────────────────────────────────────────────────────────────
   if (screen === "won") return (
     <div style={{ ...S.page, padding: wide ? "20px 120px 32px" : "20px 18px 32px" }}>
+      {/* Audio controls */}
+      <div style={{ position:"fixed", top:"12px", right:"16px", display:"flex", alignItems:"center", gap:"8px", zIndex:100 }}>
+        <button style={{ background:"none", border:"none", padding:0, cursor:"pointer", lineHeight:0 }}
+          onClick={() => setMuted(m => !m)} title={muted ? "Unmute" : "Mute"}>
+          <img src={muted ? imgSoundOff : imgSoundOn} alt={muted ? "Unmute" : "Mute"}
+            style={{ width:"24px", height:"24px", imageRendering:"pixelated", display:"block" }} />
+        </button>
+        <input type="range" min="0" max="1" step="0.05" value={muted ? 0 : volume}
+          onChange={e => { setMuted(false); setVolume(parseFloat(e.target.value)); }}
+          style={{ width:"60px", accentColor:"#ffdd00", cursor:"pointer" }} />
+      </div>
+
       <img src={imgVictory} alt="Victory" style={{ width:"100%", display:"block", imageRendering:"pixelated", marginBottom:"10px", borderBottom:`2px solid ${C.dgray}` }} />
       <HR/>
       <div style={{ textAlign:"center", color:C.green, fontSize:"13px", margin:"20px 0", lineHeight:1.8 }}>
@@ -1976,6 +2038,17 @@ function CoalCountry() {
   // ── EVENT ─────────────────────────────────────────────────────────────────────
   if (screen === "event") return (
     <div style={{ ...S.page, padding: wide ? "20px 120px 32px" : "20px 18px 32px" }}>
+      {/* Audio controls */}
+      <div style={{ position:"fixed", top:"12px", right:"16px", display:"flex", alignItems:"center", gap:"8px", zIndex:100 }}>
+        <button style={{ background:"none", border:"none", padding:0, cursor:"pointer", lineHeight:0 }}
+          onClick={() => setMuted(m => !m)} title={muted ? "Unmute" : "Mute"}>
+          <img src={muted ? imgSoundOff : imgSoundOn} alt={muted ? "Unmute" : "Mute"}
+            style={{ width:"24px", height:"24px", imageRendering:"pixelated", display:"block" }} />
+        </button>
+        <input type="range" min="0" max="1" step="0.05" value={muted ? 0 : volume}
+          onChange={e => { setMuted(false); setVolume(parseFloat(e.target.value)); }}
+          style={{ width:"60px", accentColor:"#ffdd00", cursor:"pointer" }} />
+      </div>
       <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", fontSize:"11px", color:C.gray, marginBottom:"6px" }}>
         <span>COAL COUNTRY  ·  {season.toUpperCase()} {player.year}</span>
         <button style={{ ...S.btnSm, fontSize:"11px", padding:"4px 8px", marginBottom:0 }} onClick={reset}>
@@ -2051,6 +2124,18 @@ function CoalCountry() {
   // ── STORE ─────────────────────────────────────────────────────────────────────
   if (screen === "store") return (
     <div style={{ ...S.page, padding: wide ? "20px 120px 32px" : "20px 18px 32px" }}>
+      {/* Audio controls */}
+      <div style={{ position:"fixed", top:"12px", right:"16px", display:"flex", alignItems:"center", gap:"8px", zIndex:100 }}>
+        <button style={{ background:"none", border:"none", padding:0, cursor:"pointer", lineHeight:0 }}
+          onClick={() => setMuted(m => !m)} title={muted ? "Unmute" : "Mute"}>
+          <img src={muted ? imgSoundOff : imgSoundOn} alt={muted ? "Unmute" : "Mute"}
+            style={{ width:"24px", height:"24px", imageRendering:"pixelated", display:"block" }} />
+        </button>
+        <input type="range" min="0" max="1" step="0.05" value={muted ? 0 : volume}
+          onChange={e => { setMuted(false); setVolume(parseFloat(e.target.value)); }}
+          style={{ width:"60px", accentColor:"#ffdd00", cursor:"pointer" }} />
+      </div>
+
       <img src={imgStoreInterior} alt="Company Store" style={{ width:"100%", display:"block", imageRendering:"pixelated", marginBottom:"12px", borderBottom:`2px solid ${C.dgray}` }} />
       <div style={{ color:C.white, fontSize:"13px", letterSpacing:"2px", marginBottom:"4px" }}>
         {companyName.toUpperCase()}
