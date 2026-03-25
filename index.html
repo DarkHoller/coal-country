@@ -1057,7 +1057,7 @@ function buildInitialPlayer(character, ethnicityId, campId, name) {
 
   // Apply ethnicity bonuses
   if (ethnicityId === "appalachian") base.health += 8;
-  if (ethnicityId === "african")     base.food   += 10;
+  // african: mutual aid network bonus is behavioral (checked during events), not a stat bonus
   if (ethnicityId === "italian")     base.food   += 12;
   if (ethnicityId === "hungarian")   base.debt   -= 8;
   // polish and welsh bonuses are behavioral (checked during events), not stat changes
