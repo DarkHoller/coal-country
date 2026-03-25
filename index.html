@@ -94,8 +94,18 @@ const IMAGES = {
   "victory": "jpg",
   "wages-barely-cover": "png",
   "whistle": "jpg", "whipple-mine-explosion": "jpg",
-  // Fishing scene
-  "fishing_600x600": "jpg",
+  // New dedicated event images
+  "fishing": "jpg",
+  "eviction": "jpg",
+  "miner-coworker-check": "jpg",
+  "miner-outside-store": "jpg",
+  "miner-sharpen-tools": "jpg",
+  "miner-teaching-reading": "jpg",
+  "wife-bread-trade": "jpg",
+  "wife-mending": "jpg",
+  "wife-new-family": "jpg",
+  "wife-singing": "jpg",
+  "wife-washing-ridge": "png",
   // Sponsor logos (footer)
   "AppalachianEscapes": "gif", "darkholler": "gif", "logo-cartoon": "gif",
 };
@@ -519,7 +529,7 @@ const MINER_EVENTS = [
       { text:"Keep working — can't afford the time",    health:-3, scrip:4, debt:0, food:0, lung:2, family:0, outcome:"You make good tonnage. The singing fades down the shaft." },
     ]
   },
-  { id:"widow_collection", img:"graveyard",
+  { id:"widow_collection", img:"evicted",
     headline:"Hat passed for a miner's widow.",
     narrative:"Charlie Benson's widow has four children and a two-week notice from the company to vacate. The men are passing a hat. It will amount to a few dollars. The company gave her nothing.",
     fact:"Before WV workmen's compensation laws strengthened in the 1920s, a miner's family received nothing from the company after a death — only continued debt at the company store.",
@@ -550,7 +560,7 @@ const MINER_EVENTS = [
     ]
   },
   // ── Fishing day ───────────────────────────────────────────────────────────────
-  { id:"fishing_day", img:"fishing_600x600",
+  { id:"fishing_day", img:"fishing",
     headline:"Sunday off — creek's running clear.",
     narrative:"No work order posted this morning. First free Sunday in three weeks. The creek below the hollow is cold and the fish are biting. You don't owe anyone your time today.",
     fact:"Sundays were technically rest days in most coal camps, though pump operators and maintenance crews often worked regardless. A truly idle day was rare enough that men remembered specific ones for years.",
@@ -583,7 +593,7 @@ const MINER_EVENTS = [
   },
 
   // ── Flavor vignettes (miner) — no stat changes ───────────────────────────────
-  { id:"miner_coworker_check", img:"tipple",
+  { id:"miner_coworker_check", img:"miner-coworker-check",
     headline:"A close call in Section 3.",
     narrative:"The roof gave a crack this morning that froze every man in the section. It held. For now. You could see it on Kowalski's face when he climbed out — the same look you've been wearing for six years.",
     fact:"Near-misses in underground mining were rarely reported. Men developed their own informal systems for tracking dangerous areas and warning each other.",
@@ -593,7 +603,7 @@ const MINER_EVENTS = [
       { text:"Report it to the foreman in writing",         health:0, scrip:-1,debt:0, food:0, lung:0, family:0, outcome:"He initials the report without reading it. You keep your copy." },
     ]
   },
-  { id:"miner_outside_store", img:"store-interior",
+  { id:"miner_outside_store", img:"miner-outside-store",
     headline:"Payday and somewhere else to spend it.",
     narrative:"The company store is closer. Easier. But you've been watching the prices climb for two months and there's a dry goods man who sets up in the next hollow on Fridays.",
     fact:"Miners who shopped outside company stores were sometimes noted by management. The company had no legal right to prohibit it, but had other ways of expressing displeasure.",
@@ -603,7 +613,7 @@ const MINER_EVENTS = [
       { text:"Skip buying altogether this week",              health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You'll make do. You usually do." },
     ]
   },
-  { id:"miner_teaching_reading", img:"church",
+  { id:"miner_teaching_reading", img:"miner-teaching-reading",
     headline:"One book in the house.",
     narrative:"The almanac your father gave you the year you came down from the holler. Your oldest has been eyeing it for months. Tonight there's no overtime posted and the lamp oil holds.",
     fact:"Literacy rates in coal camps were mixed — immigrant families sometimes prioritized education as a path out of the mines, while others needed children working as soon as they were able.",
@@ -613,7 +623,7 @@ const MINER_EVENTS = [
       { text:"Let the boy sleep — he'll need the rest",         health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"Morning comes fast. You both know it." },
     ]
   },
-  { id:"miner_sharpen_tools", img:"drilling",
+  { id:"miner_sharpen_tools", img:"miner-sharpen-tools",
     headline:"Saturday night, tools need tending.",
     narrative:"You've been dulling through coal all week. A sharp pick loads faster, and faster loading means more cars, and more cars means more pay. It's simple math. You oil the lamp and get to work.",
     fact:"Miners owned their own tools and were responsible for maintaining them. A well-maintained pick could last years; a neglected one cost money to replace — deducted from wages.",
@@ -728,7 +738,7 @@ const WIFE_EVENTS = [
       { text:"Too risky — the company is watching",      health:-3, scrip:0,  debt:0, food:0, lung:0, family:0, outcome:"You stay home. Emma understands. You both know the risk is real." },
     ]
   },
-  { id:"widow_eviction", img:"family-evicted",
+  { id:"widow_eviction", img:"evicted",
     headline:"Widow next door gets eviction notice.",
     narrative:"Margaret Tully's husband was killed four days ago. This morning, the company's agent slid an eviction notice under her door — she has one week to vacate. She has three children and nowhere to go.",
     fact:"Coal companies routinely evicted miners' widows within days of a miner's death. The house was company property, and death did not suspend the obligation to vacate.",
@@ -738,7 +748,7 @@ const WIFE_EVENTS = [
       { text:"Give what food you can spare",             health:0,  scrip:0, debt:0, food:-8,  lung:0, family:0, outcome:"You bring what you have. It doesn't solve her housing. It's still something." },
     ]
   },
-  { id:"seeds_sharing", img:"community-meal-day",
+  { id:"communal_meal", img:"community-meal-day",
     headline:"Community meal day — all welcome.",
     narrative:"Someone has set up tables outside. Women from three rows over are cooking together — a big pot of soup, loaves of bread, pepper rolls passed hand to hand. There is no charge. The company agent walks past twice and says nothing.",
     fact:"Community meals and communal baking were real practices in WV coal camps. The pepperoni roll was developed and refined through shared labor between Italian, Polish, and Appalachian women.",
@@ -793,7 +803,7 @@ const WIFE_EVENTS = [
   },
 
   // ── Wife death event — game over, no branching ────────────────────────────────
-  { id:"wife_death", img:"sick-bed", gameOver:true,
+  { id:"wife_death", img:"graveyard", gameOver:true,
     headline:"The fever broke wrong.",
     narrative:"Childbed fever. The doctor came on the third day but it was already too late. She'd been saying she felt cold since the morning after the birth.",
     fact:"Puerperal fever was the leading cause of maternal death well into the 1930s. In coal camps, contaminated water and overworked midwives made post-birth infection common.",
@@ -801,7 +811,7 @@ const WIFE_EVENTS = [
   },
 
   // ── Flavor vignettes (wife) — no stat changes ────────────────────────────────
-  { id:"wife_bread_trade", img:"community-meal-day",
+  { id:"wife_bread_trade", img:"wife-bread-trade",
     headline:"Trading what you have for what you need.",
     narrative:"Your loaves came out right this week and your neighbor's garden came in heavy. Neither of you has cash. Both of you have something the other wants.",
     fact:"Informal barter economies were common in coal camps, operating alongside — and independent of — the scrip system. Women organized most of this exchange.",
@@ -811,7 +821,7 @@ const WIFE_EVENTS = [
       { text:"Keep it — you'll need it yourself",                   health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You probably will." },
     ]
   },
-  { id:"wife_washing_ridge", img:"tipple",
+  { id:"wife_washing_ridge", img:"wife-washing-ridge",
     headline:"Morning at the washline.",
     narrative:"The ridge is going gold. The kind of morning the coal dust doesn't quite reach, when the mountain looks the way it must have looked before anyone dug into it.",
     fact:"Women in coal camps were responsible for laundry in conditions that made it particularly difficult — coal dust on every surface, often no running water, company-built housing with poor drainage.",
@@ -821,7 +831,7 @@ const WIFE_EVENTS = [
       { text:"Call the children out to see the frost on the ridge",health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"They squint up at it. One of them asks why the mountain is on fire. You don't correct him." },
     ]
   },
-  { id:"wife_new_family", img:"evicted",
+  { id:"wife_new_family", img:"wife-new-family",
     headline:"New family moves into the empty house.",
     narrative:"The Briggs house has been empty three weeks. This morning a wagon came up the road from the depot. Kentucky plates on the mule cart. A woman about your age, three children, husband already at the tipple.",
     fact:"Coal camp populations turned over constantly as families were evicted or left for better prospects. New arrivals from Kentucky, Virginia, and the Deep South were common through the 1920s.",
@@ -831,7 +841,7 @@ const WIFE_EVENTS = [
       { text:"Give them a week to settle before approaching",  health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You remember needing that. You leave them to it." },
     ]
   },
-  { id:"wife_mending", img:"baking-day",
+  { id:"wife_mending", img:"wife-mending",
     headline:"The trousers again.",
     narrative:"The left knee went again. Third time this pair. You've got scraps from the flour sack that might hold. Needle's getting dull and thread's running low, but buying new is not in the numbers this week.",
     fact:"Clothing repair was a significant part of women's labor in coal camps. Many families went years without buying new clothes, maintaining garments through repeated repair.",
@@ -841,7 +851,7 @@ const WIFE_EVENTS = [
       { text:"Cut them down for the youngest",           health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The child is delighted. Doesn't ask why one knee is darker than the other." },
     ]
   },
-  { id:"wife_singing", img:"community-baking-day",
+  { id:"wife_singing", img:"wife-singing",
     headline:"The little ones underfoot while you work.",
     narrative:"There's bread to make and floors to sweep and a basket of mending still from last week. The children are circling the kitchen like they always do, wanting to be near you without having any particular reason to say so.",
     fact:"Song traditions in Appalachian coal camps blended Welsh chapel music, Scots-Irish ballads, gospel, and the new sounds coming up from the South. Women were the primary keepers of these traditions.",
@@ -980,7 +990,7 @@ const MILESTONE_EVENTS = {
       ]
     },
     wife: {
-      img:"great-depression",
+      img:"mine-closed",
       headline:"THE MINE IS CLOSED — DEBT KEEPS CLIMBING.",
       narrative:"The mine is closed. The men are home. The debt at the store keeps climbing even when the wages stop. You are cooking thinner and stretching what you have. Everyone pretends it is temporary.",
       fact:"During mine closures, families often fell deeper into company store debt. When the mine reopened, miners effectively worked for weeks to pay off the closure debt.",
@@ -994,7 +1004,7 @@ const MILESTONE_EVENTS = {
 
   depression: {
     miner: {
-      img:"great-depression",
+      img:"mine-closed",
       headline:"REAL EVENT: THE DEPRESSION REACHES THE MINES.",
       narrative:"The stock market has collapsed. Coal prices had been falling all decade. Now mines are cutting hours, cutting pay, or closing for weeks at a time. You might show up and be told there is no work today. Other men are leaving for the steel mills up north. You are not sure if staying means loyalty or stubbornness.",
       fact:"WV coal employment dropped from 140,000 in 1927 to under 90,000 by 1932. Many miners who left for northern steel mills found those jobs vanishing too.",
@@ -1005,7 +1015,7 @@ const MILESTONE_EVENTS = {
       ]
     },
     wife: {
-      img:"great-depression",
+      img:"mine-closed",
       headline:"REAL EVENT: THE DEPRESSION HITS THE CAMP.",
       narrative:"Mines closing for days or weeks at a time. When they open, wages are lower than last year. The store still expects payment. Families on your row are packing what they can carry and heading to Pittsburgh or Cleveland. You are watching them leave and trying to decide what staying means.",
       fact:"WV coal camp populations declined sharply in the early 1930s as families migrated to northern industrial cities. Many found urban poverty little better than the camps.",
