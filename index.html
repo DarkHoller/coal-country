@@ -4,6 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Coal Country</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/DarkHoller/coal-country/main/images/favicon_32x32.jpg" type="image/jpeg"/>
 
   <!-- Fonts and base styles in <head>, not injected via JS (v1 bug fix) -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -93,8 +94,10 @@ const IMAGES = {
   "victory": "jpg",
   "wages-barely-cover": "png",
   "whistle": "jpg", "whipple-mine-explosion": "jpg",
+  // Fishing scene
+  "fishing_600x600": "jpg",
   // Sponsor logos (footer)
-  "AppalachianEscapes": "gif", "darkholler": "gif", "logo-cartoon": "jpg",
+  "AppalachianEscapes": "gif", "darkholler": "gif", "logo-cartoon": "gif",
 };
 
 /** Get a full image URL by registry key */
@@ -396,16 +399,6 @@ const MINER_EVENTS = [
       { text:"Work harder to make up the difference",   health:-8, scrip:2,  debt:0, food:0, lung:5, family:0, outcome:"You load more tons. Your body pays the difference your wages don't." },
     ]
   },
-  { id:"scrip_only", img:"pay-envelope",
-    headline:"Scrip office paying store credit only.",
-    narrative:"The scrip office posts a notice: this month's wages will be paid in store credit only — not redeemable for cash. You owe rent. You owe the doctor. Cash doesn't come until the company decides it does.",
-    fact:"Scrip systems were ruled illegal by WV statute in 1887, but companies found legal workarounds. Enforcement was rare until federal oversight in the 1930s.",
-    choices:[
-      { text:"Borrow cash from a coworker",             health:0, scrip:0,  debt:5, food:0,  lung:0, family:0, outcome:"A neighbor lends you what he can spare. You both know this will happen again next month." },
-      { text:"Use the store credit on staples",         health:0, scrip:0,  debt:4, food:20, lung:0, family:0, outcome:"You stock up on flour and salt pork. The debt column grows longer." },
-      { text:"Write a letter of complaint to the state",health:0, scrip:-2, debt:0, food:0,  lung:0, family:0, outcome:"It takes three weeks. The state replies the practice is being 'reviewed.' Nothing changes." },
-    ]
-  },
   { id:"mine_inspector", img:"union-organizer",
     headline:"State mine inspector arrives.",
     narrative:"The state mine inspector is here. The foreman has spent two days cleaning the section, covering the worst timbers, and briefing every man: speak well of the company, or find another job.",
@@ -556,6 +549,90 @@ const MINER_EVENTS = [
       { text:"Ask what authority they have here",       health:5,  scrip:-5, debt:3, food:0, lung:0, family:0, outcome:"One of them smiles. 'We work for the company. The company owns everything here.' He writes your name down." },
     ]
   },
+  // ── Fishing day ───────────────────────────────────────────────────────────────
+  { id:"fishing_day", img:"fishing_600x600",
+    headline:"Sunday off — creek's running clear.",
+    narrative:"No work order posted this morning. First free Sunday in three weeks. The creek below the hollow is cold and the fish are biting. You don't owe anyone your time today.",
+    fact:"Sundays were technically rest days in most coal camps, though pump operators and maintenance crews often worked regardless. A truly idle day was rare enough that men remembered specific ones for years.",
+    choices:[
+      { text:"Take the kids fishing",            health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The little ones wade in past their ankles. You pull out enough for supper and then some. They'll talk about this one." },
+      { text:"Sit on the porch and do nothing",  health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You watch the ridge go gold in the morning light. Your back unknots for the first time in a month." },
+      { text:"Sleep until noon",                 health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You wake to birdsong and the smell of your wife's bread. The debt will be there Monday. Not today." },
+    ]
+  },
+
+  // ── Birth event (miner POV) — fires ~every 6 turns via birthDue flag ─────────
+  { id:"birth_miner", img:"new-baby", birthEvent:true,
+    headline:"Another one's coming.",
+    narrative:"The company doctor charges $2 for the delivery. Your wife's sister came down from the holler to help. You paced the porch all night. By morning there were four of you.",
+    fact:"Coal camp families averaged 5–7 children. The company doctor's fee was automatically deducted from the miner's next paycheck.",
+    choices:[
+      { text:"Name him after your father",                          health:0, scrip:0, debt:0, food:0, lung:0, family:1, outcome:"Some things carry forward." },
+      { text:"Get back to work — can't afford the lost shift",      health:0, scrip:0, debt:0, food:0, lung:0, family:1, outcome:"The baby doesn't know yet that the world is like this." },
+      { text:"Sit on the porch and smoke your last cigarette",      health:0, scrip:0, debt:0, food:0, lung:0, family:1, outcome:"You've never felt so tired and so full at the same time." },
+      { text:"Tell the older kids they have a new brother",         health:0, scrip:0, debt:0, food:0, lung:0, family:1, outcome:"They push each other trying to get a look at him." },
+    ]
+  },
+
+  // ── Miner death event — game over, no branching ───────────────────────────────
+  { id:"miner_death", img:"collapse", gameOver:true,
+    headline:"There was a roof fall on Section 4.",
+    narrative:"They brought him out on a board. The foreman said it was his own fault — that he'd been warned about that timber. His lamp was still burning when they found him.",
+    fact:"Between 1890 and 1912, West Virginia mines had the highest miner death rate in America. Roof falls were the leading cause of death. The company was rarely held liable.",
+    choices:[]
+  },
+
+  // ── Flavor vignettes (miner) — no stat changes ───────────────────────────────
+  { id:"miner_coworker_check", img:"tipple",
+    headline:"A close call in Section 3.",
+    narrative:"The roof gave a crack this morning that froze every man in the section. It held. For now. You could see it on Kowalski's face when he climbed out — the same look you've been wearing for six years.",
+    fact:"Near-misses in underground mining were rarely reported. Men developed their own informal systems for tracking dangerous areas and warning each other.",
+    choices:[
+      { text:"Check on a coworker after the close call",    health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"He waves you off. Says he's fine. You both know that's not the point." },
+      { text:"Go back to work — roof held, that's enough",  health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You finish your tonnage. The crack in the roof doesn't widen. Today." },
+      { text:"Report it to the foreman in writing",         health:0, scrip:-1,debt:0, food:0, lung:0, family:0, outcome:"He initials the report without reading it. You keep your copy." },
+    ]
+  },
+  { id:"miner_outside_store", img:"store-interior",
+    headline:"Payday and somewhere else to spend it.",
+    narrative:"The company store is closer. Easier. But you've been watching the prices climb for two months and there's a dry goods man who sets up in the next hollow on Fridays.",
+    fact:"Miners who shopped outside company stores were sometimes noted by management. The company had no legal right to prohibit it, but had other ways of expressing displeasure.",
+    choices:[
+      { text:"Skip the company store, walk to the next hollow", health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"Takes an hour each way. Worth it to spend a dollar somewhere they don't get a cut." },
+      { text:"Use the company store — it's closer",            health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"Same prices as last week. Higher than the week before that." },
+      { text:"Skip buying altogether this week",              health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You'll make do. You usually do." },
+    ]
+  },
+  { id:"miner_teaching_reading", img:"church",
+    headline:"One book in the house.",
+    narrative:"The almanac your father gave you the year you came down from the holler. Your oldest has been eyeing it for months. Tonight there's no overtime posted and the lamp oil holds.",
+    fact:"Literacy rates in coal camps were mixed — immigrant families sometimes prioritized education as a path out of the mines, while others needed children working as soon as they were able.",
+    choices:[
+      { text:"Teach your oldest son to read using the almanac", health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"He sounds out the words slower than you'd like. You don't rush him." },
+      { text:"Read it yourself — remember what's in it",        health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"Planting dates, weather signs. Things that matter when you own the land you work." },
+      { text:"Let the boy sleep — he'll need the rest",         health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"Morning comes fast. You both know it." },
+    ]
+  },
+  { id:"miner_sharpen_tools", img:"drilling",
+    headline:"Saturday night, tools need tending.",
+    narrative:"You've been dulling through coal all week. A sharp pick loads faster, and faster loading means more cars, and more cars means more pay. It's simple math. You oil the lamp and get to work.",
+    fact:"Miners owned their own tools and were responsible for maintaining them. A well-maintained pick could last years; a neglected one cost money to replace — deducted from wages.",
+    choices:[
+      { text:"Sharpen your tools by lantern light",    health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"A sharp pick is a fast pick. Fast picks mean more cars. More cars mean more pay." },
+      { text:"Leave it — good enough for Monday",      health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The edge is still there. Mostly." },
+      { text:"Ask a neighbor to help — trade the work",health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You sharpen his lamp while he works your pick. An hour well spent." },
+    ]
+  },
+  { id:"miner_union_supper", img:"strike-talk",
+    headline:"The men argue about the union over supper.",
+    narrative:"Three sides to every table in the boarding house tonight. The men who think organizing is suicide. The men who think not organizing is slower suicide. And the men — like you — who are still listening.",
+    fact:"Company informants were routinely placed in boarding houses and company-owned meeting spaces. Miners learned to speak carefully in unfamiliar company.",
+    choices:[
+      { text:"Listen to the men argue about the union", health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You don't say anything. But you listen to every word." },
+      { text:"Add your voice — you have opinions",      health:0, scrip:-1,debt:0, food:0, lung:0, family:0, outcome:"You say your piece. Half the table nods. One man doesn't look up from his plate." },
+      { text:"Finish eating and get out",               health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You know who's in this room. Some conversations aren't worth the company they're in." },
+    ]
+  },
 ];
 
 // ─── WIFE EVENTS ──────────────────────────────────────────────────────────────
@@ -699,6 +776,79 @@ const WIFE_EVENTS = [
       { text:"Go and bring the whole family",            health:8,  scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You spend the morning together. The children know the hymns by heart." },
       { text:"Go alone while the family rests",          health:5,  scrip:0, debt:0, food:0, lung:0, family:0, outcome:"An hour to yourself. The singing is plain and real." },
       { text:"Stay home — the company is watching",      health:-4, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You watch the neighbors file past from the window. You keep your safety. It costs something." },
+    ]
+  },
+
+  // ── Birth event (wife POV) — fires ~every 6 turns via birthDue flag ──────────
+  { id:"birth_wife", img:"new-baby", birthEvent:true,
+    headline:"The baby came at dawn.",
+    narrative:"No doctor this time. Your neighbor Mrs. Hatfield talked you through it. The baby is small but breathing.",
+    fact:"Most Appalachian births before 1920 were attended by midwives or neighboring women. Maternal mortality in coal camps was significantly higher than in urban areas.",
+    choices:[
+      { text:"Rest while you can",                  health:0, scrip:0, debt:0, food:0, lung:0, family:1, outcome:"Three days before you're back at the wash." },
+      { text:"Write to your mother with the news",  health:0, scrip:0, debt:0, food:0, lung:0, family:1, outcome:"She won't be able to come. But she'll know." },
+      { text:"Count his fingers and toes, twice",   health:0, scrip:0, debt:0, food:0, lung:0, family:1, outcome:"All there. You let yourself breathe." },
+      { text:"Name her after your grandmother",     health:0, scrip:0, debt:0, food:0, lung:0, family:1, outcome:"It feels like keeping something alive." },
+    ]
+  },
+
+  // ── Wife death event — game over, no branching ────────────────────────────────
+  { id:"wife_death", img:"sick-bed", gameOver:true,
+    headline:"The fever broke wrong.",
+    narrative:"Childbed fever. The doctor came on the third day but it was already too late. She'd been saying she felt cold since the morning after the birth.",
+    fact:"Puerperal fever was the leading cause of maternal death well into the 1930s. In coal camps, contaminated water and overworked midwives made post-birth infection common.",
+    choices:[]
+  },
+
+  // ── Flavor vignettes (wife) — no stat changes ────────────────────────────────
+  { id:"wife_bread_trade", img:"community-meal-day",
+    headline:"Trading what you have for what you need.",
+    narrative:"Your loaves came out right this week and your neighbor's garden came in heavy. Neither of you has cash. Both of you have something the other wants.",
+    fact:"Informal barter economies were common in coal camps, operating alongside — and independent of — the scrip system. Women organized most of this exchange.",
+    choices:[
+      { text:"Trade bread for vegetables with the woman next door", health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"Neither of you has cash. Both of you have enough today." },
+      { text:"Give the bread as a gift — she'll remember",          health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"She comes back with a jar of put-up tomatoes the following week." },
+      { text:"Keep it — you'll need it yourself",                   health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You probably will." },
+    ]
+  },
+  { id:"wife_washing_ridge", img:"tipple",
+    headline:"Morning at the washline.",
+    narrative:"The ridge is going gold. The kind of morning the coal dust doesn't quite reach, when the mountain looks the way it must have looked before anyone dug into it.",
+    fact:"Women in coal camps were responsible for laundry in conditions that made it particularly difficult — coal dust on every surface, often no running water, company-built housing with poor drainage.",
+    choices:[
+      { text:"Hang the washing and watch the ridge for a while", health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The mountains don't care what year it is. That's almost comforting." },
+      { text:"Get the washing done fast and move on",            health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The list doesn't get shorter by looking at the view." },
+      { text:"Call the children out to see the frost on the ridge",health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"They squint up at it. One of them asks why the mountain is on fire. You don't correct him." },
+    ]
+  },
+  { id:"wife_new_family", img:"evicted",
+    headline:"New family moves into the empty house.",
+    narrative:"The Briggs house has been empty three weeks. This morning a wagon came up the road from the depot. Kentucky plates on the mule cart. A woman about your age, three children, husband already at the tipple.",
+    fact:"Coal camp populations turned over constantly as families were evicted or left for better prospects. New arrivals from Kentucky, Virginia, and the Deep South were common through the 1920s.",
+    choices:[
+      { text:"Help the new family unload their things",        health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"They came from Kentucky. She looks as tired as you felt your first month here." },
+      { text:"Bring over bread and introduce yourself",        health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"She thanks you. She doesn't say much else. You recognize that." },
+      { text:"Give them a week to settle before approaching",  health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"You remember needing that. You leave them to it." },
+    ]
+  },
+  { id:"wife_mending", img:"baking-day",
+    headline:"The trousers again.",
+    narrative:"The left knee went again. Third time this pair. You've got scraps from the flour sack that might hold. Needle's getting dull and thread's running low, but buying new is not in the numbers this week.",
+    fact:"Clothing repair was a significant part of women's labor in coal camps. Many families went years without buying new clothes, maintaining garments through repeated repair.",
+    choices:[
+      { text:"Mend the trousers for the fourth time",    health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"There's a particular satisfaction in making something last." },
+      { text:"Let it go — he can wear them as they are", health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"He doesn't complain. He hasn't complained about clothes since 1921." },
+      { text:"Cut them down for the youngest",           health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The child is delighted. Doesn't ask why one knee is darker than the other." },
+    ]
+  },
+  { id:"wife_singing", img:"community-baking-day",
+    headline:"The little ones underfoot while you work.",
+    narrative:"There's bread to make and floors to sweep and a basket of mending still from last week. The children are circling the kitchen like they always do, wanting to be near you without having any particular reason to say so.",
+    fact:"Song traditions in Appalachian coal camps blended Welsh chapel music, Scots-Irish ballads, gospel, and the new sounds coming up from the South. Women were the primary keepers of these traditions.",
+    choices:[
+      { text:"Sing while you work so the little ones can hear",  health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"Your mother did this. Her mother too, probably." },
+      { text:"Put them to work alongside you",                   health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"The oldest kneads beside you without being asked. Small hands, but willing." },
+      { text:"Send them outside — you need to focus",           health:0, scrip:0, debt:0, food:0, lung:0, family:0, outcome:"They go. You get the bread done. The house is quiet in a way that feels like something missing." },
     ]
   },
 ];
@@ -1223,13 +1373,29 @@ function pickEvent(player) {
     }
   }
 
-  // 2. Check for low-morale event (40% chance when conditions met)
-  // (placeholder — morale event pool to be added with full event data)
+  // 2. Birth event — fires roughly every 6 turns (≈ 18 months) if family cap not hit
+  // Only fires if: turn > 0, turn divisible by 6, children < 10, not recently fired
+  const birthId = player.character === "miner" ? "birth_miner" : "birth_wife";
+  const birthEligible =
+    player.turn > 0 &&
+    player.turn % 6 === 0 &&
+    player.children < 10 &&
+    !player.usedEvents.includes(birthId);
 
-  // 3. Draw from character event pool, avoiding recent repeats
+  if (birthEligible) {
+    const pool = player.character === "miner" ? MINER_EVENTS : WIFE_EVENTS;
+    const birthEvt = pool.find(e => e.id === birthId);
+    if (birthEvt) return birthEvt;
+  }
+
+  // 3. Draw from character event pool, excluding gameOver events and avoiding recent repeats
   const pool = player.character === "miner" ? MINER_EVENTS : WIFE_EVENTS;
   const hasChildren = player.children > 0;
-  const eligible = pool.filter(e => !e.requiresChildren || hasChildren);
+  const eligible = pool.filter(e =>
+    !e.requiresChildren || hasChildren
+  ).filter(e =>
+    !e.gameOver && !e.birthEvent  // gameOver events are not in random rotation
+  );
   const available = eligible.filter(e => !player.usedEvents.includes(e.id));
   const source = available.length > 0 ? available : eligible;
 
@@ -2079,37 +2245,55 @@ function CoalCountry() {
               )}
 
               <HR />
-              <div style={{ fontSize:"11px", color:C.gray, marginBottom:"12px", letterSpacing:"1px" }}>
-                WHAT DO YOU DO?
-              </div>
 
-              {/* Choice buttons */}
-              {event.choices?.map((c, i) => (
-                <button
-                  key={i}
-                  style={S.btn}
-                  onClick={() => handleChoice(c)}
-                >
-                  {/* Choice text + delta badges */}
-                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom: c.outcome ? "6px" : 0, gap:"8px" }}>
-                    <span style={{ color:C.white, flex:1 }}>{c.text}</span>
-                    <span style={{ flexShrink:0, textAlign:"right" }}>
-                      {c.health !== 0 && <DeltaBadge val={c.health} unit="hp"      />}
-                      {c.scrip  !== 0 && <DeltaBadge val={c.scrip}  unit="$"       />}
-                      {c.debt   !== 0 && <DeltaBadge val={-c.debt}  unit="$ debt"  />}
-                      {c.food   !== 0 && <DeltaBadge val={c.food}   unit=" food"   />}
-                      {isMiner && c.lung !== 0 &&
-                        <DeltaBadge val={c.lung} unit=" lung" invert />}
-                    </span>
+              {/* Game-over events: single button, no branching */}
+              {event.gameOver ? (
+                <div style={{ textAlign:"center", margin:"20px 0" }}>
+                  <div style={{ color:C.red, fontSize:"14px", letterSpacing:"2px", marginBottom:"20px", lineHeight:1.8 }}>
+                    [ GAME OVER ]
                   </div>
-                  {/* Outcome text */}
-                  {c.outcome && (
-                    <div style={{ color:C.dgray, fontSize:"11px", lineHeight:1.8 }}>
-                      &gt; {c.outcome}
+                  {player && (
+                    <div style={{ color:C.dgray, fontSize:"11px", lineHeight:2, marginBottom:"20px" }}>
+                      {player.name}  ·  Year {player.year}  ·  {player.turn} seasons survived
                     </div>
                   )}
-                </button>
-              ))}
+                  <button style={S.btnBig} onClick={reset}>PLAY AGAIN</button>
+                </div>
+              ) : (
+                <>
+                  <div style={{ fontSize:"11px", color:C.gray, marginBottom:"12px", letterSpacing:"1px" }}>
+                    WHAT DO YOU DO?
+                  </div>
+
+                  {/* Choice buttons */}
+                  {event.choices?.map((c, i) => (
+                    <button
+                      key={i}
+                      style={S.btn}
+                      onClick={() => handleChoice(c)}
+                    >
+                      {/* Choice text + delta badges */}
+                      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom: c.outcome ? "6px" : 0, gap:"8px" }}>
+                        <span style={{ color:C.white, flex:1 }}>{c.text}</span>
+                        <span style={{ flexShrink:0, textAlign:"right" }}>
+                          {c.health !== 0 && <DeltaBadge val={c.health} unit="hp"      />}
+                          {c.scrip  !== 0 && <DeltaBadge val={c.scrip}  unit="$"       />}
+                          {c.debt   !== 0 && <DeltaBadge val={-c.debt}  unit="$ debt"  />}
+                          {c.food   !== 0 && <DeltaBadge val={c.food}   unit=" food"   />}
+                          {isMiner && c.lung !== 0 &&
+                            <DeltaBadge val={c.lung} unit=" lung" invert />}
+                        </span>
+                      </div>
+                      {/* Outcome text */}
+                      {c.outcome && (
+                        <div style={{ color:C.dgray, fontSize:"11px", lineHeight:1.8 }}>
+                          &gt; {c.outcome}
+                        </div>
+                      )}
+                    </button>
+                  ))}
+                </>
+              )}
 
             </div>
           </div>
