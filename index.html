@@ -317,13 +317,13 @@ const WORK_OPTIONS = {
   miner: [
     { id:"brutal", label:"Work Double Shifts",
       desc:"Extra tonnage pay, but coal dust fills your lungs faster.",
-      icon:"face1", scrip:14, health:-6,  lung:12, food:0 },
+      icon:"face1", scrip:14, health:-6,  lung:10, food:0 },
     { id:"hard",   label:"Work Full Six-Day Week",
       desc:"Standard in the 1920s: six days, ten hours a day underground.",
-      icon:"face2", scrip:9,  health:-4,  lung:6,  food:0 },
+      icon:"face2", scrip:9,  health:-4,  lung:5,  food:0 },
     { id:"normal", label:"Work Five Days",
       desc:"Slightly less pay, but your body recovers a little better.",
-      icon:"face3", scrip:5,  health:-2,  lung:3,  food:0 },
+      icon:"face3", scrip:5,  health:-2,  lung:2,  food:0 },
     { id:"easy",   label:"Work Required Days Only",
       desc:"Minimum output. The foreman puts you on a list.",
       icon:"face4", scrip:2,  health:-1,  lung:1,  food:0 },
@@ -1109,9 +1109,9 @@ function playerReducer(state, action) {
         p.debt = clamp(p.debt + 2, 0, 999);
       }
 
-      // Black lung passive: if miner worked double shifts last season
+      // Black lung passive: if miner worked double shifts last season, +1 passive
       if (p.character === "miner" && p.lastWorkId === "brutal") {
-        p.lung = clamp(p.lung + 2);
+        p.lung = clamp(p.lung + 1);
       }
 
       p.firstTurn = false;
@@ -1413,9 +1413,10 @@ function pickEvent(player) {
 // ─── LOSS / WIN CONDITION CHECKS ─────────────────────────────────────────────
 
 function checkLoss(player) {
-  if (player.health <= 0)        return "health";
-  if (player.debt   >= 150)      return "debt";
-  if (player.hungerTurns >= 2)   return "starvation";
+  if (player.health <= 0)                              return "health";
+  if (player.debt   >= 150)                            return "debt";
+  if (player.hungerTurns >= 2)                         return "starvation";
+  if (player.character === "miner" && player.lung >= 100) return "lung";
   return null;
 }
 
@@ -1518,6 +1519,7 @@ function CoalCountry() {
     health:     "Your body finally gave out. Years of coal dust, poor food, and labor without rest took their toll. The company will have a new family in your house by Monday.",
     debt:       "The debt reached $150. The company agent arrived at dawn with a notice. You have 48 hours to vacate. There is no appeal in Fayette County.",
     starvation: "The family has gone without adequate food for two seasons running. The youngest doesn't recover. There is nothing left to hold the family together.",
+    lung:       "The black lung took you at last. The company doctor had been certifying you fit for work for years — that was his job. Your lungs had been telling a different story. The dust wins eventually. It always does.",
   };
 
   /** Advance game state forward from a given player object. Pure — no side effects on player state. */
@@ -2417,6 +2419,7 @@ function CoalCountry() {
   if (screen === "end") {
     const isDebt       = endReason.includes("evict") || endReason.includes("debt") || endReason.includes("$150");
     const isStarvation = endReason.includes("food") || endReason.includes("starv");
+    const isLung       = endReason.includes("black lung") || endReason.includes("dust wins");
     const endImg       = isDebt ? "evicted" : "graveyard";
 
     return (
@@ -2465,6 +2468,8 @@ function CoalCountry() {
                   ? "Company evictions of miners' families were often carried out within 48 hours. The family might be left on the road with their furniture. Neighboring families sometimes took them in. The company had a new worker in the house by the following week."
                   : isStarvation
                   ? "Food insecurity was endemic in coal camps. When wages stopped — during strikes, closures, or dockings — the company store debt climbed regardless. Many families survived on credit that kept them permanently obligated to the company."
+                  : isLung
+                  ? "Black lung disease (pneumoconiosis) was not officially recognized as a compensable occupational disease in West Virginia until 1969. For decades, coal companies called it 'miners' asthma' and company doctors certified men fit for work until they could no longer stand."
                   : "Black lung, injury, and exhaustion ended working lives long before old age. WV coal mines killed over 20,000 workers between 1900 and 1940. Most families received nothing from the company after a death."
                 }
               </div>
