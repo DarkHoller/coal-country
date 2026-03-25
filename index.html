@@ -141,7 +141,7 @@ const S = {
     fontSize: "13px",
   },
   // Padding variants — applied per-screen
-  pad:     { padding: "20px 18px 100px" },
+  pad:     { padding: "20px 18px 120px" },   // extra bottom on mobile clears fixed audio widget
   padWide: { padding: "20px 120px 100px" },
 
   title: {
@@ -1071,6 +1071,7 @@ function buildInitialPlayer(character, ethnicityId, campId, name) {
     lastWorkId:     null,     // work choice last turn (for double-shift lung tick)
     hungerTurns:    0,        // consecutive turns at food=0 (2 = starvation death)
     firstTurn:      true,     // show food tooltip
+    nextBirthTurn:  6,        // turn on which next birth event becomes eligible
   };
 }
 
@@ -1290,13 +1291,20 @@ function Timeline({ player }) {
 
 /**
  * AudioControls — extracted as a single component, rendered once per screen.
- * (v1 bug fix: audio controls copy-pasted into every screen)
+ * On mobile (<650px): fixed bottom-right so it never overlaps breadcrumb buttons.
+ * On desktop: fixed top-right as before.
  */
-function AudioControls({ audioRef, muted, setMuted, volume, setVolume }) {
+function AudioControls({ audioRef, muted, setMuted, volume, setVolume, wide }) {
+  const pos = wide
+    ? { top: "12px", right: "16px" }
+    : { bottom: "14px", right: "14px" };
+
   return (
     <div style={{
-      position: "fixed", top: "12px", right: "16px",
+      position: "fixed", ...pos,
       display: "flex", alignItems: "center", gap: "8px", zIndex: 100,
+      background: "rgba(0,0,0,0.75)", padding: "6px 8px",
+      border: `1px solid ${C.dgray}`,
     }}>
       <button
         style={{ background:"none", border:"none", padding:0, cursor:"pointer", lineHeight:0 }}
@@ -1373,14 +1381,12 @@ function pickEvent(player) {
     }
   }
 
-  // 2. Birth event — fires roughly every 6 turns (≈ 18 months) if family cap not hit
-  // Only fires if: turn > 0, turn divisible by 6, children < 10, not recently fired
+  // 2. Birth event — fires when turn >= nextBirthTurn and family cap not hit.
+  // Uses a dedicated counter so milestones can never steal a birth slot.
   const birthId = player.character === "miner" ? "birth_miner" : "birth_wife";
   const birthEligible =
-    player.turn > 0 &&
-    player.turn % 6 === 0 &&
-    player.children < 10 &&
-    !player.usedEvents.includes(birthId);
+    player.turn >= (player.nextBirthTurn ?? 6) &&
+    player.children < 10;
 
   if (birthEligible) {
     const pool = player.character === "miner" ? MINER_EVENTS : WIFE_EVENTS;
@@ -1543,6 +1549,11 @@ function CoalCountry() {
     if (evt && evt._milestoneId) {
       p = playerReducer(p, { type: "MARK_MILESTONE", id: evt._milestoneId });
     }
+    // When a birth event fires, advance nextBirthTurn so the next birth
+    // queues ~6 turns later regardless of what milestones may have blocked
+    if (evt && evt.birthEvent) {
+      p = { ...p, nextBirthTurn: p.turn + 6 };
+    }
 
     dispatch({ type: "__INIT__", player: p });
 
@@ -1565,7 +1576,8 @@ function CoalCountry() {
   const handleChoice = useCallback((choice) => {
     // Apply choice, track event, check loss, then return to playing screen
     let p = playerReducer(player, { type: "APPLY_CHOICE", choice });
-    if (event?.id) p = playerReducer(p, { type: "TRACK_EVENT", id: event.id });
+    // Track in usedEvents (but not birth events — those use nextBirthTurn)
+    if (event?.id && !event.birthEvent) p = playerReducer(p, { type: "TRACK_EVENT", id: event.id });
 
     addLog(`> ${choice.outcome || choice.text}`);
 
@@ -1600,7 +1612,7 @@ function CoalCountry() {
 
 
   // ── Audio controls shorthand for all screens ─────────────────────────────────
-  const audioProps = { audioRef, muted, setMuted, volume, setVolume };
+  const audioProps = { audioRef, muted, setMuted, volume, setVolume, wide };
 
 
   // ─── SCREEN: MENU ──────────────────────────────────────────────────────────
@@ -1985,7 +1997,11 @@ function CoalCountry() {
   // ─── SCREEN: PLAYING ───────────────────────────────────────────────────────
   if (screen === "playing" && player) {
     const campData    = COAL_CAMPS.find(c => c.id === player.campId);
-    const workOptions = WORK_OPTIONS[player.character] || [];
+    const workOptions = (WORK_OPTIONS[player.character] || []).filter(opt => {
+      // Garden only available in Summer (1) and Fall (2) — not Winter (3) or Spring (0)
+      if (opt.id === "garden" && (player.seasonIdx === 0 || player.seasonIdx === 3)) return false;
+      return true;
+    });
     const seasonImg   = { Spring:"spring", Summer:"summer", Fall:"autumn", Winter:"winter" }[seasonLabel(player)];
     const debtColor   = player.debt > 120 ? C.red : player.debt > 80 ? C.yellow : C.white;
     const canDoctor   = player.character === "miner" && player.scrip >= 10;
@@ -2117,8 +2133,8 @@ function CoalCountry() {
         <AudioControls {...audioProps} />
         <div style={{ maxWidth:"960px", margin:"0 auto" }}>
 
-          {/* Breadcrumb */}
-          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"8px" }}>
+          {/* Breadcrumb — paddingRight clears the fixed AudioControls on desktop */}
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"8px", paddingRight: wide ? "110px" : "0" }}>
             <div style={{ fontSize:"11px", color:C.gray, letterSpacing:"2px" }}>
               COAL COUNTRY  ·  {seasonLabel(player).toUpperCase()} {player.year}
             </div>
@@ -2200,7 +2216,7 @@ function CoalCountry() {
         <div style={{ maxWidth:"960px", margin:"0 auto" }}>
 
           {/* Breadcrumb + restart */}
-          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"6px" }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:"6px", paddingRight: wide ? "110px" : "0" }}>
             <div style={{ fontSize:"11px", color:C.gray, letterSpacing:"2px" }}>
               COAL COUNTRY  ·  {seasonLabel(player).toUpperCase()} {player.year}
             </div>
