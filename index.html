@@ -350,7 +350,7 @@ const WORK_OPTIONS = {
       icon:"eating",  scrip:8,  health:-1, lung:0, food:-15 },
     { id:"garden",  label:"Tend the Kitchen Garden",
       desc:"Growing your own food meant less dependence on the company store.",
-      icon:"garden",  scrip:0,  health:-1, lung:0, food:20  },
+      icon:"garden",  scrip:0,  health:-1, lung:0, food:15  },
     { id:"washing", label:"Take In Laundry",
       desc:"Washing neighbors' clothes for pay — hard on hands and back.",
       icon:"laundry", scrip:4,  health:-2, lung:0, food:0   },
@@ -409,7 +409,7 @@ const MINER_EVENTS = [
       { text:"Work harder to make up the difference",   health:-8, scrip:2,  debt:0, food:0, lung:5, family:0, outcome:"You load more tons. Your body pays the difference your wages don't." },
     ]
   },
-  { id:"mine_inspector", img:"union-organizer",
+  { id:"mine_inspector", img:"mine-inspector",
     headline:"State mine inspector arrives.",
     narrative:"The state mine inspector is here. The foreman has spent two days cleaning the section, covering the worst timbers, and briefing every man: speak well of the company, or find another job.",
     fact:"WV mine inspectors were often underfunded and politically connected to the coal operators they oversaw. Independent inspection became effective only after the 1930s.",
@@ -1105,13 +1105,18 @@ function playerReducer(state, action) {
     case "SEASON_TICK": {
       // Fires at the START of each new season, before player acts.
       let p = { ...state };
-      const foodCost = 8 + (p.children * 3);
+      const foodCost = 12 + (p.children * 3);
       p.food = clamp(p.food - foodCost);
 
       if (p.food === 0) {
         p.hungerTurns = (p.hungerTurns || 0) + 1;
       } else {
         p.hungerTurns = 0;
+      }
+
+      // Wife passive health drain: constant household labor wears her down
+      if (p.character === "wife") {
+        p.health = clamp(p.health - 3);
       }
 
       // Debt interest: if debt > 60, +2 scrip to debt each season
