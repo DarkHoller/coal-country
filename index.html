@@ -1322,8 +1322,9 @@ function AudioControls({ audioRef, muted, setMuted, volume, setVolume, wide }) {
       border: `1px solid ${C.dgray}`,
     }}>
       <button
-        style={{ background:"none", border:"none", padding:0, cursor:"pointer", lineHeight:0 }}
+        style={{ background:"none", border:"none", padding:"8px", cursor:"pointer", lineHeight:0 }}
         onClick={() => setMuted(m => !m)}
+        onTouchEnd={(e) => { e.preventDefault(); setMuted(m => !m); }}
         title={muted ? "Unmute" : "Mute"}
         aria-label={muted ? "Unmute music" : "Mute music"}
       >
@@ -1337,7 +1338,8 @@ function AudioControls({ audioRef, muted, setMuted, volume, setVolume, wide }) {
         type="range" min="0" max="1" step="0.05"
         value={muted ? 0 : volume}
         onChange={e => { setMuted(false); setVolume(parseFloat(e.target.value)); }}
-        style={{ width:"60px", cursor:"pointer" }}
+        onTouchMove={e => { setMuted(false); setVolume(parseFloat(e.target.value)); }}
+        style={{ width:"60px", cursor:"pointer", touchAction:"none" }}
         aria-label="Volume"
       />
     </div>
@@ -1483,16 +1485,19 @@ function CoalCountry() {
     // Browser autoplay policy: start on first user interaction
     const tryPlay = () => {
       audio.play().catch(() => {});
-      window.removeEventListener("click",   tryPlay);
-      window.removeEventListener("keydown", tryPlay);
+      window.removeEventListener("click",      tryPlay);
+      window.removeEventListener("keydown",    tryPlay);
+      window.removeEventListener("touchstart", tryPlay);
     };
-    window.addEventListener("click",   tryPlay);
-    window.addEventListener("keydown", tryPlay);
+    window.addEventListener("click",      tryPlay);
+    window.addEventListener("keydown",    tryPlay);
+    window.addEventListener("touchstart", tryPlay, { passive: true });
 
     return () => {
       audio.pause();
-      window.removeEventListener("click",   tryPlay);
-      window.removeEventListener("keydown", tryPlay);
+      window.removeEventListener("click",      tryPlay);
+      window.removeEventListener("keydown",    tryPlay);
+      window.removeEventListener("touchstart", tryPlay);
     };
   }, []);
 
@@ -1500,7 +1505,10 @@ function CoalCountry() {
     if (audioRef.current) audioRef.current.volume = muted ? 0 : volume;
   }, [volume, muted]);
 
-  // ── Log helper ──────────────────────────────────────────────────────────────
+  // Scroll to top whenever the setup wizard advances
+  useEffect(() => {
+    if (screen === "setup") window.scrollTo(0, 0);
+  }, [screen, setupStep]);
   const addLog = useCallback((msg) => setLog(prev => [msg, ...prev].slice(0, 16)), []);
 
   // ── Start game (from setup step 3) ──────────────────────────────────────────
@@ -1678,10 +1686,10 @@ function CoalCountry() {
         <div style={{ textAlign:"center" }}>
           <button
             style={S.btnBig}
-            onClick={() => setScreen("setup")}
-            onKeyDown={e => e.key === "Enter" && setScreen("setup")}
+            onClick={() => { setScreen("setup"); window.scrollTo(0, 0); }}
+            onKeyDown={e => e.key === "Enter" && (setScreen("setup"), window.scrollTo(0, 0))}
           >
-            PRESS ENTER TO BEGIN
+            START PLAYING
           </button>
         </div>
       </div>
